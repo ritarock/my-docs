@@ -1,8 +1,11 @@
-baseURL = "http://example.org/"
-languageCode = "ja"
-title = "My New Hugo Site"
+baseURL = "https://ritarock.github.io/"
+languageCode = "ja-jp"
+title = "MY MEMORANDUM"
 paginate = "10"
 theme = "mainroad"
+canonifyurls = true
+publishDir = "docs"
+hasCJKLanguage = true
 
 [Params]
 post_meta = ["date", "categories", "translations"]
@@ -14,4 +17,3 @@ highlightColor = "#000000"
   single = false # Configure layout for single pages
   # Enable widgets in given order
   widgets = ["search", "recent", "categories", "taglist", "social", "languages"]
-
