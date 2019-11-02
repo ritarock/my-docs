@@ -1,6 +1,6 @@
 baseURL = "https://ritarock.github.io/"
 languageCode = "ja-jp"
-title = "MY MEMORANDUM"
+title = "GHOSTの囁き"
 paginate = "10"
 theme = "mainroad"
 canonifyurls = true
@@ -8,6 +8,7 @@ publishDir = "docs"
 hasCJKLanguage = true
 
 [Params]
+subtitle = "ritarock’s blog"
 post_meta = ["date", "categories", "translations"]
 highlightColor = "#000000"
 
@@ -16,4 +17,4 @@ highlightColor = "#000000"
   list = "left"  # Configure layout for list pages
   single = false # Configure layout for single pages
   # Enable widgets in given order
-  widgets = ["search", "recent", "categories", "taglist", "social", "languages"]
+  widgets = ["search", "recent", "categories", "social", "languages"]
