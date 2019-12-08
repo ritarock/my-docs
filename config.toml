@@ -17,4 +17,5 @@ highlightColor = "#000000"
   list = "left"  # Configure layout for list pages
   single = false # Configure layout for single pages
   # Enable widgets in given order
-  widgets = ["search", "recent", "categories", "social", "languages"]
+  # widgets = ["search", "recent", "categories", "social", "languages"]
+  widgets = ["search", "recent", "taglist", "social", "languages"]
