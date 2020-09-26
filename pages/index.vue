@@ -1,7 +1,11 @@
 <template>
   <div>
-    <p>TAGで絞り込む : <input v-model="query" type="search" autocomplete="off" /></p>
-    <p>TAG一覧</p>
+    <div>TAGで絞り込む : <input v-model="query" type="search" autocomplete="off" /></div>
+    <div>TAG一覧: 
+      <span v-for="tag in viewTagsUnique(articles)" :key="tag">
+      <button v-on:click="searchTag(`${ tag }`)" class="tag-button"><u>{{ tag }}</u></button>
+      </span>
+    </div>
     <div v-for="article in articles" :key="article.title">
       <ul>
         <li>
@@ -10,7 +14,7 @@
             <div>- DATE: {{ $convertDate(String(article.date)) }}</div>
             <div>- TAGS:
             <span v-for="tag in article.tags" :key="tag">
-              <button v-on:click="searchTag(`${tag}`)" class="tag-button"><u>{{ tag }}</u></button>
+              <button v-on:click="searchTag(`${ tag }`)" class="tag-button"><u>{{ tag }}</u></button>
             </span>
             </div>
           </div>
@@ -49,6 +53,11 @@ export default Vue.extend({
   methods: {
     searchTag: function(label: string) {
       this.query = label
+    },
+    viewTagsUnique: function(articles: string[]): string[] {
+      // @ts-ignore
+      const setArticles = new Set(articles.flatMap(article => article.tags))
+      return [...setArticles]
     }
   },
 })
