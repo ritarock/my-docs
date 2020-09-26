@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ article.title }}
+    <h1 class="article-title">{{ article.title }}</h1>
     <nuxt-content :document="article" />
   </div>
 </template>
@@ -21,4 +21,6 @@ export default Vue.extend({
 </script>
 
 <style>
+.article-title {
+}
 </style>
