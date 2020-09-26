@@ -7,10 +7,9 @@
   </div>
 </template>
 
-<style>
-.header-button {
-  border: none;
-  outline: none;
-  background: transparent;
-}
+<style lang="sass">
+.header-button
+  border: none
+  outline: none
+  background: transparent
 </style>

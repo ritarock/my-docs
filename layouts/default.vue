@@ -19,8 +19,7 @@ export default Vue.extend({
 })
 </script>
 
-<style>
-  html {
-    background-color: silver;
-  }
+<style lang="sass">
+html
+  background-color: silver
 </style>

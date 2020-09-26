@@ -6,10 +6,9 @@
   </div>
 </template>
 
-<style>
-.footer-button {
-  border: none;
-  outline: none;
-  background: transparent;
-}
+<style lang="sass">
+.footer-button
+  border: none
+  outline: none
+  background: transparent
 </style>

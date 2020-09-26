@@ -54,14 +54,13 @@ export default Vue.extend({
 })
 </script>
 
-<style>
-.article-detail {
-  font-size: 0.85em;
-}
+<style lang="sass">
+.article-detail 
+  font-size: 0.85em
 
-.tag-button {
-  border: none;
-  outline: none;
-  background: transparent;
-}
+
+.tag-button 
+  border: none
+  outline: none
+  background: transparent
 </style>
