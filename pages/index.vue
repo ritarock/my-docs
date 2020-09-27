@@ -58,6 +58,7 @@ export default Vue.extend({
       // @ts-ignore
       this.articles = await this.$content('articles')
         .where({ tags: { $contains: query } })
+        .sortBy('date', 'desc')
         .fetch()
     }
   },
