@@ -14,7 +14,7 @@ import Footer from '@/components/footer.vue'
 export default Vue.extend({
   components: {
     Header,
-    Footer,
+    Footer
   }
 })
 </script>

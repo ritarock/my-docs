@@ -1,21 +1,31 @@
 <template>
   <div>
-    <div>TAGで絞り込む : <input v-model="query" type="search" autocomplete="off" /></div>
-    <div>TAG一覧: 
+    <div>
+      TAGで絞り込む : <input v-model="query" type="search" autocomplete="off" />
+    </div>
+    <div>
+      TAG一覧:
       <span v-for="tag in viewTagsUnique(articles)" :key="tag">
-      <button v-on:click="searchTag(`${ tag }`)" class="tag-button"><u>{{ tag }}</u></button>
+        <button class="tag-button" @click="searchTag(`${tag}`)">
+          <u>{{ tag }}</u>
+        </button>
       </span>
     </div>
     <div v-for="article in articles" :key="article.title">
       <ul>
         <li>
-          <nuxt-link :to="article.path">{{ article.title }}</nuxt-link>
+          <nuxt-link :to="article.path">
+            {{ article.title }}
+          </nuxt-link>
           <div class="article-detail">
             <div>- DATE: {{ $convertDate(String(article.date)) }}</div>
-            <div>- TAGS:
-            <span v-for="tag in article.tags" :key="tag">
-              <button v-on:click="searchTag(`${ tag }`)" class="tag-button"><u>{{ tag }}</u></button>
-            </span>
+            <div>
+              - TAGS:
+              <span v-for="tag in article.tags" :key="tag">
+                <button class="tag-button" @click="searchTag(`${tag}`)">
+                  <u>{{ tag }}</u>
+                </button>
+              </span>
             </div>
           </div>
         </li>
@@ -28,47 +38,54 @@
 import Vue from 'vue'
 
 export default Vue.extend({
+  /* eslint-disable */
   components: {},
   data() {
     return {
       query: '',
-      articles: [],
+      articles: []
     }
-  },
-  created: async function() {
-    // @ts-ignore
-    this.articles = await this.$content('articles').sortBy('date', 'desc').fetch()
   },
   watch: {
     async query(query) {
       if (!query) {
         // @ts-ignore
-        this.articles = await this.$content('articles').sortBy('date', 'desc').fetch()
+        this.articles = await this.$content('articles')
+          .sortBy('date', 'desc')
+          .fetch()
         return
       }
       // @ts-ignore
-      this.articles = await this.$content('articles').where({ tags: { $contains: query }}).fetch()
+      this.articles = await this.$content('articles')
+        .where({ tags: { $contains: query } })
+        .fetch()
     }
+  },
+  async created() {
+    // @ts-ignore
+    this.articles = await this.$content('articles')
+      .sortBy('date', 'desc')
+      .fetch()
   },
   methods: {
-    searchTag: function(label: string) {
+    searchTag(label: string) {
       this.query = label
     },
-    viewTagsUnique: function(articles: string[]): string[] {
+    viewTagsUnique(articles: string[]): string[] {
       // @ts-ignore
-      const setArticles = new Set(articles.flatMap(article => article.tags))
+      const setArticles = new Set(articles.flatMap((article) => article.tags))
       return [...setArticles]
     }
-  },
+  }
+  /* eslint-enable */
 })
 </script>
 
 <style lang="sass">
-.article-detail 
+.article-detail
   font-size: 0.85em
 
-
-.tag-button 
+.tag-button
   border: none
   outline: none
   background: transparent
