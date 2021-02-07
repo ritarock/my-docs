@@ -1,33 +1,29 @@
 import Header from '../components/header';
 import Footer from '../components/footer';
-import { getSortedPostsData } from '../lib/posts';
+import { getSortedArticlesData } from '../lib/articles';
 import { GetStaticProps } from 'next';
 import Link from 'next/link';
-import Date from '../components/date';
 
 export default function Home({
-  allPostsData,
+  allarticlesData,
 }: {
-  allPostsData: {
-    date: string;
-    title: string;
+  allarticlesData: {
     id: string;
+    title: string;
+    date: string;
   }[];
 }): JSX.Element {
   return (
     <div>
       <Header />
       <ul>
-        {allPostsData.map(({ id, date, title }) => (
+        {allarticlesData.map(({ id, title, date }) => (
           <li key={id}>
-            <Link href={`/posts/${id}`}>
+            <Link href={`/articles/${id}`}>
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
               <a>{title}</a>
             </Link>
-            <br />
-            <small>
-              <Date dateString={date} />
-              {date}
-            </small>
+            <div>- DATE: {date}</div>
           </li>
         ))}
       </ul>
@@ -37,11 +33,11 @@ export default function Home({
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const allPostsData = getSortedPostsData();
+  const allarticlesData = getSortedArticlesData();
 
   return {
     props: {
-      allPostsData,
+      allarticlesData,
     },
   };
 };
