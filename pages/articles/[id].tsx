@@ -1,11 +1,10 @@
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
-import Footer from '../../components/footer';
-import Header from '../../components/header';
 import { getAllArticleIds, getArticleData } from '../../lib/articles';
 import ReactMarkdown from 'react-markdown';
 import { Prism } from 'react-syntax-highlighter';
 import coy from 'react-syntax-highlighter/dist/cjs/styles/prism/coy';
+import Layout from '../../components/layout';
 
 type PrismRenderProps = {
   value: string;
@@ -29,16 +28,16 @@ export default function Articles({
 }): JSX.Element {
   return (
     <div>
-      <Head>
-        <title>{articleData.title}</title>
-      </Head>
-      <Header />
-      <h2>{articleData.title}</h2>
-      <ReactMarkdown
-        renderers={{ code: PrismRender }}
-        source={articleData.contentHtml}
-      />
-      <Footer />
+      <Layout>
+        <Head>
+          <title>{articleData.title}</title>
+        </Head>
+        <h2>{articleData.title}</h2>
+        <ReactMarkdown
+          renderers={{ code: PrismRender }}
+          source={articleData.contentHtml}
+        />
+      </Layout>
     </div>
   );
 }
