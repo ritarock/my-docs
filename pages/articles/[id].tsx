@@ -2,6 +2,7 @@ import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
 import { getAllArticleIds, getArticleData } from '../../lib/articles';
 import ReactMarkdown from 'react-markdown';
+import gfm from 'remark-gfm';
 import { Prism } from 'react-syntax-highlighter';
 import coy from 'react-syntax-highlighter/dist/cjs/styles/prism/coy';
 import Layout from '../../components/layout';
@@ -35,6 +36,7 @@ export default function Articles({
         <h2>{articleData.title}</h2>
         <ReactMarkdown
           renderers={{ code: PrismRender }}
+          plugins={[gfm]}
           source={articleData.contentHtml}
         />
       </Layout>
