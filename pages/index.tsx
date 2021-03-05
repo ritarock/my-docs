@@ -22,7 +22,7 @@ export default function Home({
     });
 
   let filtered = allarticlesData.filter((e) => {
-    return e.tags.includes(formState.tag);
+    return e.tags.map((v) => v.toLowerCase()).includes(formState.tag);
   });
 
   if (filtered.length === 0) {
@@ -69,7 +69,6 @@ export default function Home({
 
 export const getStaticProps: GetStaticProps = async () => {
   const allarticlesData = getSortedArticlesData();
-  console.log(allarticlesData);
 
   return {
     props: {
