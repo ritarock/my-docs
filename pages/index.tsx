@@ -14,7 +14,10 @@ export default function Home({
     tags: string[];
   }[];
 }): JSX.Element {
-  const [formState, setFormState] = useState({});
+  type FormState = {
+    tag: string;
+  };
+  const [formState, setFormState] = useState<FormState>({ tag: '' });
   const onChange = (event) =>
     setFormState({
       ...formState,
@@ -22,7 +25,9 @@ export default function Home({
     });
 
   let filtered = allarticlesData.filter((e) => {
-    return e.tags.map((v) => v.toLowerCase()).includes(formState.tag);
+    return e.tags
+      .map((v) => v.toLowerCase())
+      .includes(formState.tag.toLocaleLowerCase());
   });
 
   if (filtered.length === 0) {
