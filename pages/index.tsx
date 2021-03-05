@@ -2,6 +2,7 @@ import { getSortedArticlesData } from '../lib/articles';
 import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import Layout from '../components/layout';
+import React, { useState } from 'react';
 
 export default function Home({
   allarticlesData,
@@ -13,11 +14,38 @@ export default function Home({
     tags: string[];
   }[];
 }): JSX.Element {
+  const [formState, setFormState] = useState({});
+  const onChange = (event) =>
+    setFormState({
+      ...formState,
+      [event.target.name]: event.target.value,
+    });
+
+  let filtered = allarticlesData.filter((e) => {
+    return e.tags.includes(formState.tag);
+  });
+
+  if (filtered.length === 0) {
+    filtered = allarticlesData;
+  }
+
   return (
     <div>
       <Layout>
+        <div>
+          <label>
+            tag検索:
+            <input
+              type="text"
+              name="tag"
+              value={formState.tag}
+              onChange={onChange}
+            />
+          </label>
+          {/* <pre>{JSON.stringify(formState, null, 2)}</pre> */}
+        </div>
         <ul>
-          {allarticlesData.map(({ id, title, date, tags }) => (
+          {filtered.map(({ id, title, date, tags }) => (
             <li key={id}>
               <Link href={`/articles/${id}`}>
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
@@ -41,8 +69,8 @@ export default function Home({
 
 export const getStaticProps: GetStaticProps = async () => {
   const allarticlesData = getSortedArticlesData();
-
   console.log(allarticlesData);
+
   return {
     props: {
       allarticlesData,

@@ -8,6 +8,9 @@ const articlesDirectory = path.join(process.cwd(), 'articles');
 
 export function getSortedArticlesData(): {
   id: string;
+  title: string;
+  date: string;
+  tags: string[];
 }[] {
   const fileNames = fs.readdirSync(articlesDirectory);
   const allArticlesData = fileNames.map((fileName) => {
@@ -16,10 +19,17 @@ export function getSortedArticlesData(): {
     const filePath = path.join(articlesDirectory, fileName);
     const fileContents = fs.readFileSync(filePath, 'utf-8');
     const matterResult = matter(fileContents);
+    const [title, date, tags] = [
+      matterResult.data.title,
+      matterResult.data.date,
+      matterResult.data.tags,
+    ];
 
     return {
       id,
-      ...matterResult.data,
+      title,
+      date,
+      tags,
     };
   });
 
