@@ -34,6 +34,8 @@ export default function Home({
     filtered = allarticlesData;
   }
 
+  const tagSet = new Set(filtered.flatMap((e) => e.tags));
+
   return (
     <div>
       <Layout>
@@ -49,6 +51,7 @@ export default function Home({
           </label>
           {/* <pre>{JSON.stringify(formState, null, 2)}</pre> */}
         </div>
+        <div>tag一覧: {Array.from(tagSet).join(', ')}</div>
         <ul>
           {filtered.map(({ id, title, date, tags }) => (
             <li key={id}>
