@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function TitleBoard({
   articleData
 }: {
@@ -10,7 +12,10 @@ export default function TitleBoard({
     <div>
       {articleData.map(({id, title}) => (
         <div>
-          {`${formatDate(id)}: ${title}`}
+          {`${formatDate(id)}: `}
+          <Link href={`articles/${id}`}>
+            <a>{title}</a>
+          </Link>
         </div>
       ))}
     </div>

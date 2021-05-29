@@ -1,6 +1,6 @@
 import Header from '../components/header'
 import TitleBoard from '../components/titleBoard'
-import { getArticlesData } from '../lib/utils'
+import { getIndex } from '../lib/utils'
 import { GetStaticProps } from 'next'
 
 export default function Home({
@@ -22,7 +22,7 @@ export default function Home({
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const articleData = getArticlesData()
+  const articleData = getIndex()
 
   return {
     props: {
