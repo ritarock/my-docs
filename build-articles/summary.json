@@ -1,24 +1,24 @@
 {
   "fileMap": {
-    "dist/20210101000000.json": {
+    "build-articles/20210101000000.json": {
       "title": "Sample",
       "date": 20210101000000,
       "tags": [
         "Sample"
       ],
-      "dir": "dist",
+      "dir": "build-articles",
       "base": "20210101000000.json",
       "ext": ".json",
       "sourceBase": "20210101000000.md",
       "sourceExt": ".md"
     },
-    "dist/20210101000001.json": {
+    "build-articles/20210101000001.json": {
       "title": "Sample",
       "date": 20210101000001,
       "tags": [
         "Sample"
       ],
-      "dir": "dist",
+      "dir": "build-articles",
       "base": "20210101000001.json",
       "ext": ".json",
       "sourceBase": "20210101000001.md",
