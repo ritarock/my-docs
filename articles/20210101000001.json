@@ -6,7 +6,7 @@
   ],
   "bodyContent": "## Sample\n```javascript\nconsole.log('sample')\n```",
   "bodyHtml": "<h2>Sample</h2>\n<pre><code class=\"hljs\"><span class=\"hljs-built_in\">console</span>.log(<span class=\"hljs-string\">&#x27;sample&#x27;</span>)</code></pre>",
-  "dir": "build-articles",
+  "dir": "articles",
   "base": "20210101000001.json",
   "ext": ".json",
   "sourceBase": "20210101000001.md",

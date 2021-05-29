@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 
-const BUILD_ARTICLES_DIR = path.join(process.cwd(), 'build-articles')
+const BUILD_ARTICLES_DIR = path.join(process.cwd(), 'articles')
 
 export function getArticlesData() {
   const summaryPath = path.join(BUILD_ARTICLES_DIR, 'summary.json')
