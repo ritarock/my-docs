@@ -3,15 +3,26 @@ import { GetStaticPaths } from 'next'
 import { getArticlesIds, getArticlesData } from '../../lib/utils'
 import ReactMarkdown from 'react-markdown'
 
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+
+const CodeBlock = ({ language, value} ) => {
+  return (
+    <SyntaxHighlighter language={language}>
+      {value}
+    </SyntaxHighlighter>
+  )
+}
+
 export default function Articles({data}) {
   const bodyContent = JSON.parse(data.fileContents).bodyContent
-  
+
   return (
     <div>
       <Header />
-      <ReactMarkdown>
-        {bodyContent}
-      </ReactMarkdown>
+      <ReactMarkdown
+        children={bodyContent}
+        components={CodeBlock}
+      />
     </div>
   )
 }
