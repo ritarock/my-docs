@@ -2,8 +2,8 @@ import Header from '../../components/header'
 import { GetStaticPaths } from 'next'
 import { getArticlesIds, getArticlesData } from '../../lib/utils'
 import ReactMarkdown from 'react-markdown'
-import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
-import {dark} from 'react-syntax-highlighter/dist/cjs/styles/prism'
+import SyntaxHighlighter from 'react-syntax-highlighter'
+import { monokai } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 
 export default function Articles({data}) {
   const bodyContent = JSON.parse(data.fileContents).bodyContent
@@ -12,7 +12,7 @@ export default function Articles({data}) {
     code({node, inline, className, children, ...props}) {
       const match = /language-(\w+)/.exec(className || '')
       return !inline && match ? (
-        <SyntaxHighlighter style={dark} language={match[1]} PreTag="div" children={String(children).replace(/\n$/, '')} {...props} />
+        <SyntaxHighlighter style={monokai} language={match[1]} PreTag="div" children={String(children).replace(/\n$/, '')} {...props} />
       ) : (
         <code className={className} {...props} />
       )
