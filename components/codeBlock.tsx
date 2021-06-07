@@ -13,8 +13,6 @@ export const components = {
   }): JSX.Element {
     const match = /language-(\w+)/.exec(className || '')
 
-    console.log(children)
-    console.log(props)
     return !inline && match ? (
       <SyntaxHighlighter
         style={monokai}

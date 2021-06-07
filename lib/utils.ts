@@ -64,3 +64,16 @@ export function getArticlesData(id: string): {
     fileContents
   }
 }
+
+export function getTags(): string[][] {
+  const summaryPath = path.join(BUILD_ARTICLES_DIR, 'summary.json')
+  const readSummary = fs.readFileSync(summaryPath, 'utf-8')
+  const jsonParse = JSON.parse(readSummary)
+  const tags = Object.keys(jsonParse.fileMap).map(e => {
+    return jsonParse.fileMap[e].tags
+  })
+
+  const set = new Set(tags.flat())
+
+  return Array.from(set)
+}
