@@ -7,11 +7,11 @@ export default function TitleBoard({
     id: number
     title: string
   }[]
-}) {
+}): JSX.Element {
   return (
     <div>
       {articleData.map(({id, title}) => (
-        <div>
+        <div key={id}>
           {`${formatDate(id)}: `}
           <Link href={`articles/${id}`}>
             <a>{title}</a>

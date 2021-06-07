@@ -6,8 +6,9 @@
     "dev": "next dev",
     "build": "next build && next export",
     "start": "next start",
-    "lint": "eslint pages/**",
-    "build-md": "processmd 'docs/*.md' --outputDir ./articles --summaryOutput ./articles/summary.json"
+    "lint": "eslint pages/** components/** lib/**",
+    "lint-fix": "eslint --fix pages/ components/ lib/",
+    "build-md": "rm articles/* && processmd 'docs/*.md' --outputDir ./articles --summaryOutput ./articles/summary.json"
   },
   "dependencies": {
     "next": "10.2.3",

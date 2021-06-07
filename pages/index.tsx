@@ -11,7 +11,7 @@ export default function Home({
     id: number
     title: string
   }[]
-}) {
+}): JSX.Element {
 
   return (
     <div>

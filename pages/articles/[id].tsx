@@ -4,16 +4,22 @@ import { getArticlesIds, getArticlesData } from '../../lib/utils'
 import ReactMarkdown from 'react-markdown'
 import { components } from '../../components/codeBlock'
 
-export default function Articles({data}) {
+export default function Articles({
+  data
+}: {
+  data: {
+    id: string
+    fileContents: string
+  }
+}): JSX.Element {
   const bodyContent = JSON.parse(data.fileContents).bodyContent
 
   return (
     <div>
       <Header />
-      <ReactMarkdown
-        children={bodyContent}
-        components={components}
-      />
+      <ReactMarkdown components={components} >
+        {bodyContent}
+      </ReactMarkdown>
     </div>
   )
 }
@@ -33,7 +39,14 @@ export const getStaticProps = async ({
   params: {
     id: string
   }
-}) => {
+}): Promise<{
+  props: {
+      data: {
+          id: string;
+          fileContents: string;
+      }
+  }
+}> => {
   const data = getArticlesData(params.id)
 
   return {

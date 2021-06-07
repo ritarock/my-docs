@@ -1,7 +1,7 @@
-export default function Footer() {
+export default function Footer(): JSX.Element {
   return (
     <div>
-      <hr />
+      <hr color="black" />
       FOOTER
     </div>
   )
