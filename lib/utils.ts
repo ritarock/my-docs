@@ -6,20 +6,24 @@ const BUILD_ARTICLES_DIR = path.join(process.cwd(), 'articles')
 export function getIndex(): {
   id: string
   title: string
+  tags: string[][]
 }[] {
   const summaryPath = path.join(BUILD_ARTICLES_DIR, 'summary.json')
   const readSummary = fs.readFileSync(summaryPath, 'utf-8')
   const jsonParse = JSON.parse(readSummary)
   const data = Object.keys(jsonParse.fileMap).map(e => {
-    const [id, title] = [
+    const [id, title, tags] = [
       jsonParse.fileMap[e].date,
-      jsonParse.fileMap[e].title
+      jsonParse.fileMap[e].title,
+      jsonParse.fileMap[e].tags
     ]
     return {
       id,
-      title
+      title,
+      tags
     }
   })
+
 
   return data.sort((a, b) => {
     if (a.id < b.id) {

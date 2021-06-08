@@ -9,7 +9,7 @@ export default function Header(): JSX.Element {
         </title>
       </Head>
       <div>MyDocs</div>
-      <hr color="black" />
+      <hr />
     </div>
   )
 }

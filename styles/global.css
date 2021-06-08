@@ -2,3 +2,8 @@ html
 body {
   background-color: lightgray;
 }
+
+hr {
+  height: 1px;
+  background-color: black;
+}

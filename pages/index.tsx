@@ -1,27 +1,28 @@
 import Header from '../components/header'
 import Footer from '../components/footer'
-import TitleBoard from '../components/titleBoard'
+import TitleView from '../components/titleVIew'
+import TagView from '../components/tagView'
 import { getIndex, getTags } from '../lib/utils'
 import { GetStaticProps } from 'next'
 
 export default function Home({
   articleData,
-  tags
 }: {
   articleData: {
     id: number
     title: string
+    tags: string[][]
   }[],
-  tags: string[][]
 }): JSX.Element {
 
   return (
     <div>
       <Header />
       Tags:
-      {tags}
+      <TagView articleData={articleData} />
+      <hr />
       Articles
-      <TitleBoard articleData={articleData} />
+      <TitleView articleData={articleData} />
       <Footer />
     </div>
   )
@@ -29,12 +30,10 @@ export default function Home({
 
 export const getStaticProps: GetStaticProps = async () => {
   const articleData = getIndex()
-  const tags = getTags()
 
   return {
     props: {
       articleData,
-      tags
     }
   }
 }
