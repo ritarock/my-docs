@@ -9,7 +9,6 @@ export default function TagView({
     tags: string[][]
   }[]
 }): JSX.Element {
-  console.log(articleData)
   return (
     <div>
       {articleData.map(({tags}) => (

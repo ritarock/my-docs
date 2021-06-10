@@ -2,7 +2,7 @@ import Header from '../components/header'
 import Footer from '../components/footer'
 import TitleView from '../components/titleVIew'
 import TagView from '../components/tagView'
-import { getIndex, getTags } from '../lib/utils'
+import { getIndex } from '../lib/utils'
 import { GetStaticProps } from 'next'
 
 export default function Home({
@@ -18,9 +18,7 @@ export default function Home({
   return (
     <div>
       <Header />
-      Tags:
       <TagView articleData={articleData} />
-      <hr />
       Articles
       <TitleView articleData={articleData} />
       <Footer />

@@ -34,7 +34,7 @@ export function getIndex(): {
   })
 }
 
-export function getArticlesIds(): {
+export function getArticleId(): {
   params: {
     id: string
   }
@@ -56,7 +56,7 @@ export function getArticlesIds(): {
   })
 }
 
-export function getArticlesData(id: string): {
+export function getArticleData(id: string): {
   id: string,
   fileContents: string
 } {
@@ -69,15 +69,22 @@ export function getArticlesData(id: string): {
   }
 }
 
-export function getTags(): string[][] {
+export function getTags() {
   const summaryPath = path.join(BUILD_ARTICLES_DIR, 'summary.json')
   const readSummary = fs.readFileSync(summaryPath, 'utf-8')
   const jsonParse = JSON.parse(readSummary)
   const tags = Object.keys(jsonParse.fileMap).map(e => {
     return jsonParse.fileMap[e].tags
   })
+  const set = new Set(tags.flatMap(e => e))
+  const uniqueArray = [...set]
+  const staticPaths = uniqueArray.map(e => {
+    return {
+      params: {
+        'tag': e
+      }
+    }
+  })
 
-  const set = new Set(tags.flat())
-
-  return Array.from(set)
+  return staticPaths
 }

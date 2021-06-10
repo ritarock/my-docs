@@ -1,6 +1,6 @@
 import Header from '../../components/header'
 import { GetStaticPaths } from 'next'
-import { getArticlesIds, getArticlesData } from '../../lib/utils'
+import { getArticleId, getArticleData } from '../../lib/utils'
 import ReactMarkdown from 'react-markdown'
 import { components } from '../../components/codeBlock'
 
@@ -25,7 +25,7 @@ export default function Articles({
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = getArticlesIds()
+  const paths = getArticleId()
 
   return {
     paths,
@@ -47,7 +47,7 @@ export const getStaticProps = async ({
       }
   }
 }> => {
-  const data = getArticlesData(params.id)
+  const data = getArticleData(params.id)
 
   return {
     props: {
