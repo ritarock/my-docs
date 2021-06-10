@@ -24,7 +24,6 @@ export function getIndex(): {
     }
   })
 
-
   return data.sort((a, b) => {
     if (a.id < b.id) {
       return 1

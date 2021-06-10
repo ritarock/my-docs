@@ -1,6 +1,5 @@
 import Header from '../../components/header'
 import TitleView from '../../components/titleVIew'
-
 import {getIndex, getTags} from '../../lib/utils'
 import React from 'react';
 import { useRouter } from 'next/router';
@@ -15,11 +14,9 @@ export default function Tags({
   }[],
 }): JSX.Element {
   const router = useRouter()
-  console.log([String(router.query.tag)])
-  console.log(router.query.tag)
 
   const filterdArticleData = articleData.filter(
-    e => e.tags.includes(router.query.tag)
+    e => e.tags.includes(String(router.query.tag))
   )
 
   return (

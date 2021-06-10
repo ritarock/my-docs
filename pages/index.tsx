@@ -11,7 +11,7 @@ export default function Home({
   articleData: {
     id: number
     title: string
-    tags: string[][]
+    tags: string[]
   }[],
 }): JSX.Element {
 
