@@ -9,16 +9,14 @@ export default function TagView({
     tags: string[]
   }[]
 }): JSX.Element {
-  const filterdArticleData = articleData.map(e => {
-    return e.tags
-  })
-  const set = new Set(filterdArticleData.flat())
-  const setArr = Array.from(set)
+  const tagData = articleData.map(e => e.tags)
+  const set = new Set(tagData.flat())
+  const filterdTagData = Array.from(set)
 
   return (
     <div>
       <div>tags:</div>
-      {setArr.map(tag => (
+      {filterdTagData.map(tag => (
         <span>
           <Link href={`tags/${tag}`}>
             <a>{tag}</a>

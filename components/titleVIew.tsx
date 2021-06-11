@@ -9,6 +9,7 @@ export default function TitleBoard({
     tags: string[]
   }[]
 }): JSX.Element {
+
   return (
     <div>
       {articleData.map(({id, title, tags}) => (
