@@ -4,9 +4,7 @@ export default function Header(): JSX.Element {
   return (
     <div>
       <Head>
-        <title>
-          MyDocs
-        </title>
+        <title>MyDocs</title>
       </Head>
       <div>MyDocs</div>
       <hr />

@@ -11,16 +11,16 @@ export function getIndex(): {
   const summaryPath = path.join(BUILD_ARTICLES_DIR, 'summary.json')
   const readSummary = fs.readFileSync(summaryPath, 'utf-8')
   const jsonParse = JSON.parse(readSummary)
-  const data = Object.keys(jsonParse.fileMap).map(e => {
+  const data = Object.keys(jsonParse.fileMap).map((e) => {
     const [id, title, tags] = [
       jsonParse.fileMap[e].date,
       jsonParse.fileMap[e].title,
-      jsonParse.fileMap[e].tags
+      jsonParse.fileMap[e].tags,
     ]
     return {
       id,
       title,
-      tags
+      tags,
     }
   })
 
@@ -42,21 +42,21 @@ export function getArticleId(): {
   const readSummary = fs.readFileSync(summaryPath, 'utf-8')
   const jsonParse = JSON.parse(readSummary)
 
-  const ids = Object.keys(jsonParse.fileMap).map(e => {
+  const ids = Object.keys(jsonParse.fileMap).map((e) => {
     return jsonParse.fileMap[e].date
   })
 
-  return ids.map(e => {
+  return ids.map((e) => {
     return {
       params: {
-        id: String(e)
-      }
+        id: String(e),
+      },
     }
   })
 }
 
 export function getArticleData(id: string): {
-  id: string,
+  id: string
   fileContents: string
 } {
   const fullPath = path.join(BUILD_ARTICLES_DIR, `${id}.json`)
@@ -64,7 +64,7 @@ export function getArticleData(id: string): {
 
   return {
     id,
-    fileContents
+    fileContents,
   }
 }
 
@@ -76,16 +76,16 @@ export function getTags(): {
   const summaryPath = path.join(BUILD_ARTICLES_DIR, 'summary.json')
   const readSummary = fs.readFileSync(summaryPath, 'utf-8')
   const jsonParse = JSON.parse(readSummary)
-  const tags = Object.keys(jsonParse.fileMap).map(e => {
+  const tags = Object.keys(jsonParse.fileMap).map((e) => {
     return jsonParse.fileMap[e].tags
   })
-  const set = new Set(tags.flatMap(e => e))
+  const set = new Set(tags.flatMap((e) => e))
   const uniqueArray = [...set]
-  const staticPaths = uniqueArray.map(e => {
+  const staticPaths = uniqueArray.map((e) => {
     return {
       params: {
-        'tag': e
-      }
+        tag: e,
+      },
     }
   })
 

@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const components = {
-  code({ className, inline, children, ...props }: Props ): JSX.Element {
+  code({ className, inline, children, ...props }: Props): JSX.Element {
     const match = /language-(\w+)/.exec(className || '')
 
     return !inline && match ? (
@@ -17,10 +17,11 @@ export const components = {
         style={monokai}
         language={match[1]}
         PreTag="div"
-        children={String(children).replace(/\n$/, '')} {...props} // eslint-disable-line react/no-children-prop
+        children={String(children).replace(/\n$/, '')}
+        {...props} // eslint-disable-line react/no-children-prop
       ></SyntaxHighlighter>
     ) : (
       <code className={className} {...props} />
     )
-  }
+  },
 }

@@ -5,7 +5,7 @@ import ReactMarkdown from 'react-markdown'
 import { components } from '../../components/codeBlock'
 
 export default function Articles({
-  data
+  data,
 }: {
   data: {
     id: string
@@ -17,9 +17,7 @@ export default function Articles({
   return (
     <div>
       <Header />
-      <ReactMarkdown components={components} >
-        {bodyContent}
-      </ReactMarkdown>
+      <ReactMarkdown components={components}>{bodyContent}</ReactMarkdown>
     </div>
   )
 }
@@ -29,29 +27,29 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: false
+    fallback: false,
   }
 }
 
 export const getStaticProps = async ({
-  params
+  params,
 }: {
   params: {
     id: string
   }
 }): Promise<{
   props: {
-      data: {
-          id: string;
-          fileContents: string;
-      }
+    data: {
+      id: string
+      fileContents: string
+    }
   }
 }> => {
   const data = getArticleData(params.id)
 
   return {
     props: {
-      data
-    }
+      data,
+    },
   }
 }

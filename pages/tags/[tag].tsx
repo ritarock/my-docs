@@ -1,23 +1,23 @@
 import Header from '../../components/header'
 import TitleView from '../../components/titleVIew'
-import {getIndex, getTags} from '../../lib/utils'
-import React from 'react';
-import { useRouter } from 'next/router';
+import { getIndex, getTags } from '../../lib/utils'
+import React from 'react'
+import { useRouter } from 'next/router'
 import { GetStaticPaths, GetStaticProps } from 'next'
 
 export default function Tags({
-  articleData
+  articleData,
 }: {
   articleData: {
     id: number
     title: string
     tags: string[]
-  }[],
+  }[]
 }): JSX.Element {
   const router = useRouter()
 
-  const filterdArticleData = articleData.filter(
-    e => e.tags.includes(String(router.query.tag))
+  const filterdArticleData = articleData.filter((e) =>
+    e.tags.includes(String(router.query.tag))
   )
 
   return (
@@ -34,7 +34,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: false
+    fallback: false,
   }
 }
 
@@ -44,6 +44,6 @@ export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       articleData,
-    }
+    },
   }
 }

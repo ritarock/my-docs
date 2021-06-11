@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint pages/** components/** lib/**",
     "lint-fix": "eslint --fix pages/ components/ lib/",
-    "build-md": "rm articles/* && processmd 'docs/*.md' --outputDir ./articles --summaryOutput ./articles/summary.json"
+    "build-md": "rm articles/* && processmd 'docs/*.md' --outputDir ./articles --summaryOutput ./articles/summary.json",
+    "format": "prettier --write components/*.tsx lib/*.ts pages/**/*.tsx"
   },
   "dependencies": {
     "next": "10.2.3",
@@ -24,6 +25,7 @@
     "@typescript-eslint/parser": "^4.25.0",
     "eslint": "^7.27.0",
     "eslint-plugin-react": "^7.23.2",
+    "prettier": "2.3.1",
     "processmd": "^4.6.1",
     "typescript": "4.3.2"
   }
