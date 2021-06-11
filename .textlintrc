@@ -1,0 +1,9 @@
+{
+  "filters": {},
+  "rules": {
+    "ja-no-mixed-period": true,
+    "no-doubled-joshi": true,
+    "no-dropping-the-ra": true,
+    "no-mix-dearu-desumasu": true
+  }
+}
