@@ -3,6 +3,7 @@ import TitleView from '../../components/titleVIew'
 import {getIndex, getTags} from '../../lib/utils'
 import React from 'react';
 import { useRouter } from 'next/router';
+import { GetStaticPaths, GetStaticProps } from 'next'
 
 export default function Tags({
   articleData
@@ -28,7 +29,7 @@ export default function Tags({
   )
 }
 
-export const getStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async () => {
   const paths = getTags()
 
   return {
@@ -37,7 +38,7 @@ export const getStaticPaths = async () => {
   }
 }
 
-export const getStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const articleData = getIndex()
 
   return {

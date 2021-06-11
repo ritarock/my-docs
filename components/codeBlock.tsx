@@ -17,7 +17,7 @@ export const components = {
         style={monokai}
         language={match[1]}
         PreTag="div"
-        children={String(children).replace(/\n$/, '')} {...props}
+        children={String(children).replace(/\n$/, '')} {...props} // eslint-disable-line react/no-children-prop
       ></SyntaxHighlighter>
     ) : (
       <code className={className} {...props} />

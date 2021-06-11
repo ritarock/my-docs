@@ -17,7 +17,7 @@ export default function TagView({
     <div>
       <div>tags:</div>
       {filterdTagData.map(tag => (
-        <span>
+        <span key={tag}>
           <Link href={`tags/${tag}`}>
             <a>{tag}</a>
           </Link>

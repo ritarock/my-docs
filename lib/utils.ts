@@ -68,7 +68,11 @@ export function getArticleData(id: string): {
   }
 }
 
-export function getTags() {
+export function getTags(): {
+  params: {
+    tag: string
+  }
+}[] {
   const summaryPath = path.join(BUILD_ARTICLES_DIR, 'summary.json')
   const readSummary = fs.readFileSync(summaryPath, 'utf-8')
   const jsonParse = JSON.parse(readSummary)
