@@ -1,9 +1,19 @@
-html
-body {
-  background-color: lightgray;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+a {
+  @apply underline
 }
 
-hr {
-  height: 1px;
-  background-color: black;
+h2 {
+  @apply text-xl
+}
+
+h3 {
+  @apply text-lg
+}
+
+ul {
+  @apply list-disc list-inside m-2
 }

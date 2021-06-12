@@ -21,11 +21,16 @@ export default function Tags({
   )
 
   return (
-    <div>
-      <Header />
-      {router.query.tag}
-      <TitleView articleData={filterdArticleData} />
-    </div>
+    <>
+      <div>
+        <Header />
+        <p className="mx-3">Tags:</p>
+        <p className="mx-5">{router.query.tag}</p>
+        <hr />
+        <p className="mx-3">Articles:</p>
+        <TitleView articleData={filterdArticleData} />
+      </div>
+    </>
   )
 }
 

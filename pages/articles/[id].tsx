@@ -15,10 +15,14 @@ export default function Articles({
   const bodyContent = JSON.parse(data.fileContents).bodyContent
 
   return (
-    <div>
-      <Header />
-      <ReactMarkdown components={components}>{bodyContent}</ReactMarkdown>
-    </div>
+    <>
+      <div>
+        <Header />
+        <div className="mx-3">
+          <ReactMarkdown components={components}>{bodyContent}</ReactMarkdown>
+        </div>
+      </div>
+    </>
   )
 }
 

@@ -17,8 +17,9 @@ export default function Home({
   return (
     <>
       <Header />
+      <p className="mx-3">Tags:</p>
       <TagView articleData={articleData} />
-      Articles
+      <p className="mx-3">Articles:</p>
       <TitleView articleData={articleData} />
     </>
   )

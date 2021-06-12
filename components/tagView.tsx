@@ -14,17 +14,18 @@ export default function TagView({
   const filterdTagData = Array.from(set)
 
   return (
-    <div>
-      <div>tags:</div>
-      {filterdTagData.map((tag) => (
-        <span key={tag}>
-          <Link href={`tags/${tag}`}>
-            <a>{tag}</a>
-          </Link>
-          <span> </span>
-        </span>
-      ))}
-      <hr />
-    </div>
+    <>
+      <div className="mx-5">
+        {filterdTagData.map((tag) => (
+          <span key={tag}>
+            <Link href={`tags/${tag}`}>
+              <a>{tag}</a>
+            </Link>
+            <span> </span>
+          </span>
+        ))}
+        <hr />
+      </div>
+    </>
   )
 }

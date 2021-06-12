@@ -14,10 +14,11 @@ export const components = {
 
     return !inline && match ? (
       <SyntaxHighlighter
+        className="text-xs"
         style={monokai}
         language={match[1]}
         PreTag="div"
-        children={String(children).replace(/\n$/, '')}
+        children={String(children).replace(/\n$/, '')} // eslint-disable-line react/no-children-prop
         {...props} // eslint-disable-line react/no-children-prop
       ></SyntaxHighlighter>
     ) : (

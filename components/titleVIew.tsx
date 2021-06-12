@@ -10,17 +10,19 @@ export default function TitleBoard({
   }[]
 }): JSX.Element {
   return (
-    <div>
-      {articleData.map(({ id, title, tags }) => (
-        <div key={id}>
-          {`${formatDate(id)}: `}
-          <Link href="/articles/[id]" as={`/articles/${id}`}>
-            <a>{title}</a>
-          </Link>
-          <span> : Tags [{tags.join(', ')}]</span>
-        </div>
-      ))}
-    </div>
+    <>
+      <div className="mx-3">
+        {articleData.map(({ id, title, tags }) => (
+          <div key={id}>
+            {`${formatDate(id)}: `}
+            <Link href="/articles/[id]" as={`/articles/${id}`}>
+              <a>{title}</a>
+            </Link>
+            <span> : Tags [{tags.join(', ')}]</span>
+          </div>
+        ))}
+      </div>
+    </>
   )
 }
 
