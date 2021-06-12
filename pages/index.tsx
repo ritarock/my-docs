@@ -1,4 +1,5 @@
 import Header from '../components/header'
+import Footer from '../components/footer'
 import TitleView from '../components/titleVIew'
 import TagView from '../components/tagView'
 import { getIndex } from '../lib/utils'
@@ -21,6 +22,7 @@ export default function Home({
       <TagView articleData={articleData} />
       <p className="mx-3">Articles:</p>
       <TitleView articleData={articleData} />
+      <Footer />
     </>
   )
 }

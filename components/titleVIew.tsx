@@ -16,7 +16,7 @@ export default function TitleBoard({
           <div key={id}>
             {`${formatDate(id)}: `}
             <Link href="/articles/[id]" as={`/articles/${id}`}>
-              <a>{title}</a>
+              <a className="text-blue-500">{title}</a>
             </Link>
             <span> : Tags [{tags.join(', ')}]</span>
           </div>
