@@ -1,5 +1,4 @@
 import Header from '../components/header'
-import Footer from '../components/footer'
 import TitleView from '../components/titleVIew'
 import TagView from '../components/tagView'
 import { getIndex } from '../lib/utils'
@@ -16,13 +15,12 @@ export default function Home({
 }): JSX.Element {
 
   return (
-    <div>
+    <>
       <Header />
       <TagView articleData={articleData} />
       Articles
       <TitleView articleData={articleData} />
-      <Footer />
-    </div>
+    </>
   )
 }
 
