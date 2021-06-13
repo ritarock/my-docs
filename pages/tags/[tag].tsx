@@ -27,7 +27,6 @@ export default function Tags({
         <p className="mx-3">Tags:</p>
         <p className="mx-5">{router.query.tag}</p>
         <hr />
-        <p className="mx-3">Articles:</p>
         <TitleView articleData={filterdArticleData} />
       </div>
     </>

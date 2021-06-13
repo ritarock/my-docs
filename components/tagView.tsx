@@ -15,6 +15,7 @@ export default function TagView({
 
   return (
     <>
+      <p className="mx-3">Tags:</p>
       <div className="mx-5">
         {filterdTagData.map((tag) => (
           <span key={tag}>

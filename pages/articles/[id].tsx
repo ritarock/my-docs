@@ -1,4 +1,5 @@
 import Header from '../../components/header'
+import Footer from '../../components/footer'
 import { GetStaticPaths } from 'next'
 import { getArticleId, getArticleData } from '../../lib/utils'
 import ReactMarkdown from 'react-markdown'
@@ -13,14 +14,17 @@ export default function Articles({
   }
 }): JSX.Element {
   const bodyContent = JSON.parse(data.fileContents).bodyContent
+  const title = JSON.parse(data.fileContents).title
 
   return (
     <>
       <div>
         <Header />
         <div className="mx-3">
+          <h1># {title}</h1>
           <ReactMarkdown components={components}>{bodyContent}</ReactMarkdown>
         </div>
+        <Footer />
       </div>
     </>
   )

@@ -11,7 +11,8 @@ export default function TitleBoard({
 }): JSX.Element {
   return (
     <>
-      <div className="mx-3">
+      <p className="mx-3">Articles:</p>
+      <div className="mx-5">
         {articleData.map(({ id, title, tags }) => (
           <div key={id}>
             {`${formatDate(id)}: `}
