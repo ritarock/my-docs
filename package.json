@@ -30,6 +30,7 @@
     "postcss": "^8.3.2",
     "prettier": "2.3.1",
     "processmd": "^4.6.1",
+    "remark-gfm": "^1.0.0",
     "tailwindcss": "^2.1.4",
     "textlint": "^12.0.0",
     "textlint-rule-ja-no-mixed-period": "^2.1.1",

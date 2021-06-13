@@ -3,6 +3,7 @@ import Footer from '../../components/footer'
 import { GetStaticPaths } from 'next'
 import { getArticleId, getArticleData } from '../../lib/utils'
 import ReactMarkdown from 'react-markdown'
+import gfm from 'remark-gfm'
 import { components } from '../../components/codeBlock'
 
 export default function Articles({
@@ -22,7 +23,10 @@ export default function Articles({
         <Header />
         <div className="mx-3">
           <h1># {title}</h1>
-          <ReactMarkdown components={components}>{bodyContent}</ReactMarkdown>
+          <ReactMarkdown
+            components={components}
+            remarkPlugins={[gfm]}
+          >{bodyContent}</ReactMarkdown>
         </div>
         <Footer />
       </div>
