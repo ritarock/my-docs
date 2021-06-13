@@ -1,0 +1,14 @@
+{
+  "title": "yes コマンド",
+  "date": 20200528074933,
+  "tags": [
+    "linux"
+  ],
+  "bodyContent": "サーバーへの負荷をかけたりするときに使える。\n\n## CPU に負荷をかける\n```bash\n$ yes > /dev/null\n```\n\n## メモリに負荷をかける\n```bash\n$ /dev/null < $(yes)\n```",
+  "bodyHtml": "<p>サーバーへの負荷をかけたりするときに使える。</p>\n<h2>CPU に負荷をかける</h2>\n<pre><code class=\"hljs\">$ yes &gt; /dev/null</code></pre><h2>メモリに負荷をかける</h2>\n<pre><code class=\"hljs\">$ /dev/null &lt; $(yes)</code></pre>",
+  "dir": "articles",
+  "base": "20200528074933.json",
+  "ext": ".json",
+  "sourceBase": "20200528074933.md",
+  "sourceExt": ".md"
+}

@@ -1,0 +1,14 @@
+{
+  "title": "ベースイメージの種類",
+  "date": 20210319200255,
+  "tags": [
+    "docker"
+  ],
+  "bodyContent": "ざっくりこんな感じ。\n\n|名前|内容|\n|-|-|\nbuster|Debian 10 で色々入り\nbuster-slim|Debian 10 の実行環境のみ\nstretch|Debian 9 で色々入り\nbuster|Debian 9 で実行環境のみ\nalpine|かなり小さいイメージ",
+  "bodyHtml": "<p>ざっくりこんな感じ。</p>\n<table>\n<thead>\n<tr>\n<th>名前</th>\n<th>内容</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>buster</td>\n<td>Debian 10 で色々入り</td>\n</tr>\n<tr>\n<td>buster-slim</td>\n<td>Debian 10 の実行環境のみ</td>\n</tr>\n<tr>\n<td>stretch</td>\n<td>Debian 9 で色々入り</td>\n</tr>\n<tr>\n<td>buster</td>\n<td>Debian 9 で実行環境のみ</td>\n</tr>\n<tr>\n<td>alpine</td>\n<td>かなり小さいイメージ</td>\n</tr>\n</tbody>\n</table>\n",
+  "dir": "articles",
+  "base": "20210319200255.json",
+  "ext": ".json",
+  "sourceBase": "20210319200255.md",
+  "sourceExt": ".md"
+}

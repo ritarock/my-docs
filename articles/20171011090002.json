@@ -1,0 +1,14 @@
+{
+  "title": "Python で YYYY-MM-DD 形式で日付を扱う",
+  "date": 20171011090002,
+  "tags": [
+    "python"
+  ],
+  "bodyContent": "```python\nimport datetime\n\ntoday = datetime.date.today()\ntoday.isoformat()\n```",
+  "bodyHtml": "<pre><code class=\"hljs\"><span class=\"hljs-keyword\">import</span> datetime\n\ntoday = datetime.date.today()\ntoday.isoformat()</code></pre>",
+  "dir": "articles",
+  "base": "20171011090002.json",
+  "ext": ".json",
+  "sourceBase": "20171011090002.md",
+  "sourceExt": ".md"
+}

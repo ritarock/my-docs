@@ -1,0 +1,14 @@
+{
+  "title": "Terraform 0.13 / 0.14 の新機能について",
+  "date": 20210312172437,
+  "tags": [
+    "terraform"
+  ],
+  "bodyContent": "個人的に良さそうなやつだけピックアップ。\n\n## 0.13 の新機能\n- module 側で depends_on が使えるようになった\n\n## 0.14 の新機能\n- plan の差分が簡潔になった\n\n- プロバイダーの依存関係のロックファイルが追加された\n\n***.terraform.lock.hcl*** が追加された。\n\nロックファイルは ***terraform init --upgrade*** のタイミングで更新される。\n\nロックファイルがあることで、 provider が新バージョンをリリースしたら突然差分が発生するみたいなことはなくなる。",
+  "bodyHtml": "<p>個人的に良さそうなやつだけピックアップ。</p>\n<h2>0.13 の新機能</h2>\n<ul>\n<li>module 側で depends_on が使えるようになった</li>\n</ul>\n<h2>0.14 の新機能</h2>\n<ul>\n<li>\n<p>plan の差分が簡潔になった</p>\n</li>\n<li>\n<p>プロバイダーの依存関係のロックファイルが追加された</p>\n</li>\n</ul>\n<p><em><strong>.terraform.lock.hcl</strong></em> が追加された。</p>\n<p>ロックファイルは <em><strong>terraform init --upgrade</strong></em> のタイミングで更新される。</p>\n<p>ロックファイルがあることで、 provider が新バージョンをリリースしたら突然差分が発生するみたいなことはなくなる。</p>\n",
+  "dir": "articles",
+  "base": "20210312172437.json",
+  "ext": ".json",
+  "sourceBase": "20210312172437.md",
+  "sourceExt": ".md"
+}
