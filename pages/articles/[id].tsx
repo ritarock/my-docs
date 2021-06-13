@@ -23,10 +23,9 @@ export default function Articles({
         <Header />
         <div className="mx-3">
           <h1># {title}</h1>
-          <ReactMarkdown
-            components={components}
-            remarkPlugins={[gfm]}
-          >{bodyContent}</ReactMarkdown>
+          <ReactMarkdown components={components} remarkPlugins={[gfm]}>
+            {bodyContent}
+          </ReactMarkdown>
         </div>
         <Footer />
       </div>
