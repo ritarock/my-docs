@@ -4,7 +4,7 @@ import { monokai } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 interface Props {
   className?: string
   inline?: boolean
-  children?: ReactNode
+  children?: any
 }
 
 export const components = {
