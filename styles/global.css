@@ -11,7 +11,7 @@ h1 {
 }
 
 h2 {
-  @apply text-xl
+  @apply text-xl font-black
 }
 
 h3 {
@@ -20,4 +20,16 @@ h3 {
 
 ul {
   @apply list-disc list-inside m-2
+}
+
+table {
+  @apply border-collapse border-2 border-gray-500
+}
+
+th {
+  @apply border border-gray-400 px-4 py-2
+}
+
+td {
+  @apply border border-gray-400 px-4 py-2
 }
