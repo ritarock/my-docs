@@ -405,6 +405,18 @@
       "ext": ".json",
       "sourceBase": "20210508160959.md",
       "sourceExt": ".md"
+    },
+    "articles/20210702182520.json": {
+      "title": "Go のコマンド",
+      "date": 20210702182520,
+      "tags": [
+        "golang"
+      ],
+      "dir": "articles",
+      "base": "20210702182520.json",
+      "ext": ".json",
+      "sourceBase": "20210702182520.md",
+      "sourceExt": ".md"
     }
   },
   "sourceFileArray": [
@@ -440,6 +452,7 @@
     "docs/20210319200255.md",
     "docs/20210429010135.md",
     "docs/20210429182820.md",
-    "docs/20210508160959.md"
+    "docs/20210508160959.md",
+    "docs/20210702182520.md"
   ]
 }
