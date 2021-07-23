@@ -11,11 +11,11 @@ h1 {
 }
 
 h2 {
-  @apply text-xl font-black
+  @apply text-xl font-black italic
 }
 
 h3 {
-  @apply text-lg
+  @apply text-lg italic
 }
 
 ul {
