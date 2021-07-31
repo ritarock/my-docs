@@ -4,8 +4,8 @@
   "tags": [
     "linux"
   ],
-  "bodyContent": "```bash\n$ watch -n 1 'date'\n```\n\n1 秒間隔で ***date*** コマンドを繰り返す。",
-  "bodyHtml": "<pre><code class=\"hljs\">$ watch -n 1 <span class=\"hljs-string\">&#x27;date&#x27;</span></code></pre><p>1 秒間隔で <em><strong>date</strong></em> コマンドを繰り返す。</p>\n",
+  "bodyContent": "```bash\n$ watch -n 1 'date'\n```\n\n1 秒間隔で `date` コマンドを繰り返す.",
+  "bodyHtml": "<pre><code class=\"hljs\">$ watch -n 1 <span class=\"hljs-string\">&#x27;date&#x27;</span></code></pre><p>1 秒間隔で <code>date</code> コマンドを繰り返す.</p>\n",
   "dir": "articles",
   "base": "20201028151500.json",
   "ext": ".json",

@@ -4,24 +4,25 @@ import { monokai } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 interface Props {
   className?: string
   inline?: boolean
-  children?: any
+  children?: any // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export const components = {
-  code({ className, inline, children, ...props }: Props): JSX.Element {
+  code({inline, className, children, ...props}: Props): JSX.Element {
     const match = /language-(\w+)/.exec(className || '')
 
     return !inline && match ? (
       <SyntaxHighlighter
-        className="text-xs"
         style={monokai}
         language={match[1]}
         PreTag="div"
         children={String(children).replace(/\n$/, '')} // eslint-disable-line react/no-children-prop
-        {...props} // eslint-disable-line react/no-children-prop
-      ></SyntaxHighlighter>
+        {...props}
+      />
     ) : (
-      <code className={className} {...props} />
+      <code className={className} {...props}>
+        {children}
+      </code>
     )
-  },
+  }
 }
