@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const components = {
-  code({inline, className, children, ...props}: Props): JSX.Element {
+  code({ inline, className, children, ...props }: Props): JSX.Element {
     const match = /language-(\w+)/.exec(className || '')
 
     return !inline && match ? (
@@ -24,5 +24,5 @@ export const components = {
         {children}
       </code>
     )
-  }
+  },
 }

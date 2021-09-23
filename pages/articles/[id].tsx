@@ -22,8 +22,16 @@ export default function Articles({
       <div>
         <Header />
         <div className="mx-7">
-          <h1><b># {title}</b></h1>
-          <ReactMarkdown components={components} remarkPlugins={[gfm]} children={bodyContent}></ReactMarkdown> {/* eslint-disable-line react/no-children-prop */}
+          <h1>
+            <b># {title}</b>
+          </h1>
+          <ReactMarkdown
+            components={components}
+            remarkPlugins={[gfm]}
+            // eslint-disable-next-line react/no-children-prop
+            children={bodyContent}
+          ></ReactMarkdown>{' '}
+          {/* eslint-disable-line react/no-children-prop */}
         </div>
         <Footer />
       </div>
