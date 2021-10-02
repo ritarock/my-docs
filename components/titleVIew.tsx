@@ -1,22 +1,18 @@
 import Link from 'next/link'
 
-export default function TitleBoard({
-  articleData,
+export default function TitleView({
+  docData,
 }: {
-  articleData: {
-    id: number
-    title: string
-    tags: string[]
-  }[]
-}): JSX.Element {
+  docData: { title: string; date: number; tags: string[] }[]
+}) {
   return (
     <>
-      <p className="mx-3">Articles:</p>
+      <p className="mx-3">Docs:</p>
       <div className="mx-5">
-        {articleData.map(({ id, title, tags }) => (
-          <div key={id}>
-            {`${formatDate(id)}: `}
-            <Link href="/articles/[id]" as={`/articles/${id}`}>
+        {docData.map(({ title, date, tags }) => (
+          <div key={date}>
+            {`${formatDate(date)}: `}
+            <Link href="/docs/[id]" as={`/docs/${date}`}>
               <a className="text-blue-500">{title}</a>
             </Link>
             <span> : Tags [{tags.join(', ')}]</span>

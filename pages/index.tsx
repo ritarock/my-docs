@@ -1,36 +1,37 @@
 import Header from '../components/header'
+import { getSortedDocData } from '../lib/util'
 import Footer from '../components/footer'
-import TitleView from '../components/titleVIew'
-import TagView from '../components/tagView'
-import { getIndex } from '../lib/utils'
 import { GetStaticProps } from 'next'
+import TagView from '../components/tagView'
+import TitleView from '../components/titleView'
 
 export default function Home({
-  articleData,
+  docData,
 }: {
-  articleData: {
-    id: number
+  docData: {
     title: string
+    date: number
     tags: string[]
-  }[],
-}): JSX.Element {
-
+  }[]
+}) {
   return (
     <>
       <Header />
-      <TagView articleData={articleData} />
-      <TitleView articleData={articleData} />
+      <TagView
+        tags={Array.from(new Set(docData.flatMap((data) => data.tags)))}
+      />
+      <hr />
+      <TitleView docData={docData} />
       <Footer />
     </>
   )
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const articleData = getIndex()
-
+  const docData = getSortedDocData()
   return {
     props: {
-      articleData,
-    }
+      docData,
+    },
   }
 }

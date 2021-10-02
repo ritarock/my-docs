@@ -1,43 +1,33 @@
 {
   "name": "my-docs",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "yarn build-md && next dev",
-    "build": "next build && next export",
-    "start": "next start",
-    "lint": "eslint pages/** components/** lib/**",
-    "lint-fix": "eslint --fix pages/ components/ lib/",
-    "lint-md": "textlint docs/**/*.md",
-    "build-md": "rm articles/* && processmd 'docs/*.md' --outputDir ./articles --summaryOutput ./articles/summary.json",
-    "format": "prettier --write components/*.tsx lib/*.ts pages/**/*.tsx"
-  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/ritarock/my-docs.git",
+  "author": "ritarock <dvryz1204@gmail.com>",
+  "license": "MIT",
   "dependencies": {
-    "next": "11.1.2",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
+    "gray-matter": "^4.0.3",
+    "next": "^11.1.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-markdown": "^7.0.1",
     "react-syntax-highlighter": "^15.4.4"
   },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "format": "prettier --write lib/*ts components/*.tsx pages/**/*.tsx pages/index.tsx"
+  },
   "devDependencies": {
-    "@types/react": "17.0.24",
-    "@types/react-syntax-highlighter": "^13.5.2",
-    "@typescript-eslint/eslint-plugin": "^4.31.2",
-    "@typescript-eslint/parser": "^4.31.2",
-    "autoprefixer": "^10.3.5",
-    "eslint": "^7.32.0",
-    "eslint-plugin-react": "^7.26.0",
-    "postcss": "^8.3.7",
+    "@types/react": "^17.0.24",
+    "autoprefixer": "^10.3.6",
+    "eslint": "7.32.0",
+    "eslint-config-next": "11.1.2",
+    "postcss": "^8.3.8",
     "prettier": "2.4.1",
-    "processmd": "^4.6.1",
-    "remark-gfm": "^2.0.0",
-    "tailwindcss": "^2.2.15",
-    "textlint": "^12.0.2",
-    "textlint-rule-ja-no-mixed-period": "^2.1.1",
-    "textlint-rule-no-doubled-joshi": "^4.0.0",
-    "textlint-rule-no-dropping-the-ra": "^3.0.0",
-    "textlint-rule-no-mix-dearu-desumasu": "^5.0.0",
-    "textlint-rule-preset-ja-technical-writing": "^7.0.0",
-    "typescript": "4.4.3"
+    "tailwindcss": "^2.2.16",
+    "typescript": "^4.4.3"
   }
 }

@@ -1,40 +1,36 @@
-import Header from '../../components/header'
-import TitleView from '../../components/titleVIew'
-import { getIndex, getTags } from '../../lib/utils'
-import React from 'react'
-import { useRouter } from 'next/router'
 import { GetStaticPaths, GetStaticProps } from 'next'
+import { getDocBody, getSortedDocData, getTagPaths } from '../../lib/util'
+import { useRouter } from 'next/router'
+import Header from '../../components/header'
+import Footer from '../../components/footer'
+import TagView from '../../components/tagView'
+import TitleView from '../../components/titleView'
 
-export default function Tags({
-  articleData,
+export default function Tag({
+  docData,
 }: {
-  articleData: {
-    id: number
-    title: string
-    tags: string[]
-  }[]
-}): JSX.Element {
+  docData: { title: string; date: number; tags: string[] }[]
+}) {
   const router = useRouter()
-
-  const filterdArticleData = articleData.filter((e) =>
-    e.tags.includes(String(router.query.tag))
-  )
+  const filterdDocData = docData.filter((doc) => {
+    return doc.tags.includes(String(router.query.tag))
+  })
 
   return (
     <>
       <div>
         <Header />
-        <p className="mx-3">Tags:</p>
-        <p className="mx-5">{router.query.tag}</p>
+        <TagView tags={[String(router.query.tag)]} />
         <hr />
-        <TitleView articleData={filterdArticleData} />
+        <TitleView docData={filterdDocData} />
+        <Footer />
       </div>
     </>
   )
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = getTags()
+  const paths = getTagPaths()
 
   return {
     paths,
@@ -43,11 +39,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const articleData = getIndex()
+  const docData = getSortedDocData()
 
   return {
     props: {
-      articleData,
+      docData,
     },
   }
 }

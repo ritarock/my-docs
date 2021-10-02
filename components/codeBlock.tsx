@@ -4,11 +4,11 @@ import { monokai } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 interface Props {
   className?: string
   inline?: boolean
-  children?: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  children?: any
 }
 
 export const components = {
-  code({ inline, className, children, ...props }: Props): JSX.Element {
+  code({ inline, className, children, ...props }: Props) {
     const match = /language-(\w+)/.exec(className || '')
 
     return !inline && match ? (
@@ -16,7 +16,8 @@ export const components = {
         style={monokai}
         language={match[1]}
         PreTag="div"
-        children={String(children).replace(/\n$/, '')} // eslint-disable-line react/no-children-prop
+        // eslint-disable-next-line react/no-children-prop
+        children={String(children).replace(/\n$/, '')}
         {...props}
       />
     ) : (
