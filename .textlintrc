@@ -1,0 +1,16 @@
+{
+  "filters": {},
+  "rules": {
+    "no-doubled-joshi": true,
+    "no-dropping-the-ra": true,
+    "no-mix-dearu-desumasu": true,
+    "preset-ja-technical-writing": {
+      "sentence-length": {
+        "max": 200
+      },
+      "ja-no-mixed-period": {
+        "periodMark": "."
+      }
+    },
+  }
+}
