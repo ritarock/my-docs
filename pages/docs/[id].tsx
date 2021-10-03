@@ -1,31 +1,29 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
-import Footer from '../../components/footer'
-import Header from '../../components/header'
+import Footer from '../../components/Footer'
+import Header from '../../components/Header'
 import { getDocBody, getDocId } from '../../lib/util'
 import ReactMarkdown from 'react-markdown'
-import { components } from '../../components/codeBlock'
+import { components } from '../../components/CodeBlock'
 
-export default function Doc({
-  docData,
-}: {
-  docData: {
-    id: string
-    title: string
-    content: string
-  }
-}) {
+type DocBody = {
+  id: string
+  title: string
+  content: string
+}
+
+export default function Doc({ docBody }: { docBody: DocBody }) {
   return (
     <>
       <div>
         <Header />
         <div className="mx-7">
           <h1>
-            <b># {docData.title}</b>
+            <b># {docBody.title}</b>
           </h1>
           <ReactMarkdown
             components={components}
             // eslint-disable-next-line react/no-children-prop
-            children={docData.content}
+            children={docBody.content}
           ></ReactMarkdown>
         </div>
         <Footer />
@@ -48,11 +46,11 @@ export const getStaticProps: GetStaticProps = async ({
 }: {
   params: { id: string }
 }) => {
-  const docData = await getDocBody(params.id)
+  const docBody = await getDocBody(params.id)
 
   return {
     props: {
-      docData,
+      docBody,
     },
   }
 }

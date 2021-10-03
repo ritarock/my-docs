@@ -1,16 +1,13 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { getDocBody, getSortedDocData, getTagPaths } from '../../lib/util'
 import { useRouter } from 'next/router'
-import Header from '../../components/header'
-import Footer from '../../components/footer'
-import TagView from '../../components/tagView'
-import TitleView from '../../components/titleView'
+import Header from '../../components/Header'
+import Footer from '../../components/Footer'
+import TagView from '../../components/TagView'
+import TitleView from '../../components/TitleView'
+import { DocData } from '../../interfaces'
 
-export default function Tag({
-  docData,
-}: {
-  docData: { title: string; date: number; tags: string[] }[]
-}) {
+export default function Tag({ docData }: { docData: DocData }) {
   const router = useRouter()
   const filterdDocData = docData.filter((doc) => {
     return doc.tags.includes(String(router.query.tag))

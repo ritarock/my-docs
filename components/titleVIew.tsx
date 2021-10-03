@@ -1,10 +1,7 @@
 import Link from 'next/link'
+import { DocData } from '../interfaces'
 
-export default function TitleView({
-  docData,
-}: {
-  docData: { title: string; date: number; tags: string[] }[]
-}) {
+export default function TitleView({ docData }: { docData: DocData }) {
   return (
     <>
       <p className="mx-3">Docs:</p>
@@ -25,10 +22,10 @@ export default function TitleView({
 
 function formatDate(date: number) {
   return (
-    String(date).substr(0, 4) +
+    date.toString().substr(0, 4) +
     '/' +
-    String(date).substr(4, 2) +
+    date.toString().substr(4, 2) +
     '/' +
-    String(date).substr(6, 2)
+    date.toString().substr(6, 2)
   )
 }

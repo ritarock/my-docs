@@ -1,22 +1,22 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
+import { DocData } from '../interfaces'
 
 const BUILD_DOCS_DIR = path.join(process.cwd(), 'docs')
 
 export function getSortedDocData() {
   const fileNames = fs.readdirSync(BUILD_DOCS_DIR)
-  const allData: { title: string; date: number; tags: string[] }[] =
-    fileNames.map((fileName) => {
-      const fullPath = path.join(BUILD_DOCS_DIR, fileName)
-      const fileContents = fs.readFileSync(fullPath, 'utf8')
-      const matterResult = matter(fileContents)
-      return {
-        title: String(matterResult.data.title),
-        date: +matterResult.data.date,
-        tags: matterResult.data.tags,
-      }
-    })
+  const allData: DocData = fileNames.map((fileName) => {
+    const fullPath = path.join(BUILD_DOCS_DIR, fileName)
+    const fileContents = fs.readFileSync(fullPath, 'utf8')
+    const matterResult = matter(fileContents)
+    return {
+      title: matterResult.data.title.toString(),
+      date: +matterResult.data.date,
+      tags: matterResult.data.tags,
+    }
+  })
 
   return allData.sort((a, b) => {
     if (a.date < b.date) {

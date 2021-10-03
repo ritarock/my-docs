@@ -1,10 +1,10 @@
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { monokai } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 
-interface Props {
+type Props = {
   className?: string
   inline?: boolean
-  children?: any
+  children?: unknown
 }
 
 export const components = {
@@ -17,12 +17,12 @@ export const components = {
         language={match[1]}
         PreTag="div"
         // eslint-disable-next-line react/no-children-prop
-        children={String(children).replace(/\n$/, '')}
+        children={children.toString().replace(/\n$/, '')}
         {...props}
       />
     ) : (
       <code className={className} {...props}>
-        {children}
+        {children.toString()}
       </code>
     )
   },

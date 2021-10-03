@@ -15,10 +15,10 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write lib/*ts components/*.tsx pages/**/*.tsx pages/index.tsx",
+    "format": "prettier --write lib/*ts components/*.tsx pages/**/*.tsx pages/index.tsx interfaces/index.ts",
     "lint-md": "textlint docs/**/*.md"
   },
   "devDependencies": {

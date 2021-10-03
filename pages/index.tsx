@@ -1,19 +1,12 @@
-import Header from '../components/header'
+import Header from '../components/Header'
 import { getSortedDocData } from '../lib/util'
-import Footer from '../components/footer'
+import Footer from '../components/Footer'
 import { GetStaticProps } from 'next'
-import TagView from '../components/tagView'
-import TitleView from '../components/titleView'
+import TagView from '../components/TagView'
+import TitleView from '../components/TitleView'
+import { DocData } from '../interfaces'
 
-export default function Home({
-  docData,
-}: {
-  docData: {
-    title: string
-    date: number
-    tags: string[]
-  }[]
-}) {
+export default function Home({ docData }: { docData: DocData }) {
   return (
     <>
       <Header />
