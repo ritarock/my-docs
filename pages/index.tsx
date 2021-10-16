@@ -1,9 +1,9 @@
-import Header from '../components/Header'
+import Header from '../components/header'
 import { getSortedDocData } from '../lib/util'
-import Footer from '../components/Footer'
+import Footer from '../components/footer'
 import { GetStaticProps } from 'next'
-import TagView from '../components/TagView'
-import TitleView from '../components/TitleView'
+import TagView from '../components/tagView'
+import TitleView from '../components/titleView'
 import { DocData } from '../interfaces'
 
 export default function Home({ docData }: { docData: DocData }) {

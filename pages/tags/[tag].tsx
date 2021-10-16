@@ -1,10 +1,10 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { getDocBody, getSortedDocData, getTagPaths } from '../../lib/util'
 import { useRouter } from 'next/router'
-import Header from '../../components/Header'
-import Footer from '../../components/Footer'
-import TagView from '../../components/TagView'
-import TitleView from '../../components/TitleView'
+import Header from '../../components/header'
+import Footer from '../../components/footer'
+import TagView from '../../components/tagView'
+import TitleView from '../../components/titleView'
 import { DocData } from '../../interfaces'
 
 export default function Tag({ docData }: { docData: DocData }) {

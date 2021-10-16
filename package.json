@@ -11,14 +11,15 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-markdown": "^7.0.1",
-    "react-syntax-highlighter": "^15.4.4"
+    "react-syntax-highlighter": "^15.4.4",
+    "remark-gfm": "^3.0.0"
   },
   "scripts": {
     "dev": "next dev",
     "build": "next build && next export",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write lib/*ts components/*.tsx pages/**/*.tsx pages/index.tsx interfaces/index.ts",
+    "format": "prettier --write lib/*ts components/*.tsx interfaces/*.ts pages/*.tsx pages/**/*.tsx",
     "lint-md": "textlint docs/**/*.md"
   },
   "devDependencies": {

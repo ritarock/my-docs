@@ -1,9 +1,10 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
-import Footer from '../../components/Footer'
-import Header from '../../components/Header'
+import Footer from '../../components/footer'
+import Header from '../../components/header'
 import { getDocBody, getDocId } from '../../lib/util'
 import ReactMarkdown from 'react-markdown'
-import { components } from '../../components/CodeBlock'
+import { components } from '../../components/codeBlock'
+import remarkGfm from 'remark-gfm'
 
 type DocBody = {
   id: string
@@ -24,6 +25,7 @@ export default function Doc({ docBody }: { docBody: DocBody }) {
             components={components}
             // eslint-disable-next-line react/no-children-prop
             children={docBody.content}
+            remarkPlugins={[remarkGfm]}
           ></ReactMarkdown>
         </div>
         <Footer />
