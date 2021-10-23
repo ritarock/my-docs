@@ -12,14 +12,17 @@ export const components = {
     const match = /language-(\w+)/.exec(className || '')
 
     return !inline && match ? (
-      <SyntaxHighlighter
-        style={monokai}
-        language={match[1]}
-        PreTag="div"
-        // eslint-disable-next-line react/no-children-prop
-        children={children.toString().replace(/\n$/, '')}
-        {...props}
-      />
+      <>
+        <SyntaxHighlighter
+          style={monokai}
+          language={match[1]}
+          PreTag="div"
+          // eslint-disable-next-line react/no-children-prop
+          children={children.toString().replace(/\n$/, '')}
+          {...props}
+        />
+        <p className="h-2"></p>
+      </>
     ) : (
       <code className={className} {...props}>
         {children.toString()}
