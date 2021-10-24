@@ -1,9 +1,8 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
-import { getDocBody, getSortedDocData, getTagPaths } from '../../lib/util'
+import { getSortedDocData, getTagPaths } from '../../lib/util'
 import { useRouter } from 'next/router'
 import Header from '../../components/header'
 import Footer from '../../components/footer'
-import TagView from '../../components/tagView'
 import TitleView from '../../components/titleView'
 import { DocData } from '../../interfaces'
 
