@@ -17,7 +17,10 @@ export default function Tag({ docData }: { docData: DocData }) {
     <>
       <div>
         <Header />
-        <TagView tags={[String(router.query.tag)]} />
+        <p className="mx-3">Tags:</p>
+        <div className="mx-5">
+          <span>{[String(router.query.tag)]}</span>
+        </div>
         <hr />
         <TitleView docData={filterdDocData} />
         <Footer />
