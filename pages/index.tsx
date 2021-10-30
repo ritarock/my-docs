@@ -15,7 +15,7 @@ export default function Home({ docData }: { docData: DocData }) {
       />
       <hr />
       <TitleView docData={docData} />
-      <Footer />
+      <Footer topPage={true} />
     </>
   )
 }
