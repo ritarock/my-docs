@@ -20,7 +20,7 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write lib/*ts components/*.tsx interfaces/*.ts pages/*.tsx pages/**/*.tsx",
-    "lint-md": "textlint docs/**/*.md"
+    "textlint": "textlint docs/**/*.md"
   },
   "devDependencies": {
     "@types/react": "^17.0.24",
@@ -31,6 +31,7 @@
     "prettier": "2.4.1",
     "tailwindcss": "^2.2.19",
     "textlint": "^12.0.2",
+    "textlint-filter-rule-allowlist": "^4.0.0",
     "textlint-rule-preset-ja-spacing": "^2.2.0",
     "textlint-rule-preset-ja-technical-writing": "^7.0.0",
     "typescript": "^4.4.3"
