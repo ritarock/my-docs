@@ -2,7 +2,8 @@
   "filters": {
     "allowlist": {
       "allow": [
-        "\"{ register } で指定."
+        "\"{ register } で指定.",
+        "ただ `reflect.DeepEqual` は型安全ではないので注意"
       ]
     }
   },
