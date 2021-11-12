@@ -6,7 +6,7 @@ export default function Footer({ topPage }) {
       <br />
       <p className="text-center">
         <Link href="https://github.com/ritarock/my-docs">
-          <a>[GitHub]</a>
+          <a>[Source]</a>
         </Link>
       </p>
     </>
