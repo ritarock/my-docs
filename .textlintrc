@@ -21,9 +21,6 @@
       "sentence-length": {
         "max": 90
       },
-      "ja-no-mixed-period": {
-        "periodMark": "."
-      },
       "no-exclamation-question-mark": false
     }
   }
