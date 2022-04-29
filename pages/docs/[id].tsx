@@ -3,30 +3,27 @@ import Footer from '../../components/footer'
 import Header from '../../components/header'
 import { getDocBody, getDocId } from '../../lib/util'
 import ReactMarkdown from 'react-markdown'
-import { components } from '../../components/codeBlock'
+import { CodeBlock } from '../../components/codeBlock'
 import remarkGfm from 'remark-gfm'
+import { TDocBody } from '../../interfaces'
 
-type DocBody = {
-  id: string
-  title: string
-  content: string
-}
-
-export default function Doc({ docBody }: { docBody: DocBody }) {
+export default function Doc({ docBody }: { docBody: TDocBody }) {
   return (
     <>
       <div>
         <Header />
-        <div className="mx-7">
+        <div className="mx-10">
           <h1>
             <b># {docBody.title}</b>
           </h1>
           <ReactMarkdown
-            components={components}
-            // eslint-disable-next-line react/no-children-prop
-            children={docBody.content}
+            components={{
+              code: CodeBlock,
+            }}
             remarkPlugins={[remarkGfm]}
-          ></ReactMarkdown>
+          >
+            {docBody.body}
+          </ReactMarkdown>
         </div>
         <Footer />
       </div>

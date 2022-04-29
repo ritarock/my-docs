@@ -1,30 +1,28 @@
 import Header from '../components/header'
-import { getSortedDocData } from '../lib/util'
+import { getSortedDocs } from '../lib/util'
 import Footer from '../components/footer'
 import { GetStaticProps } from 'next'
 import TagView from '../components/tagView'
-import TitleView from '../components/titleView'
-import { DocData } from '../interfaces'
+import { TDocMeta } from '../interfaces'
+import TitleView from '../components/titleVIew'
 
-export default function Home({ docData }: { docData: DocData }) {
+export default function Home({ docs }: { docs: TDocMeta[] }) {
   return (
     <>
       <Header />
-      <TagView
-        tags={Array.from(new Set(docData.flatMap((data) => data.tags)))}
-      />
+      <TagView tags={Array.from(new Set(docs.flatMap((data) => data.tags)))} />
       <hr />
-      <TitleView docData={docData} />
+      <TitleView docs={docs} />
       <Footer topPage={true} />
     </>
   )
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const docData = getSortedDocData()
+  const docs = getSortedDocs()
   return {
     props: {
-      docData,
+      docs,
     },
   }
 }

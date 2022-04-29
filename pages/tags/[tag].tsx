@@ -1,14 +1,14 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
-import { getSortedDocData, getTagPaths } from '../../lib/util'
+import { getSortedDocs, getTagPaths } from '../../lib/util'
 import { useRouter } from 'next/router'
 import Header from '../../components/header'
 import Footer from '../../components/footer'
-import TitleView from '../../components/titleView'
-import { DocData } from '../../interfaces'
+import { TDocMeta } from '../../interfaces'
+import TitleView from '../../components/titleVIew'
 
-export default function Tag({ docData }: { docData: DocData }) {
+export default function Tag({ docs }: { docs: TDocMeta[] }) {
   const router = useRouter()
-  const filterdDocData = docData.filter((doc) => {
+  const filteredDocs = docs.filter((doc) => {
     return doc.tags.includes(String(router.query.tag))
   })
 
@@ -16,12 +16,12 @@ export default function Tag({ docData }: { docData: DocData }) {
     <>
       <div>
         <Header />
-        <p className="mx-3">Tags:</p>
-        <div className="mx-5">
+        <p className="mx-6">Tags:</p>
+        <div className="mx-8">
           <span>{[String(router.query.tag)]}</span>
         </div>
         <hr />
-        <TitleView docData={filterdDocData} />
+        <TitleView docs={filteredDocs} />
         <Footer />
       </div>
     </>
@@ -38,11 +38,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const docData = getSortedDocData()
+  const docs = getSortedDocs()
 
   return {
     props: {
-      docData,
+      docs,
     },
   }
 }

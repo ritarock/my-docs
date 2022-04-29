@@ -1,12 +1,12 @@
 import Link from 'next/link'
-import { DocData } from '../interfaces'
+import { TDocMeta } from '../interfaces'
 
-export default function TitleView({ docData }: { docData: DocData }) {
+export default function TitleView({ docs }: { docs: TDocMeta[] }) {
   return (
     <>
-      <p className="mx-3">Docs:</p>
-      <div className="mx-5">
-        {docData.map(({ title, date, tags }) => (
+      <p className="mx-6">Docs:</p>
+      <div className="mx-8">
+        {docs.map(({ title, date, tags }) => (
           <div key={date}>
             {`${formatDate(date)}: `}
             <Link href="/docs/[id]" as={`/docs/${date}`}>

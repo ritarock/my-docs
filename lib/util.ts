@@ -1,13 +1,13 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
-import { DocData } from '../interfaces'
+import { TDocMeta } from '../interfaces'
 
 const BUILD_DOCS_DIR = path.join(process.cwd(), 'docs')
 
-export function getSortedDocData() {
+export function getSortedDocs() {
   const fileNames = fs.readdirSync(BUILD_DOCS_DIR)
-  const allData: DocData = fileNames.map((fileName) => {
+  const allData: TDocMeta[] = fileNames.map((fileName) => {
     const fullPath = path.join(BUILD_DOCS_DIR, fileName)
     const fileContents = fs.readFileSync(fullPath, 'utf8')
     const matterResult = matter(fileContents)
@@ -28,7 +28,7 @@ export function getSortedDocData() {
 }
 
 export function getTagPaths() {
-  const allData = getSortedDocData()
+  const allData = getSortedDocs()
   const tags = Array.from(new Set(allData.flatMap((data) => data.tags)))
   return tags.map((tag) => {
     return {
@@ -40,7 +40,7 @@ export function getTagPaths() {
 }
 
 export function getDocId() {
-  const allData = getSortedDocData()
+  const allData = getSortedDocs()
   const ids = Array.from(new Set(allData.flatMap((data) => data.date)))
   return ids.map((id) => {
     return {
@@ -54,13 +54,11 @@ export function getDocId() {
 export async function getDocBody(id: string) {
   const fullPath = path.join(BUILD_DOCS_DIR, `${id}.md`)
   const contents = fs.readFileSync(fullPath, 'utf8')
+  const contentObject = matter(contents)
 
-  const matterResult = matter(contents)
-  const content = matterResult.content
-  const title = matterResult.data.title
   return {
-    id,
-    title,
-    content,
+    id: id,
+    title: contentObject.data.title,
+    body: contentObject.content,
   }
 }
