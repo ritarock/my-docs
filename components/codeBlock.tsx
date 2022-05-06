@@ -80,6 +80,6 @@ const CodeBlockTitle = styled.div`
   top: 0;
   right: 0;
   background-color: #ccc;
-  padding: 0.15em;
+  padding: 0.10em;
   color: #000;
 `
