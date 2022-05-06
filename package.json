@@ -24,6 +24,7 @@
     "textlint": "textlint docs/**/*.md"
   },
   "devDependencies": {
+    "@types/node": "^17.0.31",
     "@types/react": "^17.0.24",
     "autoprefixer": "^10.4.0",
     "eslint": "<8.0.0",
