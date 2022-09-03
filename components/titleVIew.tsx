@@ -22,10 +22,10 @@ export default function TitleView({ docs }: { docs: TDocMeta[] }) {
 
 function formatDate(date: number) {
   return (
-    date.toString().substring(0,4) +
+    date.toString().substring(0, 4) +
     '-' +
-    date.toString().substring(4,6) +
+    date.toString().substring(4, 6) +
     '-' +
-    date.toString().substring(6,8)
+    date.toString().substring(6, 8)
   )
 }
