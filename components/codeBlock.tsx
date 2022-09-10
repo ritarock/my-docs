@@ -62,7 +62,7 @@ export const CodeBlock: CodeComponent = ({
     <>
       <CodeBlockWrapper>
         <CodeBlockTitle>{name}</CodeBlockTitle>
-        <SyntaxHighlighter style={monokai} language={setLang} {...props}>
+        <SyntaxHighlighter {...props} style={monokai} language={setLang}>
           {String(children).replace(/\n$/, '')}
         </SyntaxHighlighter>
       </CodeBlockWrapper>
