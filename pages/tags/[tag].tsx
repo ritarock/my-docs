@@ -3,10 +3,10 @@ import { getSortedDocs, getTagPaths } from '../../lib/util'
 import { useRouter } from 'next/router'
 import Header from '../../components/header'
 import Footer from '../../components/footer'
-import { TDocMeta } from '../../interfaces'
+import { TDoc } from '../../interfaces'
 import TitleView from '../../components/titleVIew'
 
-export default function Tag({ docs }: { docs: TDocMeta[] }) {
+export default function Tag({ docs }: { docs: TDoc[] }) {
   const router = useRouter()
   const filteredDocs = docs.filter((doc) => {
     return doc.tags.includes(String(router.query.tag))

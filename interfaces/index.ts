@@ -1,10 +1,10 @@
-export type TDocMeta = {
+export type TDoc = {
   title: string
   date: number
   tags: string[]
 }
 
-export type TDocBody = {
+export type TBody = {
   id: string
   title: string
   body: string

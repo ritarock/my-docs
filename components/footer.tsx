@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export default function Footer({ topPage }) {
+export default function Footer({ topPage }: { topPage: boolean }) {
   return topPage ? (
     <>
       <br />

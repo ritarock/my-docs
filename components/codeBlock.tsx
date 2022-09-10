@@ -17,8 +17,8 @@ export const CodeBlock: CodeComponent = ({
     )
   }
 
-  const match = className.toString().replace('language-', '')
-  const name = match
+  const matched = className!.toString().replace('language-', '')
+  const name = matched
   let lang: string
   let setLang: string
   if (name.match(/\./)) {
@@ -80,6 +80,6 @@ const CodeBlockTitle = styled.div`
   top: 0;
   right: 0;
   background-color: #ccc;
-  padding: 0.1em;
+  padding: 0.05em;
   color: #000;
 `

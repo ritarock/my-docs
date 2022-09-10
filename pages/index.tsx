@@ -3,10 +3,10 @@ import { getSortedDocs } from '../lib/util'
 import Footer from '../components/footer'
 import { GetStaticProps } from 'next'
 import TagView from '../components/tagView'
-import { TDocMeta } from '../interfaces'
+import { TDoc } from '../interfaces'
 import TitleView from '../components/titleVIew'
 
-export default function Home({ docs }: { docs: TDocMeta[] }) {
+export default function Home({ docs }: { docs: TDoc[] }) {
   return (
     <>
       <Header />

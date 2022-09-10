@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import { TDocMeta } from '../interfaces'
+import { TDoc } from '../interfaces'
 
-export default function TitleView({ docs }: { docs: TDocMeta[] }) {
+export default function TitleView({ docs }: { docs: TDoc[] }) {
   return (
     <>
       <p className="mx-6">Docs:</p>

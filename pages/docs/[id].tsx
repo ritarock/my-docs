@@ -5,16 +5,16 @@ import { getDocBody, getDocId } from '../../lib/util'
 import ReactMarkdown from 'react-markdown'
 import { CodeBlock } from '../../components/codeBlock'
 import remarkGfm from 'remark-gfm'
-import { TDocBody } from '../../interfaces'
+import { TBody } from '../../interfaces'
 
-export default function Doc({ docBody }: { docBody: TDocBody }) {
+export default function Doc({ body }: { body: TBody }) {
   return (
     <>
       <div>
         <Header />
         <div className="mx-10">
           <h1>
-            <b># {docBody.title}</b>
+            <b># {body.title}</b>
           </h1>
           <ReactMarkdown
             components={{
@@ -22,7 +22,7 @@ export default function Doc({ docBody }: { docBody: TDocBody }) {
             }}
             remarkPlugins={[remarkGfm]}
           >
-            {docBody.body}
+            {body.body}
           </ReactMarkdown>
         </div>
         <Footer />
@@ -45,11 +45,11 @@ export const getStaticProps: GetStaticProps = async ({
 }: {
   params: { id: string }
 }) => {
-  const docBody = await getDocBody(params.id)
+  const body = await getDocBody(params.id)
 
   return {
     props: {
-      docBody,
+      body,
     },
   }
 }
