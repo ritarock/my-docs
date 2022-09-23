@@ -4,7 +4,7 @@ import { TDocMetaData } from '../interfaces'
 const TitleList = ({ docs }: { docs: TDocMetaData[] }) => {
   return (
     <>
-      <p>Docs: </p>
+      <span>Docs: </span>
       <div>
         {docs.map(({ title, date, tags }) => (
           <div key={date}>

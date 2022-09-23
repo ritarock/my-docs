@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown'
 import { CodeBlock } from '../../components/codeBlock'
 import { TDocContent } from '../../interfaces'
 import Header from '../../components/header'
+import remarkGfm from 'remark-gfm'
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
@@ -32,6 +33,7 @@ export default function Doc({ contents }: { contents: TDocContent }) {
         components={{
           code: CodeBlock,
         }}
+        remarkPlugins={[remarkGfm]}
       >
         {contents.body}
       </ReactMarkdown>

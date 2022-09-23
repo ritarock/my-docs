@@ -32,8 +32,9 @@ export default function Tag({ contents }: { contents: TDocMetaData[] }) {
   return (
     <>
       <Header />
-      <p>Tag: </p>
+      <span>Tag: </span>
       <div>{tag}</div>
+      <hr />
       <TitleList docs={contents} />
     </>
   )
