@@ -9,9 +9,7 @@ const TagList = ({ tags }: { tags: string[] }) => {
         {tags.map((tag) => (
           <span key={tag}>
             <Link href={`tags/${tag}`}>
-              <LinkWrapper>
-                {tag}
-              </LinkWrapper>
+              <LinkWrapper>{tag}</LinkWrapper>
             </Link>
             <span> </span>
           </span>

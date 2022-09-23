@@ -8,11 +8,13 @@ const TitleList = ({ docs }: { docs: TDocMetaData[] }) => {
       <div>
         {docs.map(({ title, date, tags }) => (
           <div key={date}>
-            {formatDate(date)}:
+            {formatDate(date)}:<span> </span>
             <Link href="/docs/[id]" as={`/docs/${date}`}>
               <a>{title}</a>
             </Link>
-            <span> : tags: [{tags.join(', ')}]</span>
+            <span>
+              - tags: [<i> {tags.join(', ')} </i>]
+            </span>
           </div>
         ))}
       </div>

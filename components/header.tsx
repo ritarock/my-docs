@@ -10,9 +10,7 @@ const Header = () => {
           <title>MyDocs</title>
         </Head>
         <Link href="/">
-          <TopLinkWrapper>
-            MyDocs
-          </TopLinkWrapper>
+          <TopLinkWrapper>MyDocs</TopLinkWrapper>
         </Link>
       </div>
       <p></p>

@@ -28,7 +28,9 @@ export default function Doc({ contents }: { contents: TDocContent }) {
   return (
     <>
       <Header />
-      <b># {contents.title}</b>
+      <h1>
+        <b># {contents.title}</b>
+      </h1>
       <ReactMarkdown
         components={{
           code: CodeBlock,
