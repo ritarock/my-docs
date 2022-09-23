@@ -1,13 +1,13 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
-import {TDocMetaData} from '../interfaces'
+import { TDocMetaData } from '../interfaces'
 
 const BUILD_DOCS_DIR = path.join(process.cwd(), 'docs')
 
 export function getSortedDocs(): TDocMetaData[] {
   const fileNames = fs.readdirSync(BUILD_DOCS_DIR)
-  const data: TDocMetaData[] = fileNames.map(fileName => {
+  const data: TDocMetaData[] = fileNames.map((fileName) => {
     const fullPath = path.join(BUILD_DOCS_DIR, fileName)
     const f = fs.readFileSync(fullPath, 'utf8')
     const m = matter(f)
@@ -18,7 +18,7 @@ export function getSortedDocs(): TDocMetaData[] {
     }
   })
 
-  return data.sort((a,b)=> {
+  return data.sort((a, b) => {
     if (a.date < b.date) {
       return 1
     } else {
@@ -29,11 +29,11 @@ export function getSortedDocs(): TDocMetaData[] {
 
 export function getDocId() {
   const data = getSortedDocs()
-  const ids = data.flatMap(d => d.date)
+  const ids = data.flatMap((d) => d.date)
 
-  return ids.map(id => {
+  return ids.map((id) => {
     return {
-      params: { id: id.toString() }
+      params: { id: id.toString() },
     }
   })
 }
@@ -46,17 +46,17 @@ export async function getDocContents(id: string) {
   return {
     id: id,
     title: m.data.title,
-    body: m.content
+    body: m.content,
   }
 }
 
 export function getTagPaths() {
   const data = getSortedDocs()
-  const tags = data.flatMap(d=>d.tags)
+  const tags = data.flatMap((d) => d.tags)
 
-  return tags.map(tag => {
+  return tags.map((tag) => {
     return {
-      params: { tag: tag }
+      params: { tag: tag },
     }
   })
 }

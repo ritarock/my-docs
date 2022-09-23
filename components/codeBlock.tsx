@@ -1,6 +1,6 @@
-import {CodeComponent} from 'react-markdown/lib/ast-to-react'
+import { CodeComponent } from 'react-markdown/lib/ast-to-react'
 import SyntaxHighlighter from 'react-syntax-highlighter'
-import {monokai} from 'react-syntax-highlighter/dist/cjs/styles/hljs'
+import { monokai } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 import styled from 'styled-components'
 
 export const CodeBlock: CodeComponent = ({
@@ -19,8 +19,8 @@ export const CodeBlock: CodeComponent = ({
 
   const matched = className.toString().replace('language-', '')
   const name = matched
-  
-  const lang: {name: string, setLang: string} = { name: '', setLang: '' }
+
+  const lang: { name: string; setLang: string } = { name: '', setLang: '' }
 
   lang.name = name.match(/\./) ? name.split('.')[1] : name
 
