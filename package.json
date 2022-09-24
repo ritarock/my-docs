@@ -9,7 +9,8 @@
     "dev": "next dev",
     "build": "next build",
     "lint": "next lint",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "textlint": "textlint docs/**/*.md"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
@@ -28,6 +29,10 @@
     "eslint-config-next": "12.3.1",
     "eslint-config-prettier": "^8.5.0",
     "prettier": "^2.7.1",
+    "textlint": "^12.2.2",
+    "textlint-filter-rule-allowlist": "^4.0.0",
+    "textlint-rule-preset-ja-spacing": "^2.2.0",
+    "textlint-rule-preset-ja-technical-writing": "^7.0.0",
     "typescript": "4.8.3"
   }
 }
