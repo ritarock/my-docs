@@ -51,6 +51,10 @@ export const CodeBlock: CodeComponent = ({
     case 'ruby':
       lang.setLang = 'ruby'
       break
+    case 'terraform':
+    case 'tf':
+      lang.setLang = 'terraform'
+      break
     default:
       lang.setLang = 'markdown'
   }
