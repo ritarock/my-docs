@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import styled from 'styled-components'
 
 const TagList = ({ tags }: { tags: string[] }) => {
   return (
@@ -9,7 +8,7 @@ const TagList = ({ tags }: { tags: string[] }) => {
         {tags.map((tag) => (
           <span key={tag}>
             <Link href={`tags/${tag}`}>
-              <LinkWrapper>{tag}</LinkWrapper>
+              <span style={tagStyle}>{tag}</span>
             </Link>
             <span> </span>
           </span>
@@ -21,8 +20,8 @@ const TagList = ({ tags }: { tags: string[] }) => {
 
 export default TagList
 
-const LinkWrapper = styled.a`
-  color: black;
-  text-decoration: underline;
-  cursor: pointer;
-`
+const tagStyle = {
+  color: 'black',
+  textDecoration: 'underline',
+  cursor: 'pointer',
+}

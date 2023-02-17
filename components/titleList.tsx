@@ -10,7 +10,7 @@ const TitleList = ({ docs }: { docs: TDocMetaData[] }) => {
           <div key={date}>
             {formatDate(date)}:<span> </span>
             <Link href="/docs/[id]" as={`/docs/${date}`}>
-              <a>{title}</a>
+              {title}
             </Link>
             <span>
               - tags: [<i> {tags.join(', ')} </i>]

@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import styled from 'styled-components'
 
 const Header = () => {
   return (
@@ -9,8 +8,8 @@ const Header = () => {
         <Head>
           <title>MyDocs</title>
         </Head>
-        <Link href="/">
-          <TopLinkWrapper>MyDocs</TopLinkWrapper>
+        <Link href="/" style={{ textDecoration: 'none' }}>
+          <div style={headerStyle}>MyDocs</div>
         </Link>
       </div>
       <p></p>
@@ -20,8 +19,8 @@ const Header = () => {
 
 export default Header
 
-const TopLinkWrapper = styled.a`
-  color: black;
-  font-size: 22px;
-  cursor: pointer;
-`
+const headerStyle = {
+  color: 'black',
+  fontSize: '22px',
+  cursor: 'pointer',
+}
