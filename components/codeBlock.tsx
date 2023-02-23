@@ -34,6 +34,7 @@ export const CodeBlock: CodeComponent = ({
       break
     case 'ts':
     case 'typescript':
+    case 'graphqls':
       lang.setLang = 'typescript'
       break
     case 'py':
