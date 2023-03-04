@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import { TDocMetaData } from '../interfaces'
+import { DocMetaData } from '../../interfaces'
 
-const TitleList = ({ docs }: { docs: TDocMetaData[] }) => {
+const TitleList = ({ docs }: { docs: DocMetaData[] }) => {
   return (
     <>
       <span>Docs: </span>

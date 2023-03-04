@@ -1,8 +1,8 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { getTagPaths, getSortedDocs } from '../../lib/util'
-import TitleList from '../../components/titleList'
-import Header from '../../components/header'
-import { TDocMetaData } from '../../interfaces'
+import TitleList from '../../components/TitleList'
+import Header from '../../components/Header'
+import { DocMetaData } from '../../interfaces'
 
 export const getStaticPaths: GetStaticPaths = () => {
   return {
@@ -25,7 +25,7 @@ export const getStaticProps: GetStaticProps = ({
   }
 }
 
-export default function Tag({ contents }: { contents: TDocMetaData[] }) {
+export default function Tag({ contents }: { contents: DocMetaData[] }) {
   const tag = Array.from(
     new Set(contents.flatMap((content) => content.tags))
   )[0]

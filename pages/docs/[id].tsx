@@ -1,9 +1,9 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { getDocId, getDocContents } from '../../lib/util'
 import ReactMarkdown from 'react-markdown'
-import { CodeBlock } from '../../components/codeBlock'
-import { TDocContent } from '../../interfaces'
-import Header from '../../components/header'
+import { CodeBlock } from '../../components/CodeBlock'
+import { DocContent } from '../../interfaces'
+import Header from '../../components/Header'
 import remarkGfm from 'remark-gfm'
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -24,7 +24,7 @@ export const getStaticProps: GetStaticProps = async ({
   }
 }
 
-export default function Doc({ contents }: { contents: TDocContent }) {
+export default function Doc({ contents }: { contents: DocContent }) {
   return (
     <>
       <Header />

@@ -1,11 +1,11 @@
-import TitleList from '../components/titleList'
-import TagList from '../components/tagList'
-import Header from '../components/header'
+import TitleList from '../components/TitleList'
+import TagList from '../components/TagList'
+import Header from '../components/Header'
 import { GetStaticProps } from 'next'
 import { getSortedDocs } from '../lib/util'
-import { TDocMetaData } from '../interfaces'
+import { DocMetaData } from '../interfaces'
 
-function Home({ docs }: { docs: TDocMetaData[] }) {
+function Home({ docs }: { docs: DocMetaData[] }) {
   return (
     <>
       <Header />
