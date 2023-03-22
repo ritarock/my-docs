@@ -1,13 +1,13 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
-import { TDocMetaData } from '../interfaces'
+import { DocMetaData } from '../interfaces'
 
 const BUILD_DOCS_DIR = path.join(process.cwd(), 'docs')
 
-export function getSortedDocs(): TDocMetaData[] {
+export function getSortedDocs(): DocMetaData[] {
   const fileNames = fs.readdirSync(BUILD_DOCS_DIR)
-  const data: TDocMetaData[] = fileNames.map((fileName) => {
+  const data: DocMetaData[] = fileNames.map((fileName) => {
     const fullPath = path.join(BUILD_DOCS_DIR, fileName)
     const f = fs.readFileSync(fullPath, 'utf8')
     const m = matter(f)
