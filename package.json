@@ -14,25 +14,25 @@
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
-    "next": "^13.3.2",
+    "next": "^13.4.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-markdown": "^8.0.7",
     "react-syntax-highlighter": "^15.5.0",
     "remark-gfm": "^3.0.1",
-    "styled-components": "^5.3.10"
+    "styled-components": "^6.0.0-rc.3"
   },
   "devDependencies": {
-    "@types/node": "18.16.3",
-    "@types/react": "18.2.0",
-    "eslint": "8.39.0",
-    "eslint-config-next": "13.3.2",
+    "@types/node": "20.2.6",
+    "@types/react": "18.2.10",
+    "eslint": "8.42.0",
+    "eslint-config-next": "13.4.4",
     "eslint-config-prettier": "^8.8.0",
     "prettier": "^2.8.8",
     "textlint": "^13.3.2",
     "textlint-filter-rule-allowlist": "^4.0.0",
     "textlint-rule-preset-ja-spacing": "^2.3.0",
     "textlint-rule-preset-ja-technical-writing": "^7.0.0",
-    "typescript": "5.0.4"
+    "typescript": "5.1.3"
   }
 }
