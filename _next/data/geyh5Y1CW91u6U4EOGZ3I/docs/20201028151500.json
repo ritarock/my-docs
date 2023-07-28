@@ -1,0 +1,1 @@
+{"pageProps":{"contents":{"id":"20201028151500","title":"watch コマンド","body":"\n```bash\n$ watch -n 1 'date'\n```\n\n1 秒間隔で `date` コマンドを繰り返す。\n"}},"__N_SSG":true}

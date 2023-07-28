@@ -1,0 +1,1 @@
+{"pageProps":{"contents":{"id":"20200528074933","title":"yes コマンド","body":"\nサーバーへの負荷をかけたりするときに使える。\n\n## CPU に負荷をかける\n```bash\n$ yes > /dev/null\n```\n\n## メモリに負荷をかける\n```bash\n$ /dev/null < $(yes)\n```\n"}},"__N_SSG":true}

@@ -1,0 +1,1 @@
+{"pageProps":{"contents":{"id":"20201021202100","title":"Git でローカルブランチ名変える","body":"\n```bash\n$ git branch -m <古いブランチ名> <新しいブランチ名>\n```\n"}},"__N_SSG":true}

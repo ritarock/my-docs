@@ -1,0 +1,1 @@
+{"pageProps":{"contents":{"id":"20210319200255","title":"ベースイメージの種類","body":"\nざっくりこんな感じ。\n\n|名前|内容|\n|-|-|\nbuster|Debian 10 で色々入り\nbuster-slim|Debian 10 の実行環境のみ\nstretch|Debian 9 で色々入り\nbuster|Debian 9 で実行環境のみ\nalpine|かなり小さいイメージ\n"}},"__N_SSG":true}
