@@ -1,1 +1,0 @@
-{"pageProps":{"contents":{"id":"20191129184700","title":"try メソッド の使い方","body":"\n## 使い方\n```ruby\nObject.try(method)\n```\n\n## 例\nどちらも同じ意味。\n```ruby\n@person.try(:name)\n@person.name if @person\n```\n"}},"__N_SSG":true}

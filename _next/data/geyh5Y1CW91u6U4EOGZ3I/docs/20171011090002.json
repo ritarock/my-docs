@@ -1,1 +1,0 @@
-{"pageProps":{"contents":{"id":"20171011090002","title":"Python で YYYY-MM-DD 形式で日付を扱う","body":"\n```python\nimport datetime\n\ntoday = datetime.date.today()\ntoday.isoformat()\n```\n"}},"__N_SSG":true}

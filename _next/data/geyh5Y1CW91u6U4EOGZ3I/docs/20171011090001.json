@@ -1,1 +1,0 @@
-{"pageProps":{"contents":{"id":"20171011090001","title":"Python で取得したテキストの行数を取得する","body":"\n```python\nnum_lines = sum(1 for line in open(text))\n```\n"}},"__N_SSG":true}
