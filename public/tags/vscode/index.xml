@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>vscode on MyDocs</title>
+    <link>https://example.org/tags/vscode/</link>
+    <description>Recent content in vscode on MyDocs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 19 Feb 2021 17:49:04 +0900</lastBuildDate>
+    <atom:link href="https://example.org/tags/vscode/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Vim の操作</title>
+      <link>https://example.org/posts/20210219174904/</link>
+      <pubDate>Fri, 19 Feb 2021 17:49:04 +0900</pubDate>
+      <guid>https://example.org/posts/20210219174904/</guid>
+      <description>vim のプラグインは無しで、 VSCode の vim 拡張でできることに絞った。&#xA;モードについて ノーマルモード ビジュアルモード インサートモード コマンドラインモード ノーマルモード 移動 コマンド 動作 k 上に移動 j 下に移動 h 左に移動 l 右に移動 w 次の単語の先頭に移動 b 前の単語の戦闘に移動 e 単語の末尾に移動 ge 前の単語の末尾に移動 f{char} 次の {char} まで移動 &amp;lt;shift&amp;gt;f{char} 前の {char} まで移動 ; 次の {char} まで移動 , 前の {char} まで移動 0 行頭へ移動 $ 行末へ移動 &amp;lt;shift&amp;gt;f ページ送り &amp;lt;shift&amp;gt;b ページ戻し zz カーソルの行を中央にする % 体操する文字 ( 括弧 ) へ移動 gg ファイル先頭へ移動 &amp;lt;shift&amp;gt;g ファイル末尾へ移動 {count}&amp;lt;shift&amp;gt;g { count } 行目に移動 削除 コマンド 動作 x 文字を削除 dd カーソルのある行をすべて削除 &amp;lt;shift&amp;gt;d カーソルの位置から行の末尾までを削除 db カーソルの位置から単語の先頭まで削除 de カーソルの位置から単語の末尾まで削除 daw カーソルの位置の単語をスペース含めて削除 diw カーソルの位置の単語をスペース含めず削除 ヤンク/プット コマンド 動作 yy 行をコピー yiw カーソルの単語をコピー p ヤンクしているものをペースト 検索 コマンド 動作 /{word} {word} を検索 ( ハイライトにする ) n 次の {word} へ移動 N 前の {word} へ移動 * カーソルの下の単語をハイライト ビジュアルモード コマンド 動作 v ビジュアルモードを有効にする &amp;lt;shift&amp;gt;v 行指向でビジュアルモードを有効にする gv 前回のビジュアルモードを再度有効にする o ( ビジュアルモードで ) 端点に移動 &amp;lt;shift&amp;gt;v 矩形選択 u ( ビジュアルモードで ) 文字を小文字に変換する &amp;lt;shift&amp;gt;u ( ビジュアルモードで ) 文字を大文字に変換する インサートモード コマンド 動作 o 下の行に改行を入れてからインサートモードを有効にする &amp;lt;shift&amp;gt;o 上の行に改行を入れてからインサートモードを有効にする ci&#39; 「&amp;rsquo;」で囲まれた文字を削除してからインサートモードを有効にする ci&amp;quot; 「&amp;quot;」で囲まれた文字を削除してからインサートモードを有効にする ca&#39; 「&amp;rsquo;」を含む囲まれた文字を削除してからインサートモードを有効にする ca&amp;quot; 「&amp;quot;」を含む囲まれた文字を削除してからインサートモードを有効にする &amp;lt;shift&amp;gt;i 行頭へ移動してからインサートモードを有効にする &amp;lt;shift&amp;gt;a 行末へ移動してからインサートモードを有効にする s カーソルの位置の文字を削除してからインサートモードを有効にする r{char} カーソルの位置の単語を{char}に置換する &amp;lt;ctrl&amp;gt;o ノーマルモードのコマンドを実行する &amp;lt;shift&amp;gt;j ( ノーマルモードで ) 下の行を現在の行の末尾に結合する コマンドラインモード コマンド 動作 :w 保存 :q ファイルを閉じる :tabnew タブを開く gt or gT タブを移動 :sp 画面を横に分割 :vsp 画面を縦に分割 &amp;lt;ctrl&amp;gt;w{h,j,k,l} ウィンドウを移動 :noh ハイライトを解除 :sort ( ビジュアルモードで ) ソートする 繰り返し コマンド 動作 .</description>
+    </item>
+  </channel>
+</rss>

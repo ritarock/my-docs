@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>Vagrant &#43; Ubuntu 16.04 LTS で Django 開発環境を構築</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<header>
+	============<br>
+	== <a href="https://example.org/">MyDocs</a> ==<br>
+	============
+	<div style="float: right;"></div><br>
+	<p>
+	<nav>
+			
+			
+			<a href="/tags/"><b>Tags</b></a>
+			
+	</nav>
+	</p>
+	
+</header>
+
+	
+	<main>
+		<article>
+			<h1>Vagrant &#43; Ubuntu 16.04 LTS で Django 開発環境を構築</h1>
+			<b><time>2017-10-11 09:00:04</time></b>
+		       
+		           <a href="/tags/setup">setup</a>
+        	       
+		           <a href="/tags/vagrant">vagrant</a>
+        	       
+		           <a href="/tags/django">django</a>
+        	       
+
+			<div>
+				<h2 id="vagrant-で-ubuntu-1604-lts-の準備">vagrant で Ubuntu 16.04 LTS の準備</h2>
+<p>Ubuntu 16.04 LTS の box を使用する。</p>
+<p>Vagrantfile の作成。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ vagrant init ubuntu/xenial64
+</span></span></code></pre></div><p>作成した Vagrantfile のポートを設定。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ vim Vagrantfile
+</span></span></code></pre></div><p>下記の部分を変更。</p>
+<pre tabindex="0"><code class="language-vagrantfile" data-lang="vagrantfile">config.vm.network &#34;forwarded_port&#34;, guest: 8000, host: 8000
+</code></pre><p>起動。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ vagrant init ubuntu/xenial64
+</span></span></code></pre></div><p>接続。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ vagrant ssh
+</span></span></code></pre></div><h2 id="django-のインストール">Django のインストール</h2>
+<p>pip のインストール。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ wget https://bootstrap.pypa.io/get-pip.py
+</span></span><span style="display:flex;"><span>$ sudo python3 get-pip.py
+</span></span><span style="display:flex;"><span>$ sudo pip install Django
+</span></span></code></pre></div><p>Ubuntu 16.04 LTS にはデフォルトで Python3.5.2 が入っている。</p>
+<p>バージョンの確認。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$python3 -m django --version
+</span></span><span style="display:flex;"><span>1.11.5
+</span></span></code></pre></div><h2 id="django-を使ってみる">Django を使ってみる</h2>
+<p>プロジェクトの作成。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ django-admin startproject mysite
+</span></span></code></pre></div><p>作られたプロジェクトを見てみる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ tree
+</span></span><span style="display:flex;"><span>.
+</span></span><span style="display:flex;"><span>├── get-pip.py
+</span></span><span style="display:flex;"><span>└── mysite
+</span></span><span style="display:flex;"><span>    ├── db.sqlite3
+</span></span><span style="display:flex;"><span>    ├── manage.py
+</span></span><span style="display:flex;"><span>    └── mysite
+</span></span><span style="display:flex;"><span>        ├── __init__.py
+</span></span><span style="display:flex;"><span>        ├── __pycache__
+</span></span><span style="display:flex;"><span>        │   ├── __init__.cpython-35.pyc
+</span></span><span style="display:flex;"><span>        │   ├── settings.cpython-35.pyc
+</span></span><span style="display:flex;"><span>        │   ├── urls.cpython-35.pyc
+</span></span><span style="display:flex;"><span>        │   └── wsgi.cpython-35.pyc
+</span></span><span style="display:flex;"><span>        ├── settings.py
+</span></span><span style="display:flex;"><span>        ├── urls.py
+</span></span><span style="display:flex;"><span>        └── wsgi.py
+</span></span></code></pre></div><p>作成したプロジェクトのディレクトリに移動。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ cd mysite
+</span></span></code></pre></div><p>Django を動かす。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ python3 manage.py runserver 0.0.0.0:8000
+</span></span></code></pre></div>
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h3>LATEST POSTS</h3>
+		</div>
+		<div>
+			<ul>
+				
+				<li><a href="/posts/20231216175817/">ブログを next.js 辞めて hugo にした</a></li>
+				
+				<li><a href="/posts/20230322173450/">Slack のスラッシュコマンドを Lambda で受け取る</a></li>
+				
+				<li><a href="/posts/20230223173604/">gqlgen を触る</a></li>
+				
+				<li><a href="/posts/20230210174709/">aws-sdk-go-v2 で profile を使う</a></li>
+				
+				<li><a href="/posts/20230204160502/">github action で日付を扱う</a></li>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+	<p>&copy; 2023 <a href="https://example.org/"><b>MyDocs</b></a>.
+	</p>
+</footer>
+
+</body>
+</html>

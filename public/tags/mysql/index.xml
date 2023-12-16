@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>mysql on MyDocs</title>
+    <link>https://example.org/tags/mysql/</link>
+    <description>Recent content in mysql on MyDocs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 03 Nov 2019 01:57:28 +0900</lastBuildDate>
+    <atom:link href="https://example.org/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>docker から MySQL を使う</title>
+      <link>https://example.org/posts/20191103015728/</link>
+      <pubDate>Sun, 03 Nov 2019 01:57:28 +0900</pubDate>
+      <guid>https://example.org/posts/20191103015728/</guid>
+      <description>$ docker run --name mysql -e MYSQL_ROOT_PASSWORD=mysql -d -p 3306:3306 mysql $ docker exec -it コンテナ名 bash # mysql -u root </description>
+    </item>
+    <item>
+      <title>データベース操作</title>
+      <link>https://example.org/posts/20191103015727/</link>
+      <pubDate>Sun, 03 Nov 2019 01:57:27 +0900</pubDate>
+      <guid>https://example.org/posts/20191103015727/</guid>
+      <description>データベースの作成 CREATE DATABASE database_name; データベースの削除 DROP DATABASE database_name; テーブルの作成 CREATE TABLE table_name (col_name type, ...); 主キー CREATE TABLE table_name (col_name type, ..., PRIMARY KEY (col_name)); PRIMARY KEY の重複と NULL は NG 複数の列を指定できる (複合主キー) PRIMARY KEY (列名 1, 列名 2 ) 外部キー CREATE TABLE table_name ( col_name type, ..., FOREIGN KEY (col_name) REFERENCES parent_table_name(col_name) ); 子テーブルの外部キーの値は親テーブルに存在しないといけない 参照される値 (親テーブル) の UPDATE / DELETE は NG 親テーブルの UPDATE / DELETE 時の設定 CREATE TABLE table_name ( col_name type, .</description>
+    </item>
+  </channel>
+</rss>

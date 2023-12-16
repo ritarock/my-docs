@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>Ansible で MacBook を管理</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<header>
+	============<br>
+	== <a href="https://example.org/">MyDocs</a> ==<br>
+	============
+	<div style="float: right;"></div><br>
+	<p>
+	<nav>
+			
+			
+			<a href="/tags/"><b>Tags</b></a>
+			
+	</nav>
+	</p>
+	
+</header>
+
+	
+	<main>
+		<article>
+			<h1>Ansible で MacBook を管理</h1>
+			<b><time>2018-04-09 09:00:00</time></b>
+		       
+		           <a href="/tags/ansible">ansible</a>
+        	       
+		           <a href="/tags/mac">mac</a>
+        	       
+
+			<div>
+				<p>MacBook の環境を管理する。</p>
+<h2 id="環境">環境</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># brew と brew cask は導入済み</span>
+</span></span><span style="display:flex;"><span>$ brew install ansible
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ ansible --version
+</span></span><span style="display:flex;"><span>ansible 2.5.0
+</span></span></code></pre></div><p>今回用意した 2 つのファイル。</p>
+<ul>
+<li>hosts</li>
+</ul>
+<pre tabindex="0"><code class="language-hosts" data-lang="hosts">localhost
+</code></pre><ul>
+<li>localhost.yml</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">hosts</span>: <span style="color:#ae81ff">localhost</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">connection</span>: <span style="color:#ae81ff">local</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">gather_facts</span>: <span style="color:#66d9ef">no</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">become</span>: <span style="color:#66d9ef">no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">vars</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">homebrew_packages</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">fish</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">git</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">node</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">pyenv</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">python</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">tree</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">vim</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">homebrew_cask_packages</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">atom</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">docker</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">dropbox</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">evernote</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">google-chrome</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">google-drive</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">iTerm2</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">slack</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">vagrant</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">virtualbox</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">tasks</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">update homebrew</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">homebrew</span>: <span style="color:#ae81ff">update_homebrew=yes</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># brew</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">install homebrew_packages</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">homebrew</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#ae81ff">name={{ item.name }}</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">with_items</span>: <span style="color:#e6db74">&#39;{{ homebrew_packages }}&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># homebrew_cask</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">install homebrew_cask_packages</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">homebrew_cask</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#ae81ff">name={{ item.name }}</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">with_items</span>: <span style="color:#e6db74">&#39;{{ homebrew_cask_packages }}&#39;</span>
+</span></span></code></pre></div><p>実行。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ansible-playbook -i hosts localhostsyml
+</span></span></code></pre></div><p><a href="https://github.com/ritarock/dotfiles/tree/master/macbook-provisioning">ソースコード</a></p>
+
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h3>LATEST POSTS</h3>
+		</div>
+		<div>
+			<ul>
+				
+				<li><a href="/posts/20231216175817/">ブログを next.js 辞めて hugo にした</a></li>
+				
+				<li><a href="/posts/20230322173450/">Slack のスラッシュコマンドを Lambda で受け取る</a></li>
+				
+				<li><a href="/posts/20230223173604/">gqlgen を触る</a></li>
+				
+				<li><a href="/posts/20230210174709/">aws-sdk-go-v2 で profile を使う</a></li>
+				
+				<li><a href="/posts/20230204160502/">github action で日付を扱う</a></li>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+	<p>&copy; 2023 <a href="https://example.org/"><b>MyDocs</b></a>.
+	</p>
+</footer>
+
+</body>
+</html>

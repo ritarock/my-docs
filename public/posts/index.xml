@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on MyDocs</title>
+    <link>https://example.org/posts/</link>
+    <description>Recent content in Posts on MyDocs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 16 Dec 2023 17:58:17 +0900</lastBuildDate>
+    <atom:link href="https://example.org/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ブログを next.js 辞めて hugo にした</title>
+      <link>https://example.org/posts/20231216175817/</link>
+      <pubDate>Sat, 16 Dec 2023 17:58:17 +0900</pubDate>
+      <guid>https://example.org/posts/20231216175817/</guid>
+      <description>理由は、next.js 13 =&amp;gt; 14 のバージョンアップが面倒くさかったから。&#xA;また、勉強して気が向いたら next.js に戻すかもしれない。&#xA;next.js 時代の最後のコミットだけ残しておこう。&#xA;https://github.com/ritarock/my-docs/commit/f063965f79b6f5a5c02f999bfdc078a15e62005a</description>
+    </item>
+    <item>
+      <title>Slack のスラッシュコマンドを Lambda で受け取る</title>
+      <link>https://example.org/posts/20230322173450/</link>
+      <pubDate>Wed, 22 Mar 2023 17:34:50 +0900</pubDate>
+      <guid>https://example.org/posts/20230322173450/</guid>
+      <description>構成は、slack =&amp;gt; API Gateway =&amp;gt; Lambda。&#xA;event を Decode する必要がある。&#xA;func Handler(event events.APIGatewayProxyRequest) (Response, error) { if err := ensureDecode(&amp;amp;event); err != nil { panic(err) } fmt.Println(event.Body) } func ensureDecode(event *events.APIGatewayProxyRequest) error { if event.IsBase64Encoded { body, err := base64.StdEncoding.DecodeString(event.Body) if err != nil { return err } event.Body = string(body) event.IsBase64Encoded = false } return nil } </description>
+    </item>
+    <item>
+      <title>gqlgen を触る</title>
+      <link>https://example.org/posts/20230223173604/</link>
+      <pubDate>Thu, 23 Feb 2023 17:36:04 +0900</pubDate>
+      <guid>https://example.org/posts/20230223173604/</guid>
+      <description>database の準備 $ go run -mod=mod entgo.io/ent/cmd/ent new Todo schema の設定。&#xA;// Fields of the Todo. func (Todo) Fields() []ent.Field { return []ent.Field{ field.String(&amp;#34;title&amp;#34;), field.String(&amp;#34;note&amp;#34;), field.Bool(&amp;#34;completed&amp;#34;).Default(false), field.Time(&amp;#34;created_at&amp;#34;).Default(time.Now()), field.Time(&amp;#34;updated_at&amp;#34;).Default(time.Now()), } } $ go generate ./ent gqlgen $ printf &amp;#39;// +build tools\npackage tools\nimport (_ &amp;#34;github.com/99designs/gqlgen&amp;#34;\n _ &amp;#34;github.com/99designs/gqlgen/graphql/introspection&amp;#34;)&amp;#39; | gofmt &amp;gt; tools.go $ go mod tidy $ go run github.com/99designs/gqlgen init graph/ に生成されたファイル。&#xA;tree graph/ graph/ ├── generated.go # 自動生成 ├── model │ └── models_gen.</description>
+    </item>
+    <item>
+      <title>aws-sdk-go-v2 で profile を使う</title>
+      <link>https://example.org/posts/20230210174709/</link>
+      <pubDate>Fri, 10 Feb 2023 17:47:09 +0900</pubDate>
+      <guid>https://example.org/posts/20230210174709/</guid>
+      <description>profile を指定している場合は profile を使うが、指定していない場合は IAM ロールを使う。&#xA;func session(ctx context.Context, profile string) (aws.Config, error) { configOptions := []func(*config.LoadOptions) error{ config.WithRegion(&amp;#34;ap-northeast-1&amp;#34;), } if profile != &amp;#34;&amp;#34; { configOptions = append(configOptions, config.WithSharedConfigProfile(aws.ToString(&amp;amp;profile))) } cfg, err := config.LoadDefaultConfig(ctx, configOptions...) if err != nil { return aws.Config{}, err } return cfg, nil } このコード が参考になった。</description>
+    </item>
+    <item>
+      <title>github action で日付を扱う</title>
+      <link>https://example.org/posts/20230204160502/</link>
+      <pubDate>Sat, 04 Feb 2023 16:05:02 +0900</pubDate>
+      <guid>https://example.org/posts/20230204160502/</guid>
+      <description>name: test on: [workflow_dispatch] jobs: echo-date: runs-on: ubuntu-latest steps: - uses: actions/checkout@v3 - name: set date env: &amp;#34;Asia/Tokyo&amp;#34; run: | echo &amp;#34;CURRENT_DATETIME=$(date +&amp;#39;%Y-%m-%d&amp;#39;)&amp;#34; &amp;gt;&amp;gt; $GITHUB_ENV - name: get date run: | echo ${{ env.CURRENT_DATETIME }} run の中で環境変数の CURRENT_DATETIME に設定することで、以降は ${{ env.CURRENT_DATETIME }} で使うことができる。</description>
+    </item>
+    <item>
+      <title>rds のパラメータグループを for 文でまとめてかく</title>
+      <link>https://example.org/posts/20221211174737/</link>
+      <pubDate>Sun, 11 Dec 2022 17:47:37 +0900</pubDate>
+      <guid>https://example.org/posts/20221211174737/</guid>
+      <description>モジュール側で map の配列を受け取るようにする。&#xA;variable &amp;#34;parameters&amp;#34; { type = list(map(string)) } resource &amp;#34;aws_rds_cluster_parameter_group&amp;#34; &amp;#34;template&amp;#34; { family = &amp;#34;aurora-mysql5.7&amp;#34; name = var.name dynamic &amp;#34;parameter&amp;#34; { for_each = var.parameters content { apply_method = parameter.value[&amp;#34;apply_method&amp;#34;] name = parameter.value[&amp;#34;name&amp;#34;] value = parameter.value[&amp;#34;value&amp;#34;] } } } 呼び出し側で parameters の配列に必要なパラメータを map で書いてあげればよい。&#xA;module &amp;#34;parameter_group&amp;#34; { source = &amp;#34;../../modules/aws_rds_cluster_parameter_group&amp;#34; name = &amp;#34;sample-parameter-group&amp;#34; parameters = [ { apply_method : &amp;#34;immediate&amp;#34;, name : &amp;#34;character_set_server&amp;#34;, value : &amp;#34;utf8mb4&amp;#34; }, { apply_method : &amp;#34;pending-reboot&amp;#34;, name : &amp;#34;binlog_format&amp;#34;, value : &amp;#34;MIXED&amp;#34; }, ] } plan 結果。</description>
+    </item>
+    <item>
+      <title>cobra-cli を使う</title>
+      <link>https://example.org/posts/20220522180736/</link>
+      <pubDate>Sun, 22 May 2022 18:07:36 +0900</pubDate>
+      <guid>https://example.org/posts/20220522180736/</guid>
+      <description>cobra-cli を使う go.mod を作成 $ go mod init sample go: creating new go.mod: module sample project の開始 init コマンドを実行。&#xA;$ go run -mod=mod github.com/spf13/cobra-cli@latest init $ tree tree . ├── LICENSE ├── cmd │ └── root.go ├── go.mod ├── go.sum └── main.go main.go は cmd.Execute() を呼び出しているだけ。&#xA;/* Copyright © 2022 NAME HERE &amp;lt;EMAIL ADDRESS&amp;gt; */ package main import &amp;#34;sample/cmd&amp;#34; func main() { cmd.Execute() } cmd/root.go を編集。実行したら Hello を出力する。&#xA;/* Copyright © 2022 NAME HERE &amp;lt;EMAIL ADDRESS&amp;gt; */ package cmd import ( &amp;#34;fmt&amp;#34; &amp;#34;os&amp;#34; &amp;#34;github.</description>
+    </item>
+    <item>
+      <title>echo で middleware を実装する</title>
+      <link>https://example.org/posts/20220129163904/</link>
+      <pubDate>Sat, 29 Jan 2022 16:39:04 +0900</pubDate>
+      <guid>https://example.org/posts/20220129163904/</guid>
+      <description>公式ドキュメントを参考に今回はアクセスの回数をログに出力する middleware を実装する。&#xA;middleware は echo.HandlerFunc を返す関数を作れば良さそう。&#xA;package main import ( &amp;#34;fmt&amp;#34; &amp;#34;sync&amp;#34; &amp;#34;github.com/labstack/echo/v4&amp;#34; ) type Counter struct { mutex sync.Mutex value int } var counter = new(Counter) func accessCounter(next echo.HandlerFunc) echo.HandlerFunc { return func(c echo.Context) error { counter.mutex.Lock() counter.value++ counter.mutex.Unlock() fmt.Println(counter.value) return next(c) } } func main() { e := echo.New() e.Use(accessCounter) e.Start(&amp;#34;:8080&amp;#34;) } </description>
+    </item>
+    <item>
+      <title>ent と echo で API 作る</title>
+      <link>https://example.org/posts/20220108155408/</link>
+      <pubDate>Sat, 08 Jan 2022 15:54:08 +0900</pubDate>
+      <guid>https://example.org/posts/20220108155408/</guid>
+      <description>ent インストール ent と DB の client をインストールする。&#xA;$ go get -d entgo.io/ent/cmd/ent $ go get github.com/mattn/go-sqlite3 スキーマの作成 $ go run entgo.io/ent/cmd/ent init Todo ent/schema/todo.go を編集する。&#xA;// Fields of the Todo. func (Todo) Fields() []ent.Field { return []ent.Field{ field.String(&amp;#34;name&amp;#34;). Default(&amp;#34;&amp;#34;), field.Bool(&amp;#34;status&amp;#34;). Default(false), field.Time(&amp;#34;created_at&amp;#34;). Default(func() time.Time { return time.Now() }), } } コード生成 shema ファイルを元にコードを生成するので編集後は実行する必要がある。&#xA;$ go generate ./ent マイグレーション部分を実装 func main() { client, err := ent.Open(&amp;#34;sqlite3&amp;#34;, &amp;#34;file:todo.sqlite?cache=shared&amp;amp;_fk=1&amp;#34;) if err != nil { log.</description>
+    </item>
+    <item>
+      <title>TypeScript の Utility Types</title>
+      <link>https://example.org/posts/20220105212211/</link>
+      <pubDate>Wed, 05 Jan 2022 21:22:11 +0900</pubDate>
+      <guid>https://example.org/posts/20220105212211/</guid>
+      <description>Partial Partial&amp;lt;Type&amp;gt; で指定した型に一時的に切り替えることができる。値を返すときはキャストする必要がある。&#xA;interface Todo { title: string; desc: string; date: Date; } function createTodo( title: string, desc: string, date: Date, ): Todo { // let todo: Todo = {} // ここでのエラーを防ぐ let todo: Partial&amp;lt;Todo&amp;gt; = {}; todo.title = title; todo.desc = desc; todo.date = date; return todo as Todo; } Required パラメータが欠損したらエラー。&#xA;interface Todo { title: string; desc: string; date: Date; } function createTodo( title: string, desc: string, date: Date, ): Todo { const todo: Required&amp;lt;Todo&amp;gt; = { title: title, desc: desc, date: date, }; return todo; } Readonly 初期化したあとにパラメータを変更できないようにする。</description>
+    </item>
+    <item>
+      <title>k6 テスト結果の読み方</title>
+      <link>https://example.org/posts/20211227140318/</link>
+      <pubDate>Mon, 27 Dec 2021 14:03:18 +0900</pubDate>
+      <guid>https://example.org/posts/20211227140318/</guid>
+      <description>docker で実行した。&#xA;$ docker run -i loadimpact/k6 run - &amp;lt;script.js /\ |‾‾| /‾‾/ /‾‾/ /\ / \ | |/ / / / / \/ \ | ( / ‾‾\ / \ | |\ \ | (‾) | / __________ \ |__| \__\ \_____/ .io execution: local script: - output: - scenarios: (100.00%) 1 scenario, 20 max VUs, 2m50s max duration (incl. graceful stop): * default: Up to 20 looping VUs for 2m20s over 3 stages (gracefulRampDown: 30s, gracefulStop: 30s) running (0m01.</description>
+    </item>
+    <item>
+      <title>TypeScript 勉強する</title>
+      <link>https://example.org/posts/20211218151125/</link>
+      <pubDate>Sat, 18 Dec 2021 15:11:25 +0900</pubDate>
+      <guid>https://example.org/posts/20211218151125/</guid>
+      <description>型いろいろ discriminated unions 意味のある共通のプロパティをもたせて判別に使う。&#xA;interface Bird { flySpped: number; type: &amp;#34;bird&amp;#34;; } interface Horse { runSpeed: number; type: &amp;#34;horse&amp;#34;; } type Animal = Bird | Horse; function animalSpeed(animal: Animal) { switch (animal.type) { case &amp;#34;bird&amp;#34;: console.log(animal.flySpped); break; case &amp;#34;horse&amp;#34;: console.log(animal.runSpeed); } } 型キャスト 文字列を数値に変換する場合、 + を変数の前につけるだけでよい。&#xA;const a = &amp;#34;1&amp;#34;; const b = &amp;#34;2&amp;#34;; const result = +a + +b; console.log(result); // 3 前に &amp;lt;&amp;gt; で型を書くか、後ろに as を付けて型キャストできる。 祖運剤が確定している場合は ! を付けてエラーを回避できる。</description>
+    </item>
+    <item>
+      <title>sql-migrate を試す</title>
+      <link>https://example.org/posts/20211120165745/</link>
+      <pubDate>Sat, 20 Nov 2021 16:57:45 +0900</pubDate>
+      <guid>https://example.org/posts/20211120165745/</guid>
+      <description>https://github.com/rubenv/sql-migrate を試してみた。&#xA;docker で試す 通常のアプリを起動する docker-compose.yml とは別に docker-compose.migration.yml を用意した。&#xA;version: &amp;#39;3&amp;#39; services: db: build: context: ./docker/database restart: always environment: MYSQL_DATABASE: app MYSQL_USER: user MYSQL_PASSWORD: pass MYSQL_ROOT_PASSWORD: pass ports: - 3306:3306 volumes: - ./docker/database/mysql:/var/lib/mysql migration: build: context: ./docker/migration volumes: - ./migrations:/work depends_on: - db migration 用の Dockerfile はこんな感じ。&#xA;FROM golang:1.17.3 WORKDIR /work RUN go get -v github.com/rubenv/sql-migrate/... migration コンテナにマウントしてる ./migrations にはマイグレーション用の SQL と dbconfig.yml を置いている。&#xA;dbconfig.yml では接続する DB の設定を書いておく。&#xA;development: dialect: mysql datasource: user:pass@tcp(db:3306)/app?</description>
+    </item>
+    <item>
+      <title>Go のテストを勉強する</title>
+      <link>https://example.org/posts/20211112233257/</link>
+      <pubDate>Fri, 12 Nov 2021 23:32:57 +0900</pubDate>
+      <guid>https://example.org/posts/20211112233257/</guid>
+      <description>今まで VSCode の Generate Unit Tests For Function で作成してなんとなくで書いてたけどちゃんと勉強した。&#xA;https://github.com/andmorefine/learn-go-with-tests を使って勉強した。日本語訳が微妙だったので英語版がよかった。&#xA;以下メモ。&#xA;t.Helper() を使えば失敗した行が関数呼び出し側になる Benchmark 実行には go test -bench=. を実行する カバレッジを確認するには go test -cover を実行する スライスの test は reflect.DeepEqual を使って変数を比較する。 ただ reflect.DeepEqual は型安全ではないので注意 マップは nil に書き込もうとするとランタイムパニックになるので初期化に気をつける NG: var m map[string]string OK: var dictonary = map[string]string{} もしくは var dictonary = make(map[string]string) 標準ライブラリに net/http/httptest があってこれで模擬 HTTP サーバを作れる &amp;lsquo;入力 X のとき出力 Y を期待する&amp;rsquo; というテストを作るときはテーブルベースのテストを使う </description>
+    </item>
+    <item>
+      <title>echo を触ってみる</title>
+      <link>https://example.org/posts/20211106130548/</link>
+      <pubDate>Sat, 06 Nov 2021 13:05:48 +0900</pubDate>
+      <guid>https://example.org/posts/20211106130548/</guid>
+      <description>最小構成。&#xA;$ go get github.com/labstack/echo/v4 package main import ( &amp;#34;net/http&amp;#34; &amp;#34;github.com/labstack/echo/v4&amp;#34; ) func main() { e := echo.New() e.GET(&amp;#34;/&amp;#34;, func(c echo.Context) error { return c.String(http.StatusOK, &amp;#34;Hello World!&amp;#34;) }) e.Logger.Fatal(e.Start(&amp;#34;:8080&amp;#34;)) } path parameters http://localhost:8080/users/1&#xA;1 が返ってくる。&#xA;package main import ( &amp;#34;net/http&amp;#34; &amp;#34;github.com/labstack/echo/v4&amp;#34; ) func main() { e := echo.New() e.GET(&amp;#34;/users/:id&amp;#34;, getUser) e.Logger.Fatal(e.Start(&amp;#34;:8080&amp;#34;)) } func getUser(c echo.Context) error { id := c.Param(&amp;#34;id&amp;#34;) return c.String(http.StatusOK, id) } query parameters http://localhost:8080/show?team=x-men&amp;amp;member=wolverine&#xA;team: x-men, member: wolverine が返ってくる。</description>
+    </item>
+    <item>
+      <title>textlint の設定を見直した</title>
+      <link>https://example.org/posts/20211105225321/</link>
+      <pubDate>Fri, 05 Nov 2021 22:53:21 +0900</pubDate>
+      <guid>https://example.org/posts/20211105225321/</guid>
+      <description>最終的な .textlintrc は以下の通り。&#xA;{ &amp;#34;filters&amp;#34;: { &amp;#34;allowlist&amp;#34;: { &amp;#34;allow&amp;#34;: [ &amp;#34;\&amp;#34;{ register } で指定.&amp;#34; ] } }, &amp;#34;rules&amp;#34;: { &amp;#34;textlint-rule-preset-ja-spacing&amp;#34;: { &amp;#34;ja-space-between-half-and-full-width&amp;#34;: { &amp;#34;space&amp;#34;: &amp;#34;always&amp;#34; }, &amp;#34;ja-space-around-code&amp;#34;: { &amp;#34;before&amp;#34;: true, &amp;#34;after&amp;#34;: true } }, &amp;#34;textlint-rule-preset-ja-technical-writing&amp;#34;: { &amp;#34;sentence-length&amp;#34;: { &amp;#34;max&amp;#34;: 90 }, &amp;#34;ja-no-mixed-period&amp;#34;: { &amp;#34;periodMark&amp;#34;: &amp;#34;.&amp;#34; }, &amp;#34;no-exclamation-question-mark&amp;#34;: false } } } 上から見ていく。&#xA;filters textlint-filter-rule-allowlist のインストールが必要。&#xA;&amp;#34;filters&amp;#34;: { &amp;#34;allowlist&amp;#34;: { &amp;#34;allow&amp;#34;: [ &amp;#34;\&amp;#34;{ register } で指定.&amp;#34; ] } }, allow のリストに error を無視する文字列や文章を入れることで、対象を無視する。</description>
+    </item>
+    <item>
+      <title>並行処理の考え方</title>
+      <link>https://example.org/posts/20211104175819/</link>
+      <pubDate>Thu, 04 Nov 2021 17:58:19 +0900</pubDate>
+      <guid>https://example.org/posts/20211104175819/</guid>
+      <description>競合状態 データ処理に順番ありの可能性がある。処理の間に 1 時間掛かっても問題ないか?と考える。&#xA;アトミック性 処理が行われたか、行われたかったかの 2 パターンしかない。処理を分解したときにこれ以上分解できない単位。 i++ は非アトミック。&#xA;i の値を取得する i の値を 1 増やす i の値を保存する アトミックな処理であれば複数のゴルーチンで安全に扱える。&#xA;メモリアクセス同期 排他処理が必要。 sync.Mutex で解決できる。&#xA;デッドロック 相互排他 ある並行プロセスがリソースに対して排他的な権利をどの時点でも保持している 条件待ち ある並行プロセスがリソースの保持と追加のリソース待ちを同時に行う 横取り不可 ある並行プロセスによって保持されているリソースはそのプロセスによってのみ開放される 循環待ち ある並行プロセス ( P1 ) は他の並行プロセス ( P2 ) を待たなければならない。そして P2 は P1 を待っている ライブロック ライブロックが起こる原因の多くは、試行回数に上限がない。 2 つの並行プロセスが互いのデッドロックを予防して起こる。&#xA;リソース枯渇 ライブロックのように 1 つ以上の貪欲なプロセスが他のリソースを奪うことで起こる。&#xA;package main import ( &amp;#34;fmt&amp;#34; &amp;#34;sync&amp;#34; &amp;#34;time&amp;#34; ) func main() { var wg sync.WaitGroup var sharedLock sync.Mutex const RUNTIME = 1 * time.</description>
+    </item>
+    <item>
+      <title>Go の context</title>
+      <link>https://example.org/posts/20211103154457/</link>
+      <pubDate>Wed, 03 Nov 2021 15:44:57 +0900</pubDate>
+      <guid>https://example.org/posts/20211103154457/</guid>
+      <description>context パッケージ context パッケージを見てみる。&#xA;type Context interface { Deadline() (deadline time.Time, ok bool) Done() &amp;lt;-chan struct{} Err() error Value(key interface{}) interface{} } context パッケージのざっくりとした目的は以下の通り。&#xA;適切なキャンセルを行う機能を提供する リクエストのデータの置き場を提供する キャンセルには 3 つ側面がある。&#xA;ゴルーチンの親がキャンセルしたい場合 ゴルーチンの子をキャンセルしたい場合 ゴルーチン内のブロックしている処理がキャンセルされるように中断できる必要がある場合 使い方 Context の空インスタンスを作る関数は以下の 2 つ。&#xA;func Background() Context 通常使うのはこっち。空の Context を返す func TODO() Context 本番環境で使われることを想定していない。どの Context を使っていいかわからないとき、もしくは上流の実装が終わっていないときに使う Done / Deadline メソッド キャンセルに使う。&#xA;context.WithCancel func context.WithCancel(parent context.Context) (ctx context.Context, cancel context.CancelFunc) キャンセルする側は context.WithCancel() によって生成された cancal 関数を実行する. そのタイミングで、キャンセルされる側の context の Done メソッドが close される。</description>
+    </item>
+    <item>
+      <title>prisma-client-go を試した</title>
+      <link>https://example.org/posts/20211022165454/</link>
+      <pubDate>Fri, 22 Oct 2021 16:54:54 +0900</pubDate>
+      <guid>https://example.org/posts/20211022165454/</guid>
+      <description>prisma のセットアップ まずは project の作成から。&#xA;$ go mod init backend client のインストール。&#xA;$ go get github.com/prisma/prisma-client-go スキーマの作成。&#xA;$ npx prisma init prisma/schema.prisma と .env (と .gitignore ) が生成される。&#xA;.env ファイルは DATABASE_URL を修正。&#xA;# Environment variables declared in this file are automatically made available to Prisma. # See the documentation for more detail: https://pris.ly/d/prisma-schema#using-environment-variables # Prisma supports the native connection string format for PostgreSQL, MySQL, SQLite, SQL Server and MongoDB (Preview). # See the documentation for all the connection string options: https://pris.</description>
+    </item>
+    <item>
+      <title>Golang の http/net について調べた</title>
+      <link>https://example.org/posts/20210723021243/</link>
+      <pubDate>Fri, 23 Jul 2021 02:12:43 +0900</pubDate>
+      <guid>https://example.org/posts/20210723021243/</guid>
+      <description>サーバ 何もしないサーバを起動。&#xA;package main import &amp;#34;net/http&amp;#34; func main() { http.ListenAndServe(&amp;#34;&amp;#34;, nil) } ListenAndServe はネットワークアドレスとハンドラを引数で受け取る。ハンドラが nil の場合は DefaultServerMux が使われる。&#xA;Server の構造体はこんな感じ。&#xA;type Server struct { Addr string Handler Handler TLSConfig *tls.Config ReadTimeout time.Duration ReadHeaderTimeout time.Duration WriteTimeout time.Duration IdleTimeout time.Duration MaxHeaderBytes int TLSNextProto map[string]func(*Server, *tls.Conn, Handler) ConnState func(net.Conn, ConnState) ErrorLog *log.Logger BaseContext func(net.Listener) context.Context ConnContext func(ctx context.Context, c net.Conn) context.Context inShutdown atomicBool disableKeepAlives int32 nextProtoOnce sync.Once nextProtoErr error mu sync.Mutex listeners map[*net.Listener]struct{} activeConn map[*conn]struct{} doneChan chan struct{} onShutdown []func() } 設定を変更する場合は Server の構造体に値を指定する。</description>
+    </item>
+    <item>
+      <title>Golang で json を操作する</title>
+      <link>https://example.org/posts/20210718124235/</link>
+      <pubDate>Sun, 18 Jul 2021 12:42:35 +0900</pubDate>
+      <guid>https://example.org/posts/20210718124235/</guid>
+      <description>JSON の解析 今回使う JSON ファイル。&#xA;{ &amp;#34;id&amp;#34;: 1, &amp;#34;content&amp;#34;: &amp;#34;Hello&amp;#34;, &amp;#34;author&amp;#34;: { &amp;#34;id&amp;#34;: 1, &amp;#34;name&amp;#34;: &amp;#34;author1&amp;#34; }, &amp;#34;comments&amp;#34;: [ { &amp;#34;id&amp;#34;: 1, &amp;#34;content&amp;#34;: &amp;#34;comment1&amp;#34;, &amp;#34;author&amp;#34;: &amp;#34;author2&amp;#34; }, { &amp;#34;id&amp;#34;: 2, &amp;#34;content&amp;#34;: &amp;#34;comment2&amp;#34;, &amp;#34;author&amp;#34;: &amp;#34;author3&amp;#34; } ] } Unmarshal を使う 文字列データの場合は Unmarshal を使う。&#xA;構造体を定義 JSON を構造体に格納 package main import ( &amp;#34;encoding/json&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;io/ioutil&amp;#34; &amp;#34;os&amp;#34; ) type Post struct { Id int `json:&amp;#34;id&amp;#34;` Content string `json:&amp;#34;content&amp;#34;` Author struct { Id int `json:&amp;#34;id&amp;#34;` Name string `json:&amp;#34;name&amp;#34;` } `json:&amp;#34;author&amp;#34;` Comments []struct { Id int `json:&amp;#34;id&amp;#34;` Content string `json:&amp;#34;content&amp;#34;` Author string `json:&amp;#34;author&amp;#34;` } `json:&amp;#34;comments&amp;#34;` } func main() { jsonFile, err := os.</description>
+    </item>
+    <item>
+      <title>Golang の ORM 試した</title>
+      <link>https://example.org/posts/20210717123805/</link>
+      <pubDate>Sat, 17 Jul 2021 12:38:05 +0900</pubDate>
+      <guid>https://example.org/posts/20210717123805/</guid>
+      <description>試したリポジトリはここ。&#xA;https://github.com/ritarock/sandbox/tree/master/golang/sample_gorm&#xA;DB に接続 gorm.Open(dialect string, args ...interface{}) の第一引数は接続するデータベース、第二引数には接続情報。&#xA;今回は Docker で実行したのでコンテナが起動しても mysql は起動していない場合があったので 30 秒待つ処理を入れた。&#xA;func gormConnect() *gorm.DB { DBMS := &amp;#34;mysql&amp;#34; PROTOCOL := &amp;#34;tcp(db:3306)&amp;#34; USER := &amp;#34;user&amp;#34; PASS := &amp;#34;password&amp;#34; DBNAME := &amp;#34;app&amp;#34; CONNECT := USER + &amp;#34;:&amp;#34; + PASS + &amp;#34;@&amp;#34; + PROTOCOL + &amp;#34;/&amp;#34; + DBNAME + &amp;#34;?parseTime=true&amp;#34; var err error db, err := gorm.Open(DBMS, CONNECT) if err != nil { fmt.Println(&amp;#34;Not ready&amp;#34;) time.Sleep(time.Second) count++ if count &amp;gt; 30 { panic(err.</description>
+    </item>
+    <item>
+      <title>Go のコマンド</title>
+      <link>https://example.org/posts/20210702182520/</link>
+      <pubDate>Fri, 02 Jul 2021 18:25:20 +0900</pubDate>
+      <guid>https://example.org/posts/20210702182520/</guid>
+      <description>使うたびにググっていたので。&#xA;go build ソースコードのコンパイルを行う。&#xA;通常のパッケージの場合、 go build を行ったあとは何もファイルを生成しない main パッケージの場合、 go build を行ったあとはカレントディレクトリ直下にバイナリファイルが生成される go build は通常、カレントディレクトリにあるすべての go ファイルをコンパイルする。ファイル名を指定することで、単一ファイルのみコンパイルできる -o オプションでコンパイル後に生成されるファイル名を指定できる。デフォルトだとパッケージ名になる go build は _ 、 . で始まるファイルは無視する -v オプションは、コンパイル中のパッケージ名を出力する go fmt ファイルの整形。&#xA;go get リモートパッケージを取得する。正確には、パッケージのダウンロードしてから、 go install を行う。&#xA;-d オプションは、ダウンロードのみでインストールは行わない -u オプションは、パッケージとその依存パッケージを更新する -f オプションは、 -u を使うときのみ有効で、 import 内の各パッケージが取得されているか検証しない。ローカルにフォークしたパッケージを使いたいときなどに使う go install go build して生成されたバイナリファイルを $HOME/bin に移動している。&#xA;go test カレントディレクトリ配下のすべての \*.test.go ファイルのテストを行う。&#xA;-cover はテストカバー率を表示する go generate go build 前にコードを自動で生成する場合に使用する。&#xA;go mod 依存モジュールの検知、バージョン固定、バージョンアップ検知ができる。</description>
+    </item>
+    <item>
+      <title>Golang で 集合の演算</title>
+      <link>https://example.org/posts/20210508160959/</link>
+      <pubDate>Sat, 08 May 2021 16:09:59 +0900</pubDate>
+      <guid>https://example.org/posts/20210508160959/</guid>
+      <description>何も使わずに実装する 和集合 package main import &amp;#34;fmt&amp;#34; func main() { a := []int{1, 2, 3} b := []int{2, 3, 4} c := []int{3} result := func(array ...[]int) []int { m := make(map[int]struct{}) for _, arr := range array { for _, v := range arr { m[v] = struct{}{} } } tmp := []int{} for k := range m { tmp = append(tmp, k) } return tmp }(a, b, c) fmt.Println(result) } // [3 4 1 2] 積集合 package main import &amp;#34;fmt&amp;#34; func main() { a := []int{1, 2, 3} b := []int{2, 3, 4} c := []int{3} result := func(array .</description>
+    </item>
+    <item>
+      <title>Golang の 並列 / 並行 処理でいろいろ</title>
+      <link>https://example.org/posts/20210429182820/</link>
+      <pubDate>Thu, 29 Apr 2021 18:28:20 +0900</pubDate>
+      <guid>https://example.org/posts/20210429182820/</guid>
+      <description>並列 / 並行 処理 並列処理 Parallelism 同時に同じ処理が複数走る 並行処理 Concurrency 同時に色々な処理が走る channel を使う package main import ( &amp;#34;fmt&amp;#34; &amp;#34;time&amp;#34; ) func process(num int, str string) { for i := 0; i &amp;lt; num; i++ { time.Sleep(1 * time.Second) fmt.Println(i, str) } } func main() { fmt.Println(&amp;#34;Start&amp;#34;) process(2, &amp;#34;A&amp;#34;) process(2, &amp;#34;B&amp;#34;) process(2, &amp;#34;C&amp;#34;) fmt.Println(&amp;#34;Finish&amp;#34;) } // Start // 0 A // 1 A // 0 B // 1 B // 0 C // 1 C // Finish // // ________________________________________________________ // Executed in 6.</description>
+    </item>
+    <item>
+      <title>Golang の goroutine / channel とか</title>
+      <link>https://example.org/posts/20210429010135/</link>
+      <pubDate>Thu, 29 Apr 2021 01:01:35 +0900</pubDate>
+      <guid>https://example.org/posts/20210429010135/</guid>
+      <description>goroutine goroutine は軽量なスレッド。&#xA;go f(x, y) と書くだけ。&#xA;package main import ( &amp;#34;fmt&amp;#34; &amp;#34;time&amp;#34; ) func say(s string) { for i := 0; i &amp;lt; 5; i++ { time.Sleep(100 * time.Millisecond) fmt.Println(s) } } func main() { go say(&amp;#34;hello&amp;#34;) say(&amp;#34;world&amp;#34;) } // hello // world // world // hello // hello // world // hello // world // world // hello channel channel 型は &amp;lt;- を用いて値の送受信を行う。&#xA;ch &amp;lt;- v // v をチャネル ch に送信する v := &amp;lt;- ch // チャネル ch から変数を v に割り当てる チャネルは make で作る。</description>
+    </item>
+    <item>
+      <title>ベースイメージの種類</title>
+      <link>https://example.org/posts/20210319200255/</link>
+      <pubDate>Fri, 19 Mar 2021 20:02:55 +0900</pubDate>
+      <guid>https://example.org/posts/20210319200255/</guid>
+      <description>ざっくりこんな感じ。&#xA;名前 内容 buster Debian 10 で色々入り buster-slim Debian 10 の実行環境のみ stretch Debian 9 で色々入り buster Debian 9 で実行環境のみ alpine かなり小さいイメージ </description>
+    </item>
+    <item>
+      <title>Terraform 0.13 / 0.14 の新機能について</title>
+      <link>https://example.org/posts/20210312172437/</link>
+      <pubDate>Fri, 12 Mar 2021 17:24:37 +0900</pubDate>
+      <guid>https://example.org/posts/20210312172437/</guid>
+      <description>個人的に良さそうなやつだけピックアップ。&#xA;0.13 の新機能 module 側で depends_on が使えるようになった 0.14 の新機能 plan の差分が簡潔になった プロバイダーの依存関係のロックファイルが追加された .terraform.lock.hcl が追加された。&#xA;ロックファイルは terraform init --upgrade のタイミングで更新される。&#xA;ロックファイルがあることで、 provider が新バージョンをリリースしたら突然差分が発生するみたいなことはなくなる。</description>
+    </item>
+    <item>
+      <title>Docker と docker-compose のまとめ</title>
+      <link>https://example.org/posts/20210306225218/</link>
+      <pubDate>Sat, 06 Mar 2021 22:52:18 +0900</pubDate>
+      <guid>https://example.org/posts/20210306225218/</guid>
+      <description>Docker Dockerfile を元にイメージを構築する。&#xA;build Dockerfile が存在するディレクトリで実行する。&#xA;$ docker build . -f オプションを使うことで Dockerfile のパスを指定できる。&#xA;$ docker build -f /path/to/Dockerfile . FROM ベースイメージを指定する。&#xA;FROM &amp;lt;image&amp;gt;[:&amp;lt;tag&amp;gt;][AS &amp;lt;name&amp;gt;] AS &amp;lt;name&amp;gt; でステージに名前を付けて、以降の FROM と COPY --from=&amp;lt;name&amp;gt; 命令で構築イメージを参照できる。&#xA;RUN シェルとして実行される。&#xA;RUN /bin/sh -c &amp;#39;source $HOME/.bashrc;&amp;#39; \ echo $HOME 1 行で書く場合。&#xA;RUN /bin/sh -c &amp;#39;source $HOME/.bashrc; echo $HOME&amp;#39; bash/sh 以外のシェルを使う場合は exec 形式でシェルに引数を渡す。&#xA;RUN [&amp;#34;/bin/bash&amp;#34;, &amp;#34;-c&amp;#34;, &amp;#34;echo hello&amp;#34;] exec 形式で書く場合は json 配列として扱わるため &amp;quot;&amp;quot; で囲む必要がある。&#xA;CMD Dockerfile 内の CMD 命令は 1 つのみ。複数あっても最後の CMD 命令のみが実行される。 CMD の目的はコンテナの実行時のデフォルトの処理を指定する</description>
+    </item>
+    <item>
+      <title>Vim の操作</title>
+      <link>https://example.org/posts/20210219174904/</link>
+      <pubDate>Fri, 19 Feb 2021 17:49:04 +0900</pubDate>
+      <guid>https://example.org/posts/20210219174904/</guid>
+      <description>vim のプラグインは無しで、 VSCode の vim 拡張でできることに絞った。&#xA;モードについて ノーマルモード ビジュアルモード インサートモード コマンドラインモード ノーマルモード 移動 コマンド 動作 k 上に移動 j 下に移動 h 左に移動 l 右に移動 w 次の単語の先頭に移動 b 前の単語の戦闘に移動 e 単語の末尾に移動 ge 前の単語の末尾に移動 f{char} 次の {char} まで移動 &amp;lt;shift&amp;gt;f{char} 前の {char} まで移動 ; 次の {char} まで移動 , 前の {char} まで移動 0 行頭へ移動 $ 行末へ移動 &amp;lt;shift&amp;gt;f ページ送り &amp;lt;shift&amp;gt;b ページ戻し zz カーソルの行を中央にする % 体操する文字 ( 括弧 ) へ移動 gg ファイル先頭へ移動 &amp;lt;shift&amp;gt;g ファイル末尾へ移動 {count}&amp;lt;shift&amp;gt;g { count } 行目に移動 削除 コマンド 動作 x 文字を削除 dd カーソルのある行をすべて削除 &amp;lt;shift&amp;gt;d カーソルの位置から行の末尾までを削除 db カーソルの位置から単語の先頭まで削除 de カーソルの位置から単語の末尾まで削除 daw カーソルの位置の単語をスペース含めて削除 diw カーソルの位置の単語をスペース含めず削除 ヤンク/プット コマンド 動作 yy 行をコピー yiw カーソルの単語をコピー p ヤンクしているものをペースト 検索 コマンド 動作 /{word} {word} を検索 ( ハイライトにする ) n 次の {word} へ移動 N 前の {word} へ移動 * カーソルの下の単語をハイライト ビジュアルモード コマンド 動作 v ビジュアルモードを有効にする &amp;lt;shift&amp;gt;v 行指向でビジュアルモードを有効にする gv 前回のビジュアルモードを再度有効にする o ( ビジュアルモードで ) 端点に移動 &amp;lt;shift&amp;gt;v 矩形選択 u ( ビジュアルモードで ) 文字を小文字に変換する &amp;lt;shift&amp;gt;u ( ビジュアルモードで ) 文字を大文字に変換する インサートモード コマンド 動作 o 下の行に改行を入れてからインサートモードを有効にする &amp;lt;shift&amp;gt;o 上の行に改行を入れてからインサートモードを有効にする ci&#39; 「&amp;rsquo;」で囲まれた文字を削除してからインサートモードを有効にする ci&amp;quot; 「&amp;quot;」で囲まれた文字を削除してからインサートモードを有効にする ca&#39; 「&amp;rsquo;」を含む囲まれた文字を削除してからインサートモードを有効にする ca&amp;quot; 「&amp;quot;」を含む囲まれた文字を削除してからインサートモードを有効にする &amp;lt;shift&amp;gt;i 行頭へ移動してからインサートモードを有効にする &amp;lt;shift&amp;gt;a 行末へ移動してからインサートモードを有効にする s カーソルの位置の文字を削除してからインサートモードを有効にする r{char} カーソルの位置の単語を{char}に置換する &amp;lt;ctrl&amp;gt;o ノーマルモードのコマンドを実行する &amp;lt;shift&amp;gt;j ( ノーマルモードで ) 下の行を現在の行の末尾に結合する コマンドラインモード コマンド 動作 :w 保存 :q ファイルを閉じる :tabnew タブを開く gt or gT タブを移動 :sp 画面を横に分割 :vsp 画面を縦に分割 &amp;lt;ctrl&amp;gt;w{h,j,k,l} ウィンドウを移動 :noh ハイライトを解除 :sort ( ビジュアルモードで ) ソートする 繰り返し コマンド 動作 .</description>
+    </item>
+    <item>
+      <title>コマンドいろいろ</title>
+      <link>https://example.org/posts/20210109001701/</link>
+      <pubDate>Sat, 09 Jan 2021 00:17:01 +0900</pubDate>
+      <guid>https://example.org/posts/20210109001701/</guid>
+      <description>Developer Roadmaps にあった DevOps コマンドをまとめておく。&#xA;文字列操作 awk 列を抽出する。&#xA;$ echo 1 2 3 4|awk &amp;#39;{print $1}&amp;#39; 1 $ echo 1 2 3 4|awk &amp;#39;{print $2}&amp;#39; 2 $0 だとすべて。&#xA;$ echo 1 2 3 4|awk &amp;#39;{print $0}&amp;#39; 1 2 3 4 区切り文字の指定もできる。&#xA;$ echo 1:2:3:4|awk -F&amp;#39;[:]&amp;#39; &amp;#39;{print $1}&amp;#39; 1 sed 文字列置換。&#xA;$ cat test.txt 1 2 3 4 5 $ sed &amp;#39;s/3/333/g&amp;#39; test.txt 1 2 333 4 5 grep 文字列検索。&#xA;$ cat test.</description>
+    </item>
+    <item>
+      <title>Golang で時間操作とソート</title>
+      <link>https://example.org/posts/20210104181641/</link>
+      <pubDate>Mon, 04 Jan 2021 18:16:41 +0900</pubDate>
+      <guid>https://example.org/posts/20210104181641/</guid>
+      <description>インスタンスのCPUをCLIで確認する&#xA;この CLI を作るにあたってハマったところとその解決法。&#xA;時間でソートする 配列のソート Golang の場合、お決まりのやり方があるみたいでググると大体同じやり方でやっている。&#xA;struct を定義して、Len, Less, Swap メソッドを用意する。&#xA;type Bytime []*cloudwatch.Datapoint func (arr Bytime) Len() int { return len(arr) } func (arr Bytime) Less(i, j int) bool { return arr[i].Timestamp.Before(*arr[j].Timestamp) } func (arr Bytime) Swap(i, j int) { arr[i], arr[j] = arr[j], arr[i] } 実際にソートするときは、別の配列を用意した。&#xA;var sortedResp Bytime = resp.Datapoints sort.Sort(sortedResp) 時間の比較 timeA(2020-01-01 00:00:00 +0000 UTC) と timeB(2021-01-01 00:00:00 +0000 UTC) があるとする。&#xA;timeA, timeB := time.</description>
+    </item>
+    <item>
+      <title>curl コマンドでグローバル IP を調べる</title>
+      <link>https://example.org/posts/20201110160900/</link>
+      <pubDate>Tue, 10 Nov 2020 16:09:00 +0900</pubDate>
+      <guid>https://example.org/posts/20201110160900/</guid>
+      <description>$ curl httpbin.org/ip </description>
+    </item>
+    <item>
+      <title>some / every / filter / map / flatMap / Object.entries とか</title>
+      <link>https://example.org/posts/20201104134500/</link>
+      <pubDate>Wed, 04 Nov 2020 13:45:00 +0900</pubDate>
+      <guid>https://example.org/posts/20201104134500/</guid>
+      <description>some() some() は配列内の要素 1 つでも条件に合致するものがあれば true を返し、 1 つも合致しなければ false を返す。&#xA;const dataList = [ {id: 1, user: &amp;#34;user1&amp;#34;}, {id: 2, user: &amp;#34;user2&amp;#34;}, {id: 3, user: &amp;#34;user3&amp;#34;}, ] const includeId3 = dataList.some(data =&amp;gt; data.id === 3) console.log(includeId3) //true ever() every() は配列内の全ての要素が条件に合致するかを調べることができる。&#xA;const dataList = [ {id: 1, user: &amp;#34;user1&amp;#34;}, {id: 2, user: &amp;#34;user2&amp;#34;}, {id: 3, user: &amp;#34;user3&amp;#34;}, ] const includeId3 = dataList.every(data =&amp;gt; data.id === 3) console.log(includeId3) //false filter() filter() は配列の要素から条件に合致する新しい配列を作成する。</description>
+    </item>
+    <item>
+      <title>watch コマンド</title>
+      <link>https://example.org/posts/20201028151500/</link>
+      <pubDate>Wed, 28 Oct 2020 15:15:00 +0900</pubDate>
+      <guid>https://example.org/posts/20201028151500/</guid>
+      <description>$ watch -n 1 &amp;#39;date&amp;#39; 1 秒間隔で date コマンドを繰り返す。</description>
+    </item>
+    <item>
+      <title>Git でローカルブランチ名変える</title>
+      <link>https://example.org/posts/20201021202100/</link>
+      <pubDate>Wed, 21 Oct 2020 20:21:00 +0900</pubDate>
+      <guid>https://example.org/posts/20201021202100/</guid>
+      <description>$ git branch -m &amp;lt;古いブランチ名&amp;gt; &amp;lt;新しいブランチ名&amp;gt; </description>
+    </item>
+    <item>
+      <title>Nuxt でブログ作ってハマったところ</title>
+      <link>https://example.org/posts/20200927162114/</link>
+      <pubDate>Sun, 27 Sep 2020 16:21:14 +0900</pubDate>
+      <guid>https://example.org/posts/20200927162114/</guid>
+      <description>GitHub Pages に上げても 404 がでた SPA モードでプロジェクトを作成したため npm run generate コマンドを実行すると dist/ に下記のファイルが生成される。&#xA;[I] ~/w/mypage ❯ ~ (master ☡+) tree dist/ dist/ ├── 200.html ├── README.md ├── _nuxt │ ├── 061840f.js │ ├── 0f2489b.js │ ├── 18eac09.js │ ├── 40b86a8.js │ ├── LICENSES │ ├── c25403f.js │ ├── cf71127.js │ ├── content │ │ └── db-8147cc98.json │ └── f89e603.js └── index.html dist 配下のファイルを GitHub Pages にそのまま上げても _nuxt 配下が 404 になる。</description>
+    </item>
+    <item>
+      <title>配列をユニークにする</title>
+      <link>https://example.org/posts/20200904174900/</link>
+      <pubDate>Fri, 04 Sep 2020 17:49:00 +0900</pubDate>
+      <guid>https://example.org/posts/20200904174900/</guid>
+      <description>JavaScript set を使う 配列を Set に変換。&#xA;const arr = [0, 0, 1, 1, 1, 2, 3, 4, 5, 5, 5, 6, 6, 7, 8, 9, 9, 9] const set = new Set(arr) console.log(set) // Set(10) { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 } Set を配列に変換。&#xA;const arr = [0, 0, 1, 1, 1, 2, 3, 4, 5, 5, 5, 6, 6, 7, 8, 9, 9, 9] const set = new Set(arr) const setToAArr = Array.</description>
+    </item>
+    <item>
+      <title>JavaScript の call / apply / bind</title>
+      <link>https://example.org/posts/20200616115031/</link>
+      <pubDate>Tue, 16 Jun 2020 11:50:31 +0900</pubDate>
+      <guid>https://example.org/posts/20200616115031/</guid>
+      <description>結局公式が一番わかりやすかった。&#xA;apply https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Function/apply&#xA;&amp;gt; apply() メソッドは、 this 値を指定して関数を呼び出し、 arguments は配列 (または配列風オブジェクト) として提供します。&#xA;apply は配列を受け取る。&#xA;const numbers = [5, 6, 2, 3, 7]; const max = Math.max.apply(null, numbers); // 7 console.log(max); const min = Math.min.apply(null, numbers); // 2 console.log(min); call https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Function/call&#xA;&amp;gt; このメソッドの構文は apply() とほぼ同じですが、基本的な違いは call() が引数リストを受け取るのに対して、 apply() は引数の単一の配列を受け取る点です。&#xA;function Product(name, price) { this.name = name; this.price = price; } function Food(name, price) { Product.call(this, name, price); this.category = &amp;#39;food&amp;#39;; } console.</description>
+    </item>
+    <item>
+      <title>yes コマンド</title>
+      <link>https://example.org/posts/20200528074933/</link>
+      <pubDate>Thu, 28 May 2020 07:49:33 +0900</pubDate>
+      <guid>https://example.org/posts/20200528074933/</guid>
+      <description>サーバーへの負荷をかけたりするときに使える。&#xA;CPU に負荷をかける $ yes &amp;gt; /dev/null メモリに負荷をかける $ /dev/null &amp;lt; $(yes) </description>
+    </item>
+    <item>
+      <title>deno を触ってみる</title>
+      <link>https://example.org/posts/20200522111427/</link>
+      <pubDate>Fri, 22 May 2020 11:14:27 +0900</pubDate>
+      <guid>https://example.org/posts/20200522111427/</guid>
+      <description>通常の実行 console.log(&amp;#34;Wellcome to Deno&amp;#34;); $ deno run hello.ts Wellcome to Deno http request があるとき const url = Deno.args[0]; const res = await fetch(url); const body = new Uint8Array(await res.arrayBuffer()); await Deno.stdout.write(body); --allow-net をつける。&#xA;$ deno run --allow-net http.ts https://deno.land/manual/getting_started/first_steps コマンドラインで引数を渡す console.log(Deno.args) $ deno run args.ts 1 2 3 [ &amp;#34;1&amp;#34;, &amp;#34;2&amp;#34;, &amp;#34;3&amp;#34; ] ファイル読み込み for (let i = 0; i &amp;lt; Deno.args.length; i++) { let filename = Deno.args[i]; let file = await Deno.</description>
+    </item>
+    <item>
+      <title>atcorder 過去問精鋭10問を Golang で解いた</title>
+      <link>https://example.org/posts/20200505151108/</link>
+      <pubDate>Tue, 05 May 2020 15:11:08 +0900</pubDate>
+      <guid>https://example.org/posts/20200505151108/</guid>
+      <description>1問目 ABC 086 A - Product package main import &amp;#34;fmt&amp;#34; func main() { var a, b int fmt.Scan(&amp;amp;a, &amp;amp;b) if (a*b)%2 == 0 { fmt.Println(&amp;#34;Even&amp;#34;) } else { fmt.Println(&amp;#34;Odd&amp;#34;) } } 2問目 ABC 081 A - Placing Marbles package main import ( &amp;#34;fmt&amp;#34; &amp;#34;strings&amp;#34; ) func main() { var s string var count int fmt.Scan(&amp;amp;s) splitWord := strings.Split(s, &amp;#34;&amp;#34;) for _, w := range splitWord { if w == &amp;#34;1&amp;#34; { count++ } } fmt.</description>
+    </item>
+    <item>
+      <title>Golang で atcorder の入出力とか繰り返しとか</title>
+      <link>https://example.org/posts/20200504145305/</link>
+      <pubDate>Mon, 04 May 2020 14:53:05 +0900</pubDate>
+      <guid>https://example.org/posts/20200504145305/</guid>
+      <description>入出力 単一数値、文字 var N int fmt.Scan(&amp;amp;N) fmt.Println(N) var s string fmt.Scan(&amp;amp;s) fmt.Println(s) 文字列、数列群をスライスで返す func scanStrings(len int) []string { var str string var strs []string for i := 0; i &amp;lt; len; i++ { fmt.Scanf(&amp;#34;%s&amp;#34;, &amp;amp;str) strs = append(strs, str) } return strings } func scanNums(len int) []int { var num int var nums []int for i := 0; i &amp;lt; len; i ++ { fmt.Scan(&amp;amp;num) nums = append(nums, num) } return nums } 与えられた列をスライスで返す n := 3 arr := make([]int, n) for i:= 0; i &amp;lt; n; i ++ { fmt.</description>
+    </item>
+    <item>
+      <title>form_with の使い方</title>
+      <link>https://example.org/posts/20191130183100/</link>
+      <pubDate>Sat, 30 Nov 2019 18:31:00 +0900</pubDate>
+      <guid>https://example.org/posts/20191130183100/</guid>
+      <description>form_with 新しいバージョンの rails なら form_for, form_tag は使用せずに form_with を使う事ができる。&#xA;モデルの有無で書き方が変わる。&#xA;モデルが有るとき form_with model: &amp;#39;モデル名&amp;#39; do |form| # 中身 end モデルが無いとき URL で指定する form_with model: &amp;#39;URL&amp;#39; do |form| # 中身 end PATH で指定する form_with model: &amp;#39;PATH&amp;#39; do |form| # 中身 end オプション よく使うもの。&#xA;オプション 説明 デフォルト値 :url URL を指定 - :method HTTP メソッド POST :local リモート送信を無効 false URL からフォームを作成 ( form_for 的な使い方 ) = form_with url :posts_path do |f| = f.text_field :title 生成される HTML。</description>
+    </item>
+    <item>
+      <title>try メソッドの使い方</title>
+      <link>https://example.org/posts/20191129184700/</link>
+      <pubDate>Fri, 29 Nov 2019 18:47:00 +0900</pubDate>
+      <guid>https://example.org/posts/20191129184700/</guid>
+      <description>使い方 Object.try(method) 例 どちらも同じ意味。&#xA;@person.try(:name) @person.name if @person </description>
+    </item>
+    <item>
+      <title>docker から MySQL を使う</title>
+      <link>https://example.org/posts/20191103015728/</link>
+      <pubDate>Sun, 03 Nov 2019 01:57:28 +0900</pubDate>
+      <guid>https://example.org/posts/20191103015728/</guid>
+      <description>$ docker run --name mysql -e MYSQL_ROOT_PASSWORD=mysql -d -p 3306:3306 mysql $ docker exec -it コンテナ名 bash # mysql -u root </description>
+    </item>
+    <item>
+      <title>データベース操作</title>
+      <link>https://example.org/posts/20191103015727/</link>
+      <pubDate>Sun, 03 Nov 2019 01:57:27 +0900</pubDate>
+      <guid>https://example.org/posts/20191103015727/</guid>
+      <description>データベースの作成 CREATE DATABASE database_name; データベースの削除 DROP DATABASE database_name; テーブルの作成 CREATE TABLE table_name (col_name type, ...); 主キー CREATE TABLE table_name (col_name type, ..., PRIMARY KEY (col_name)); PRIMARY KEY の重複と NULL は NG 複数の列を指定できる (複合主キー) PRIMARY KEY (列名 1, 列名 2 ) 外部キー CREATE TABLE table_name ( col_name type, ..., FOREIGN KEY (col_name) REFERENCES parent_table_name(col_name) ); 子テーブルの外部キーの値は親テーブルに存在しないといけない 参照される値 (親テーブル) の UPDATE / DELETE は NG 親テーブルの UPDATE / DELETE 時の設定 CREATE TABLE table_name ( col_name type, .</description>
+    </item>
+    <item>
+      <title>はてなの記事移行しました</title>
+      <link>https://example.org/posts/20191103015726/</link>
+      <pubDate>Sun, 03 Nov 2019 01:57:26 +0900</pubDate>
+      <guid>https://example.org/posts/20191103015726/</guid>
+      <description>今後はこちらで。</description>
+    </item>
+    <item>
+      <title>docker-compose で Rails と Mysql を使う</title>
+      <link>https://example.org/posts/20190829090000/</link>
+      <pubDate>Thu, 29 Aug 2019 09:00:00 +0900</pubDate>
+      <guid>https://example.org/posts/20190829090000/</guid>
+      <description>ディレクトリ構成 ./ ├── Dockerfile ├── docker-compose.yml ├── db_volume/ ├── mysql-confd/ │ └── default_authentication.cnf └── src/ ├── Gemfile └── Gemfile.lock ファイルの説明 Dockerfile Rails のアプリ用の Dockerfile を定義する。 MySQL と連携するために mysql-client をインストールしている。&#xA;FROM ruby:latest RUN apt-get update -qq &amp;amp;&amp;amp; \ apt-get install -y build-essential &amp;amp;&amp;amp; \ apt-get install -y libpq-dev &amp;amp;&amp;amp; \ apt-get install -y mysql-client &amp;amp;&amp;amp; \ apt-get install -y nodejs RUN mkdir /myapp ENV APP_ROOT /myapp WORKDIR $APP_ROOT ADD ./src/Gemfile $APP_ROOT/Gemfile ADD .</description>
+    </item>
+    <item>
+      <title>Python で list から辞書を作り辞書から json を作る</title>
+      <link>https://example.org/posts/20190108090000/</link>
+      <pubDate>Tue, 08 Jan 2019 09:00:00 +0900</pubDate>
+      <guid>https://example.org/posts/20190108090000/</guid>
+      <description>list から辞書を作る list_col = [&amp;#39;col1&amp;#39;, &amp;#39;col2&amp;#39;, &amp;#39;col3&amp;#39;, &amp;#39;col4&amp;#39;, &amp;#39;col5&amp;#39;] list_data = [1, 2, 3, 4, 5] dict_data = dict(zip(list_col, list_data)) print(dict_data) # {&amp;#39;col1&amp;#39;: 1, &amp;#39;col2&amp;#39;: 2, &amp;#39;col3&amp;#39;: 3, &amp;#39;col4&amp;#39;: 4, &amp;#39;col5&amp;#39;: 5} 辞書から json を作る import json json_data = json.dumps(dict_data) print(json_data) # {&amp;#34;col1&amp;#34;: 1, &amp;#34;col2&amp;#34;: 2, &amp;#34;col3&amp;#34;: 3, &amp;#34;col4&amp;#34;: 4, &amp;#34;col5&amp;#34;: 5} </description>
+    </item>
+    <item>
+      <title>Ansible で MacBook を管理</title>
+      <link>https://example.org/posts/20180409090000/</link>
+      <pubDate>Mon, 09 Apr 2018 09:00:00 +0900</pubDate>
+      <guid>https://example.org/posts/20180409090000/</guid>
+      <description>MacBook の環境を管理する。&#xA;環境 # brew と brew cask は導入済み $ brew install ansible $ ansible --version ansible 2.5.0 今回用意した 2 つのファイル。&#xA;hosts localhost localhost.yml --- - hosts: localhost connection: local gather_facts: no become: no vars: homebrew_packages: - name: fish - name: git - name: node - name: pyenv - name: python - name: tree - name: vim homebrew_cask_packages: - name: atom - name: docker - name: dropbox - name: evernote - name: google-chrome - name: google-drive - name: iTerm2 - name: slack - name: vagrant - name: virtualbox tasks: - name: update homebrew homebrew: update_homebrew=yes # brew - name: install homebrew_packages homebrew: name={{ item.</description>
+    </item>
+    <item>
+      <title>Docker のインストールからコンテナ作成まで</title>
+      <link>https://example.org/posts/20180213090000/</link>
+      <pubDate>Tue, 13 Feb 2018 09:00:00 +0900</pubDate>
+      <guid>https://example.org/posts/20180213090000/</guid>
+      <description>開発環境 Ubuntu/trusty64 Docker のインストール $ sudo apt-get update $ sudo apt-get -y install \ apt-transport-https \ ca-certificates \ curl \ software-properties-common $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - $ sudo apt-key fingerprint 0EBFCD88 $ sudo add-apt-repository -y \ &amp;#34;deb [arch=amd64] https://download.docker.com/linux/ubuntu \ $(lsb_release -cs) \ stable&amp;#34; $ sudo apt-get update $ sudo apt-get install -y docker-ce Docker コマンド ローカルに保存された docker イメージの一覧を取得 $ docker images docker hub にあるイメージを検索 $ docker search &amp;lt;イメージ&amp;gt; docker hub にあるイメージをローカルに取得する $ docker pull &amp;lt;イメージ&amp;gt; コンテナでプロセスを起動する $ docker run -it &amp;lt;イメージ&amp;gt; /bin/bash プロセスを確認する ( 停止されたものも含む ) $ docker ps -a 停止されたコンテナの削除 $ docker rm &amp;lt;コンテナid&amp;gt; id は一意なので頭の 4 桁程度入力すれば OK。</description>
+    </item>
+    <item>
+      <title>Vagrant の共有ディレクトリで npm install でエラーを吐くとき</title>
+      <link>https://example.org/posts/20171106090000/</link>
+      <pubDate>Mon, 06 Nov 2017 09:00:00 +0900</pubDate>
+      <guid>https://example.org/posts/20171106090000/</guid>
+      <description>$ sudo npm install --no-bin-links --no-bin-links をつければうまくいく。</description>
+    </item>
+    <item>
+      <title>Vagrant &#43; Ubuntu 16.04 LTS で Django 開発環境を構築</title>
+      <link>https://example.org/posts/20171011090004/</link>
+      <pubDate>Wed, 11 Oct 2017 09:00:04 +0900</pubDate>
+      <guid>https://example.org/posts/20171011090004/</guid>
+      <description>vagrant で Ubuntu 16.04 LTS の準備 Ubuntu 16.04 LTS の box を使用する。&#xA;Vagrantfile の作成。&#xA;$ vagrant init ubuntu/xenial64 作成した Vagrantfile のポートを設定。&#xA;$ vim Vagrantfile 下記の部分を変更。&#xA;config.vm.network &amp;#34;forwarded_port&amp;#34;, guest: 8000, host: 8000 起動。&#xA;$ vagrant init ubuntu/xenial64 接続。&#xA;$ vagrant ssh Django のインストール pip のインストール。&#xA;$ wget https://bootstrap.pypa.io/get-pip.py $ sudo python3 get-pip.py $ sudo pip install Django Ubuntu 16.04 LTS にはデフォルトで Python3.5.2 が入っている。&#xA;バージョンの確認。&#xA;$python3 -m django --version 1.11.5 Django を使ってみる プロジェクトの作成。</description>
+    </item>
+    <item>
+      <title>Python で YYYY-MM-DD 形式で日付を扱う</title>
+      <link>https://example.org/posts/20171011090002/</link>
+      <pubDate>Wed, 11 Oct 2017 09:00:02 +0900</pubDate>
+      <guid>https://example.org/posts/20171011090002/</guid>
+      <description>import datetime today = datetime.date.today() today.isoformat() </description>
+    </item>
+    <item>
+      <title>Python で取得したテキストの行数を取得する</title>
+      <link>https://example.org/posts/20171011090001/</link>
+      <pubDate>Wed, 11 Oct 2017 09:00:01 +0900</pubDate>
+      <guid>https://example.org/posts/20171011090001/</guid>
+      <description>num_lines = sum(1 for line in open(text)) </description>
+    </item>
+  </channel>
+</rss>

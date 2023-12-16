@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>Vim の操作</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<header>
+	============<br>
+	== <a href="https://example.org/">MyDocs</a> ==<br>
+	============
+	<div style="float: right;"></div><br>
+	<p>
+	<nav>
+			
+			
+			<a href="/tags/"><b>Tags</b></a>
+			
+	</nav>
+	</p>
+	
+</header>
+
+	
+	<main>
+		<article>
+			<h1>Vim の操作</h1>
+			<b><time>2021-02-19 17:49:04</time></b>
+		       
+		           <a href="/tags/vim">vim</a>
+        	       
+		           <a href="/tags/vscode">vscode</a>
+        	       
+
+			<div>
+				<p>vim のプラグインは無しで、 VSCode の vim 拡張でできることに絞った。</p>
+<h2 id="モードについて">モードについて</h2>
+<ul>
+<li>ノーマルモード</li>
+<li>ビジュアルモード</li>
+<li>インサートモード</li>
+<li>コマンドラインモード</li>
+</ul>
+<h2 id="ノーマルモード">ノーマルモード</h2>
+<h3 id="移動">移動</h3>
+<table>
+<thead>
+<tr>
+<th>コマンド</th>
+<th>動作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>k</td>
+<td>上に移動</td>
+</tr>
+<tr>
+<td>j</td>
+<td>下に移動</td>
+</tr>
+<tr>
+<td>h</td>
+<td>左に移動</td>
+</tr>
+<tr>
+<td>l</td>
+<td>右に移動</td>
+</tr>
+<tr>
+<td>w</td>
+<td>次の単語の先頭に移動</td>
+</tr>
+<tr>
+<td>b</td>
+<td>前の単語の戦闘に移動</td>
+</tr>
+<tr>
+<td>e</td>
+<td>単語の末尾に移動</td>
+</tr>
+<tr>
+<td>ge</td>
+<td>前の単語の末尾に移動</td>
+</tr>
+<tr>
+<td>f{char}</td>
+<td>次の {char} まで移動</td>
+</tr>
+<tr>
+<td>&lt;shift&gt;f{char}</td>
+<td>前の {char} まで移動</td>
+</tr>
+<tr>
+<td>;</td>
+<td>次の {char} まで移動</td>
+</tr>
+<tr>
+<td>,</td>
+<td>前の {char} まで移動</td>
+</tr>
+<tr>
+<td>0</td>
+<td>行頭へ移動</td>
+</tr>
+<tr>
+<td>$</td>
+<td>行末へ移動</td>
+</tr>
+<tr>
+<td>&lt;shift&gt;f</td>
+<td>ページ送り</td>
+</tr>
+<tr>
+<td>&lt;shift&gt;b</td>
+<td>ページ戻し</td>
+</tr>
+<tr>
+<td>zz</td>
+<td>カーソルの行を中央にする</td>
+</tr>
+<tr>
+<td>%</td>
+<td>体操する文字 ( 括弧 ) へ移動</td>
+</tr>
+<tr>
+<td>gg</td>
+<td>ファイル先頭へ移動</td>
+</tr>
+<tr>
+<td>&lt;shift&gt;g</td>
+<td>ファイル末尾へ移動</td>
+</tr>
+<tr>
+<td>{count}&lt;shift&gt;g</td>
+<td>{ count } 行目に移動</td>
+</tr>
+</tbody>
+</table>
+<h3 id="削除">削除</h3>
+<table>
+<thead>
+<tr>
+<th>コマンド</th>
+<th>動作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x</td>
+<td>文字を削除</td>
+</tr>
+<tr>
+<td>dd</td>
+<td>カーソルのある行をすべて削除</td>
+</tr>
+<tr>
+<td>&lt;shift&gt;d</td>
+<td>カーソルの位置から行の末尾までを削除</td>
+</tr>
+<tr>
+<td>db</td>
+<td>カーソルの位置から単語の先頭まで削除</td>
+</tr>
+<tr>
+<td>de</td>
+<td>カーソルの位置から単語の末尾まで削除</td>
+</tr>
+<tr>
+<td>daw</td>
+<td>カーソルの位置の単語をスペース含めて削除</td>
+</tr>
+<tr>
+<td>diw</td>
+<td>カーソルの位置の単語をスペース含めず削除</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ヤンクプット">ヤンク/プット</h3>
+<table>
+<thead>
+<tr>
+<th>コマンド</th>
+<th>動作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>yy</td>
+<td>行をコピー</td>
+</tr>
+<tr>
+<td>yiw</td>
+<td>カーソルの単語をコピー</td>
+</tr>
+<tr>
+<td>p</td>
+<td>ヤンクしているものをペースト</td>
+</tr>
+</tbody>
+</table>
+<h3 id="検索">検索</h3>
+<table>
+<thead>
+<tr>
+<th>コマンド</th>
+<th>動作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/{word}</td>
+<td>{word} を検索 ( ハイライトにする )</td>
+</tr>
+<tr>
+<td>n</td>
+<td>次の {word} へ移動</td>
+</tr>
+<tr>
+<td>N</td>
+<td>前の {word} へ移動</td>
+</tr>
+<tr>
+<td>*</td>
+<td>カーソルの下の単語をハイライト</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ビジュアルモード">ビジュアルモード</h2>
+<table>
+<thead>
+<tr>
+<th>コマンド</th>
+<th>動作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v</td>
+<td>ビジュアルモードを有効にする</td>
+</tr>
+<tr>
+<td>&lt;shift&gt;v</td>
+<td>行指向でビジュアルモードを有効にする</td>
+</tr>
+<tr>
+<td>gv</td>
+<td>前回のビジュアルモードを再度有効にする</td>
+</tr>
+<tr>
+<td>o</td>
+<td>( ビジュアルモードで ) 端点に移動</td>
+</tr>
+<tr>
+<td>&lt;shift&gt;v</td>
+<td>矩形選択</td>
+</tr>
+<tr>
+<td>u</td>
+<td>( ビジュアルモードで ) 文字を小文字に変換する</td>
+</tr>
+<tr>
+<td>&lt;shift&gt;u</td>
+<td>( ビジュアルモードで ) 文字を大文字に変換する</td>
+</tr>
+</tbody>
+</table>
+<h2 id="インサートモード">インサートモード</h2>
+<table>
+<thead>
+<tr>
+<th>コマンド</th>
+<th>動作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>o</td>
+<td>下の行に改行を入れてからインサートモードを有効にする</td>
+</tr>
+<tr>
+<td>&lt;shift&gt;o</td>
+<td>上の行に改行を入れてからインサートモードを有効にする</td>
+</tr>
+<tr>
+<td>ci'</td>
+<td>「&rsquo;」で囲まれた文字を削除してからインサートモードを有効にする</td>
+</tr>
+<tr>
+<td>ci&quot;</td>
+<td>「&quot;」で囲まれた文字を削除してからインサートモードを有効にする</td>
+</tr>
+<tr>
+<td>ca'</td>
+<td>「&rsquo;」を含む囲まれた文字を削除してからインサートモードを有効にする</td>
+</tr>
+<tr>
+<td>ca&quot;</td>
+<td>「&quot;」を含む囲まれた文字を削除してからインサートモードを有効にする</td>
+</tr>
+<tr>
+<td>&lt;shift&gt;i</td>
+<td>行頭へ移動してからインサートモードを有効にする</td>
+</tr>
+<tr>
+<td>&lt;shift&gt;a</td>
+<td>行末へ移動してからインサートモードを有効にする</td>
+</tr>
+<tr>
+<td>s</td>
+<td>カーソルの位置の文字を削除してからインサートモードを有効にする</td>
+</tr>
+<tr>
+<td>r{char}</td>
+<td>カーソルの位置の単語を{char}に置換する</td>
+</tr>
+<tr>
+<td>&lt;ctrl&gt;o</td>
+<td>ノーマルモードのコマンドを実行する</td>
+</tr>
+<tr>
+<td>&lt;shift&gt;j</td>
+<td>( ノーマルモードで ) 下の行を現在の行の末尾に結合する</td>
+</tr>
+</tbody>
+</table>
+<h2 id="コマンドラインモード">コマンドラインモード</h2>
+<table>
+<thead>
+<tr>
+<th>コマンド</th>
+<th>動作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:w</td>
+<td>保存</td>
+</tr>
+<tr>
+<td>:q</td>
+<td>ファイルを閉じる</td>
+</tr>
+<tr>
+<td>:tabnew</td>
+<td>タブを開く</td>
+</tr>
+<tr>
+<td>gt or gT</td>
+<td>タブを移動</td>
+</tr>
+<tr>
+<td>:sp</td>
+<td>画面を横に分割</td>
+</tr>
+<tr>
+<td>:vsp</td>
+<td>画面を縦に分割</td>
+</tr>
+<tr>
+<td>&lt;ctrl&gt;w{h,j,k,l}</td>
+<td>ウィンドウを移動</td>
+</tr>
+<tr>
+<td>:noh</td>
+<td>ハイライトを解除</td>
+</tr>
+<tr>
+<td>:sort</td>
+<td>( ビジュアルモードで ) ソートする</td>
+</tr>
+</tbody>
+</table>
+<h2 id="繰り返し">繰り返し</h2>
+<table>
+<thead>
+<tr>
+<th>コマンド</th>
+<th>動作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.</td>
+<td>直前の動作を繰り返す</td>
+</tr>
+<tr>
+<td>u</td>
+<td>直前の動作を取り消す</td>
+</tr>
+</tbody>
+</table>
+<h2 id="レジスタ">レジスタ</h2>
+<p>&ldquo;{ register } で指定。</p>
+<h3 id="無名レジスタ">無名レジスタ</h3>
+<p>何も指定しなければ <code>&quot;</code> に格納される。</p>
+<h3 id="ブラックホールレジスタ">ブラックホールレジスタ</h3>
+<p><code>_</code> に格納する.取り出しはできない。</p>
+<p>削除と組み合わせることでレジスタに残さず文字を削除できる。</p>
+<h3 id="レジスタの中身を見る">レジスタの中身を見る</h3>
+<p>コマンドモードで <code>:reg</code></p>
+<h2 id="マクロ">マクロ</h2>
+<p><code>q{ register }</code> から <code>q</code> までの動作をキャプチャする。</p>
+<p><code>@{ register }</code> でキャプチャした動作を再生
+<code>@@</code> 直前のマクロを再実行
+<code>{ count }@{ register }</code> { count } 回マクロを実行。</p>
+
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h3>LATEST POSTS</h3>
+		</div>
+		<div>
+			<ul>
+				
+				<li><a href="/posts/20231216175817/">ブログを next.js 辞めて hugo にした</a></li>
+				
+				<li><a href="/posts/20230322173450/">Slack のスラッシュコマンドを Lambda で受け取る</a></li>
+				
+				<li><a href="/posts/20230223173604/">gqlgen を触る</a></li>
+				
+				<li><a href="/posts/20230210174709/">aws-sdk-go-v2 で profile を使う</a></li>
+				
+				<li><a href="/posts/20230204160502/">github action で日付を扱う</a></li>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+	<p>&copy; 2023 <a href="https://example.org/"><b>MyDocs</b></a>.
+	</p>
+</footer>
+
+</body>
+</html>

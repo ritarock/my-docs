@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta name="generator" content="Hugo 0.121.1">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>MyDocs</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="alternate" type="application/rss+xml" href="/index.xml" title="MyDocs">
+</head>
+<body>
+	<header>
+	============<br>
+	== <a href="https://example.org/">MyDocs</a> ==<br>
+	============
+	<div style="float: right;"></div><br>
+	<p>
+	<nav>
+			
+			
+			<a href="/tags/"><b>Tags</b></a>
+			
+	</nav>
+	</p>
+	
+</header>
+
+	
+	<main>
+		
+		
+			<article>
+	<h1><a href="https://example.org/posts/20180409090000/">Ansible で MacBook を管理</a></h1>
+	<b><time>2018-04-09 09:00:00</time></b>
+	
+	<a href="/tags/ansible">ansible</a>
+	
+	<a href="/tags/mac">mac</a>
+	
+	<div>
+		MacBook の環境を管理する。
+環境 # brew と brew cask は導入済み $ brew install ansible $ ansible --version ansible 2.5.0 今回用意した 2 つのファイル。
+hosts localhost localhost.yml --- - hosts: localhost connection: local gather_facts: no become: no vars: homebrew_packages: - name: fish - name: git - name: node - name: pyenv - name: python - name: tree - name: vim homebrew_cask_packages: - name: atom - name: docker - name: dropbox - name: evernote - name: google-chrome - name: google-drive - name: iTerm2 - name: slack - name: vagrant - name: virtualbox tasks: - name: update homebrew homebrew: update_homebrew=yes # brew - name: install homebrew_packages homebrew: name={{ item.
+		
+			<a href="https://example.org/posts/20180409090000/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20180213090000/">Docker のインストールからコンテナ作成まで</a></h1>
+	<b><time>2018-02-13 09:00:00</time></b>
+	
+	<a href="/tags/docker">docker</a>
+	
+	<div>
+		開発環境 Ubuntu/trusty64 Docker のインストール $ sudo apt-get update $ sudo apt-get -y install \ apt-transport-https \ ca-certificates \ curl \ software-properties-common $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - $ sudo apt-key fingerprint 0EBFCD88 $ sudo add-apt-repository -y \ &#34;deb [arch=amd64] https://download.docker.com/linux/ubuntu \ $(lsb_release -cs) \ stable&#34; $ sudo apt-get update $ sudo apt-get install -y docker-ce Docker コマンド ローカルに保存された docker イメージの一覧を取得 $ docker images docker hub にあるイメージを検索 $ docker search &lt;イメージ&gt; docker hub にあるイメージをローカルに取得する $ docker pull &lt;イメージ&gt; コンテナでプロセスを起動する $ docker run -it &lt;イメージ&gt; /bin/bash プロセスを確認する ( 停止されたものも含む ) $ docker ps -a 停止されたコンテナの削除 $ docker rm &lt;コンテナid&gt; id は一意なので頭の 4 桁程度入力すれば OK。
+		
+			<a href="https://example.org/posts/20180213090000/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20171106090000/">Vagrant の共有ディレクトリで npm install でエラーを吐くとき</a></h1>
+	<b><time>2017-11-06 09:00:00</time></b>
+	
+	<a href="/tags/vagrant">vagrant</a>
+	
+	<a href="/tags/node">node</a>
+	
+	<div>
+		$ sudo npm install --no-bin-links --no-bin-links をつければうまくいく。
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20171011090004/">Vagrant &#43; Ubuntu 16.04 LTS で Django 開発環境を構築</a></h1>
+	<b><time>2017-10-11 09:00:04</time></b>
+	
+	<a href="/tags/setup">setup</a>
+	
+	<a href="/tags/vagrant">vagrant</a>
+	
+	<a href="/tags/django">django</a>
+	
+	<div>
+		vagrant で Ubuntu 16.04 LTS の準備 Ubuntu 16.04 LTS の box を使用する。
+Vagrantfile の作成。
+$ vagrant init ubuntu/xenial64 作成した Vagrantfile のポートを設定。
+$ vim Vagrantfile 下記の部分を変更。
+config.vm.network &#34;forwarded_port&#34;, guest: 8000, host: 8000 起動。
+$ vagrant init ubuntu/xenial64 接続。
+$ vagrant ssh Django のインストール pip のインストール。
+$ wget https://bootstrap.pypa.io/get-pip.py $ sudo python3 get-pip.py $ sudo pip install Django Ubuntu 16.04 LTS にはデフォルトで Python3.5.2 が入っている。
+バージョンの確認。
+$python3 -m django --version 1.11.5 Django を使ってみる プロジェクトの作成。
+		
+			<a href="https://example.org/posts/20171011090004/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20171011090002/">Python で YYYY-MM-DD 形式で日付を扱う</a></h1>
+	<b><time>2017-10-11 09:00:02</time></b>
+	
+	<a href="/tags/python">python</a>
+	
+	<div>
+		import datetime today = datetime.date.today() today.isoformat() 
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20171011090001/">Python で取得したテキストの行数を取得する</a></h1>
+	<b><time>2017-10-11 09:00:01</time></b>
+	
+	<a href="/tags/python">python</a>
+	
+	<div>
+		num_lines = sum(1 for line in open(text)) 
+		
+	</div>
+</article>
+
+		
+		<div>
+
+	<a href="/page/5/">Previous Page</a>
+
+6 of 6
+
+</div>
+
+	</main>
+
+	<footer>
+	<p>&copy; 2023 <a href="https://example.org/"><b>MyDocs</b></a>.
+	</p>
+</footer>
+
+</body>
+</html>

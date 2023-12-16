@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>docker on MyDocs</title>
+    <link>https://example.org/tags/docker/</link>
+    <description>Recent content in docker on MyDocs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 20 Nov 2021 16:57:45 +0900</lastBuildDate>
+    <atom:link href="https://example.org/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>sql-migrate を試す</title>
+      <link>https://example.org/posts/20211120165745/</link>
+      <pubDate>Sat, 20 Nov 2021 16:57:45 +0900</pubDate>
+      <guid>https://example.org/posts/20211120165745/</guid>
+      <description>https://github.com/rubenv/sql-migrate を試してみた。&#xA;docker で試す 通常のアプリを起動する docker-compose.yml とは別に docker-compose.migration.yml を用意した。&#xA;version: &amp;#39;3&amp;#39; services: db: build: context: ./docker/database restart: always environment: MYSQL_DATABASE: app MYSQL_USER: user MYSQL_PASSWORD: pass MYSQL_ROOT_PASSWORD: pass ports: - 3306:3306 volumes: - ./docker/database/mysql:/var/lib/mysql migration: build: context: ./docker/migration volumes: - ./migrations:/work depends_on: - db migration 用の Dockerfile はこんな感じ。&#xA;FROM golang:1.17.3 WORKDIR /work RUN go get -v github.com/rubenv/sql-migrate/... migration コンテナにマウントしてる ./migrations にはマイグレーション用の SQL と dbconfig.yml を置いている。&#xA;dbconfig.yml では接続する DB の設定を書いておく。&#xA;development: dialect: mysql datasource: user:pass@tcp(db:3306)/app?</description>
+    </item>
+    <item>
+      <title>ベースイメージの種類</title>
+      <link>https://example.org/posts/20210319200255/</link>
+      <pubDate>Fri, 19 Mar 2021 20:02:55 +0900</pubDate>
+      <guid>https://example.org/posts/20210319200255/</guid>
+      <description>ざっくりこんな感じ。&#xA;名前 内容 buster Debian 10 で色々入り buster-slim Debian 10 の実行環境のみ stretch Debian 9 で色々入り buster Debian 9 で実行環境のみ alpine かなり小さいイメージ </description>
+    </item>
+    <item>
+      <title>Docker と docker-compose のまとめ</title>
+      <link>https://example.org/posts/20210306225218/</link>
+      <pubDate>Sat, 06 Mar 2021 22:52:18 +0900</pubDate>
+      <guid>https://example.org/posts/20210306225218/</guid>
+      <description>Docker Dockerfile を元にイメージを構築する。&#xA;build Dockerfile が存在するディレクトリで実行する。&#xA;$ docker build . -f オプションを使うことで Dockerfile のパスを指定できる。&#xA;$ docker build -f /path/to/Dockerfile . FROM ベースイメージを指定する。&#xA;FROM &amp;lt;image&amp;gt;[:&amp;lt;tag&amp;gt;][AS &amp;lt;name&amp;gt;] AS &amp;lt;name&amp;gt; でステージに名前を付けて、以降の FROM と COPY --from=&amp;lt;name&amp;gt; 命令で構築イメージを参照できる。&#xA;RUN シェルとして実行される。&#xA;RUN /bin/sh -c &amp;#39;source $HOME/.bashrc;&amp;#39; \ echo $HOME 1 行で書く場合。&#xA;RUN /bin/sh -c &amp;#39;source $HOME/.bashrc; echo $HOME&amp;#39; bash/sh 以外のシェルを使う場合は exec 形式でシェルに引数を渡す。&#xA;RUN [&amp;#34;/bin/bash&amp;#34;, &amp;#34;-c&amp;#34;, &amp;#34;echo hello&amp;#34;] exec 形式で書く場合は json 配列として扱わるため &amp;quot;&amp;quot; で囲む必要がある。&#xA;CMD Dockerfile 内の CMD 命令は 1 つのみ。複数あっても最後の CMD 命令のみが実行される。 CMD の目的はコンテナの実行時のデフォルトの処理を指定する</description>
+    </item>
+    <item>
+      <title>docker から MySQL を使う</title>
+      <link>https://example.org/posts/20191103015728/</link>
+      <pubDate>Sun, 03 Nov 2019 01:57:28 +0900</pubDate>
+      <guid>https://example.org/posts/20191103015728/</guid>
+      <description>$ docker run --name mysql -e MYSQL_ROOT_PASSWORD=mysql -d -p 3306:3306 mysql $ docker exec -it コンテナ名 bash # mysql -u root </description>
+    </item>
+    <item>
+      <title>docker-compose で Rails と Mysql を使う</title>
+      <link>https://example.org/posts/20190829090000/</link>
+      <pubDate>Thu, 29 Aug 2019 09:00:00 +0900</pubDate>
+      <guid>https://example.org/posts/20190829090000/</guid>
+      <description>ディレクトリ構成 ./ ├── Dockerfile ├── docker-compose.yml ├── db_volume/ ├── mysql-confd/ │ └── default_authentication.cnf └── src/ ├── Gemfile └── Gemfile.lock ファイルの説明 Dockerfile Rails のアプリ用の Dockerfile を定義する。 MySQL と連携するために mysql-client をインストールしている。&#xA;FROM ruby:latest RUN apt-get update -qq &amp;amp;&amp;amp; \ apt-get install -y build-essential &amp;amp;&amp;amp; \ apt-get install -y libpq-dev &amp;amp;&amp;amp; \ apt-get install -y mysql-client &amp;amp;&amp;amp; \ apt-get install -y nodejs RUN mkdir /myapp ENV APP_ROOT /myapp WORKDIR $APP_ROOT ADD ./src/Gemfile $APP_ROOT/Gemfile ADD .</description>
+    </item>
+    <item>
+      <title>Docker のインストールからコンテナ作成まで</title>
+      <link>https://example.org/posts/20180213090000/</link>
+      <pubDate>Tue, 13 Feb 2018 09:00:00 +0900</pubDate>
+      <guid>https://example.org/posts/20180213090000/</guid>
+      <description>開発環境 Ubuntu/trusty64 Docker のインストール $ sudo apt-get update $ sudo apt-get -y install \ apt-transport-https \ ca-certificates \ curl \ software-properties-common $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - $ sudo apt-key fingerprint 0EBFCD88 $ sudo add-apt-repository -y \ &amp;#34;deb [arch=amd64] https://download.docker.com/linux/ubuntu \ $(lsb_release -cs) \ stable&amp;#34; $ sudo apt-get update $ sudo apt-get install -y docker-ce Docker コマンド ローカルに保存された docker イメージの一覧を取得 $ docker images docker hub にあるイメージを検索 $ docker search &amp;lt;イメージ&amp;gt; docker hub にあるイメージをローカルに取得する $ docker pull &amp;lt;イメージ&amp;gt; コンテナでプロセスを起動する $ docker run -it &amp;lt;イメージ&amp;gt; /bin/bash プロセスを確認する ( 停止されたものも含む ) $ docker ps -a 停止されたコンテナの削除 $ docker rm &amp;lt;コンテナid&amp;gt; id は一意なので頭の 4 桁程度入力すれば OK。</description>
+    </item>
+  </channel>
+</rss>

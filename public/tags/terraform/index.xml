@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>terraform on MyDocs</title>
+    <link>https://example.org/tags/terraform/</link>
+    <description>Recent content in terraform on MyDocs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 11 Dec 2022 17:47:37 +0900</lastBuildDate>
+    <atom:link href="https://example.org/tags/terraform/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>rds のパラメータグループを for 文でまとめてかく</title>
+      <link>https://example.org/posts/20221211174737/</link>
+      <pubDate>Sun, 11 Dec 2022 17:47:37 +0900</pubDate>
+      <guid>https://example.org/posts/20221211174737/</guid>
+      <description>モジュール側で map の配列を受け取るようにする。&#xA;variable &amp;#34;parameters&amp;#34; { type = list(map(string)) } resource &amp;#34;aws_rds_cluster_parameter_group&amp;#34; &amp;#34;template&amp;#34; { family = &amp;#34;aurora-mysql5.7&amp;#34; name = var.name dynamic &amp;#34;parameter&amp;#34; { for_each = var.parameters content { apply_method = parameter.value[&amp;#34;apply_method&amp;#34;] name = parameter.value[&amp;#34;name&amp;#34;] value = parameter.value[&amp;#34;value&amp;#34;] } } } 呼び出し側で parameters の配列に必要なパラメータを map で書いてあげればよい。&#xA;module &amp;#34;parameter_group&amp;#34; { source = &amp;#34;../../modules/aws_rds_cluster_parameter_group&amp;#34; name = &amp;#34;sample-parameter-group&amp;#34; parameters = [ { apply_method : &amp;#34;immediate&amp;#34;, name : &amp;#34;character_set_server&amp;#34;, value : &amp;#34;utf8mb4&amp;#34; }, { apply_method : &amp;#34;pending-reboot&amp;#34;, name : &amp;#34;binlog_format&amp;#34;, value : &amp;#34;MIXED&amp;#34; }, ] } plan 結果。</description>
+    </item>
+    <item>
+      <title>Terraform 0.13 / 0.14 の新機能について</title>
+      <link>https://example.org/posts/20210312172437/</link>
+      <pubDate>Fri, 12 Mar 2021 17:24:37 +0900</pubDate>
+      <guid>https://example.org/posts/20210312172437/</guid>
+      <description>個人的に良さそうなやつだけピックアップ。&#xA;0.13 の新機能 module 側で depends_on が使えるようになった 0.14 の新機能 plan の差分が簡潔になった プロバイダーの依存関係のロックファイルが追加された .terraform.lock.hcl が追加された。&#xA;ロックファイルは terraform init --upgrade のタイミングで更新される。&#xA;ロックファイルがあることで、 provider が新バージョンをリリースしたら突然差分が発生するみたいなことはなくなる。</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>linux on MyDocs</title>
+    <link>https://example.org/tags/linux/</link>
+    <description>Recent content in linux on MyDocs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 09 Jan 2021 00:17:01 +0900</lastBuildDate>
+    <atom:link href="https://example.org/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>コマンドいろいろ</title>
+      <link>https://example.org/posts/20210109001701/</link>
+      <pubDate>Sat, 09 Jan 2021 00:17:01 +0900</pubDate>
+      <guid>https://example.org/posts/20210109001701/</guid>
+      <description>Developer Roadmaps にあった DevOps コマンドをまとめておく。&#xA;文字列操作 awk 列を抽出する。&#xA;$ echo 1 2 3 4|awk &amp;#39;{print $1}&amp;#39; 1 $ echo 1 2 3 4|awk &amp;#39;{print $2}&amp;#39; 2 $0 だとすべて。&#xA;$ echo 1 2 3 4|awk &amp;#39;{print $0}&amp;#39; 1 2 3 4 区切り文字の指定もできる。&#xA;$ echo 1:2:3:4|awk -F&amp;#39;[:]&amp;#39; &amp;#39;{print $1}&amp;#39; 1 sed 文字列置換。&#xA;$ cat test.txt 1 2 3 4 5 $ sed &amp;#39;s/3/333/g&amp;#39; test.txt 1 2 333 4 5 grep 文字列検索。&#xA;$ cat test.</description>
+    </item>
+    <item>
+      <title>curl コマンドでグローバル IP を調べる</title>
+      <link>https://example.org/posts/20201110160900/</link>
+      <pubDate>Tue, 10 Nov 2020 16:09:00 +0900</pubDate>
+      <guid>https://example.org/posts/20201110160900/</guid>
+      <description>$ curl httpbin.org/ip </description>
+    </item>
+    <item>
+      <title>watch コマンド</title>
+      <link>https://example.org/posts/20201028151500/</link>
+      <pubDate>Wed, 28 Oct 2020 15:15:00 +0900</pubDate>
+      <guid>https://example.org/posts/20201028151500/</guid>
+      <description>$ watch -n 1 &amp;#39;date&amp;#39; 1 秒間隔で date コマンドを繰り返す。</description>
+    </item>
+    <item>
+      <title>yes コマンド</title>
+      <link>https://example.org/posts/20200528074933/</link>
+      <pubDate>Thu, 28 May 2020 07:49:33 +0900</pubDate>
+      <guid>https://example.org/posts/20200528074933/</guid>
+      <description>サーバーへの負荷をかけたりするときに使える。&#xA;CPU に負荷をかける $ yes &amp;gt; /dev/null メモリに負荷をかける $ /dev/null &amp;lt; $(yes) </description>
+    </item>
+  </channel>
+</rss>

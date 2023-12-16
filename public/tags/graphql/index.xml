@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>graphql on MyDocs</title>
+    <link>https://example.org/tags/graphql/</link>
+    <description>Recent content in graphql on MyDocs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 23 Feb 2023 17:36:04 +0900</lastBuildDate>
+    <atom:link href="https://example.org/tags/graphql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>gqlgen を触る</title>
+      <link>https://example.org/posts/20230223173604/</link>
+      <pubDate>Thu, 23 Feb 2023 17:36:04 +0900</pubDate>
+      <guid>https://example.org/posts/20230223173604/</guid>
+      <description>database の準備 $ go run -mod=mod entgo.io/ent/cmd/ent new Todo schema の設定。&#xA;// Fields of the Todo. func (Todo) Fields() []ent.Field { return []ent.Field{ field.String(&amp;#34;title&amp;#34;), field.String(&amp;#34;note&amp;#34;), field.Bool(&amp;#34;completed&amp;#34;).Default(false), field.Time(&amp;#34;created_at&amp;#34;).Default(time.Now()), field.Time(&amp;#34;updated_at&amp;#34;).Default(time.Now()), } } $ go generate ./ent gqlgen $ printf &amp;#39;// +build tools\npackage tools\nimport (_ &amp;#34;github.com/99designs/gqlgen&amp;#34;\n _ &amp;#34;github.com/99designs/gqlgen/graphql/introspection&amp;#34;)&amp;#39; | gofmt &amp;gt; tools.go $ go mod tidy $ go run github.com/99designs/gqlgen init graph/ に生成されたファイル。&#xA;tree graph/ graph/ ├── generated.go # 自動生成 ├── model │ └── models_gen.</description>
+    </item>
+  </channel>
+</rss>

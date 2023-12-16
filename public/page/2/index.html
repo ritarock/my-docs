@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta name="generator" content="Hugo 0.121.1">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>MyDocs</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="alternate" type="application/rss+xml" href="/index.xml" title="MyDocs">
+</head>
+<body>
+	<header>
+	============<br>
+	== <a href="https://example.org/">MyDocs</a> ==<br>
+	============
+	<div style="float: right;"></div><br>
+	<p>
+	<nav>
+			
+			
+			<a href="/tags/"><b>Tags</b></a>
+			
+	</nav>
+	</p>
+	
+</header>
+
+	
+	<main>
+		
+		
+			<article>
+	<h1><a href="https://example.org/posts/20211227140318/">k6 テスト結果の読み方</a></h1>
+	<b><time>2021-12-27 14:03:18</time></b>
+	
+	<a href="/tags/k6">k6</a>
+	
+	<div>
+		docker で実行した。
+$ docker run -i loadimpact/k6 run - &lt;script.js /\ |‾‾| /‾‾/ /‾‾/ /\ / \ | |/ / / / / \/ \ | ( / ‾‾\ / \ | |\ \ | (‾) | / __________ \ |__| \__\ \_____/ .io execution: local script: - output: - scenarios: (100.00%) 1 scenario, 20 max VUs, 2m50s max duration (incl. graceful stop): * default: Up to 20 looping VUs for 2m20s over 3 stages (gracefulRampDown: 30s, gracefulStop: 30s) running (0m01.
+		
+			<a href="https://example.org/posts/20211227140318/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20211218151125/">TypeScript 勉強する</a></h1>
+	<b><time>2021-12-18 15:11:25</time></b>
+	
+	<a href="/tags/typescript">typescript</a>
+	
+	<div>
+		型いろいろ discriminated unions 意味のある共通のプロパティをもたせて判別に使う。
+interface Bird { flySpped: number; type: &#34;bird&#34;; } interface Horse { runSpeed: number; type: &#34;horse&#34;; } type Animal = Bird | Horse; function animalSpeed(animal: Animal) { switch (animal.type) { case &#34;bird&#34;: console.log(animal.flySpped); break; case &#34;horse&#34;: console.log(animal.runSpeed); } } 型キャスト 文字列を数値に変換する場合、 + を変数の前につけるだけでよい。
+const a = &#34;1&#34;; const b = &#34;2&#34;; const result = +a + +b; console.log(result); // 3 前に &lt;&gt; で型を書くか、後ろに as を付けて型キャストできる。 祖運剤が確定している場合は ! を付けてエラーを回避できる。
+		
+			<a href="https://example.org/posts/20211218151125/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20211120165745/">sql-migrate を試す</a></h1>
+	<b><time>2021-11-20 16:57:45</time></b>
+	
+	<a href="/tags/golang">golang</a>
+	
+	<a href="/tags/docker">docker</a>
+	
+	<div>
+		https://github.com/rubenv/sql-migrate を試してみた。
+docker で試す 通常のアプリを起動する docker-compose.yml とは別に docker-compose.migration.yml を用意した。
+version: &#39;3&#39; services: db: build: context: ./docker/database restart: always environment: MYSQL_DATABASE: app MYSQL_USER: user MYSQL_PASSWORD: pass MYSQL_ROOT_PASSWORD: pass ports: - 3306:3306 volumes: - ./docker/database/mysql:/var/lib/mysql migration: build: context: ./docker/migration volumes: - ./migrations:/work depends_on: - db migration 用の Dockerfile はこんな感じ。
+FROM golang:1.17.3 WORKDIR /work RUN go get -v github.com/rubenv/sql-migrate/... migration コンテナにマウントしてる ./migrations にはマイグレーション用の SQL と dbconfig.yml を置いている。
+dbconfig.yml では接続する DB の設定を書いておく。
+development: dialect: mysql datasource: user:pass@tcp(db:3306)/app?
+		
+			<a href="https://example.org/posts/20211120165745/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20211112233257/">Go のテストを勉強する</a></h1>
+	<b><time>2021-11-12 23:32:57</time></b>
+	
+	<a href="/tags/golang">golang</a>
+	
+	<div>
+		今まで VSCode の Generate Unit Tests For Function で作成してなんとなくで書いてたけどちゃんと勉強した。
+https://github.com/andmorefine/learn-go-with-tests を使って勉強した。日本語訳が微妙だったので英語版がよかった。
+以下メモ。
+t.Helper() を使えば失敗した行が関数呼び出し側になる Benchmark 実行には go test -bench=. を実行する カバレッジを確認するには go test -cover を実行する スライスの test は reflect.DeepEqual を使って変数を比較する。 ただ reflect.DeepEqual は型安全ではないので注意 マップは nil に書き込もうとするとランタイムパニックになるので初期化に気をつける NG: var m map[string]string OK: var dictonary = map[string]string{} もしくは var dictonary = make(map[string]string) 標準ライブラリに net/http/httptest があってこれで模擬 HTTP サーバを作れる &lsquo;入力 X のとき出力 Y を期待する&rsquo; というテストを作るときはテーブルベースのテストを使う 
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20211106130548/">echo を触ってみる</a></h1>
+	<b><time>2021-11-06 13:05:48</time></b>
+	
+	<a href="/tags/golang">golang</a>
+	
+	<div>
+		最小構成。
+$ go get github.com/labstack/echo/v4 package main import ( &#34;net/http&#34; &#34;github.com/labstack/echo/v4&#34; ) func main() { e := echo.New() e.GET(&#34;/&#34;, func(c echo.Context) error { return c.String(http.StatusOK, &#34;Hello World!&#34;) }) e.Logger.Fatal(e.Start(&#34;:8080&#34;)) } path parameters http://localhost:8080/users/1
+1 が返ってくる。
+package main import ( &#34;net/http&#34; &#34;github.com/labstack/echo/v4&#34; ) func main() { e := echo.New() e.GET(&#34;/users/:id&#34;, getUser) e.Logger.Fatal(e.Start(&#34;:8080&#34;)) } func getUser(c echo.Context) error { id := c.Param(&#34;id&#34;) return c.String(http.StatusOK, id) } query parameters http://localhost:8080/show?team=x-men&amp;member=wolverine
+team: x-men, member: wolverine が返ってくる。
+		
+			<a href="https://example.org/posts/20211106130548/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20211105225321/">textlint の設定を見直した</a></h1>
+	<b><time>2021-11-05 22:53:21</time></b>
+	
+	<a href="/tags/textlint">textlint</a>
+	
+	<div>
+		最終的な .textlintrc は以下の通り。
+{ &#34;filters&#34;: { &#34;allowlist&#34;: { &#34;allow&#34;: [ &#34;\&#34;{ register } で指定.&#34; ] } }, &#34;rules&#34;: { &#34;textlint-rule-preset-ja-spacing&#34;: { &#34;ja-space-between-half-and-full-width&#34;: { &#34;space&#34;: &#34;always&#34; }, &#34;ja-space-around-code&#34;: { &#34;before&#34;: true, &#34;after&#34;: true } }, &#34;textlint-rule-preset-ja-technical-writing&#34;: { &#34;sentence-length&#34;: { &#34;max&#34;: 90 }, &#34;ja-no-mixed-period&#34;: { &#34;periodMark&#34;: &#34;.&#34; }, &#34;no-exclamation-question-mark&#34;: false } } } 上から見ていく。
+filters textlint-filter-rule-allowlist のインストールが必要。
+&#34;filters&#34;: { &#34;allowlist&#34;: { &#34;allow&#34;: [ &#34;\&#34;{ register } で指定.&#34; ] } }, allow のリストに error を無視する文字列や文章を入れることで、対象を無視する。
+		
+			<a href="https://example.org/posts/20211105225321/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20211104175819/">並行処理の考え方</a></h1>
+	<b><time>2021-11-04 17:58:19</time></b>
+	
+	<a href="/tags/golang">golang</a>
+	
+	<div>
+		競合状態 データ処理に順番ありの可能性がある。処理の間に 1 時間掛かっても問題ないか?と考える。
+アトミック性 処理が行われたか、行われたかったかの 2 パターンしかない。処理を分解したときにこれ以上分解できない単位。 i++ は非アトミック。
+i の値を取得する i の値を 1 増やす i の値を保存する アトミックな処理であれば複数のゴルーチンで安全に扱える。
+メモリアクセス同期 排他処理が必要。 sync.Mutex で解決できる。
+デッドロック 相互排他 ある並行プロセスがリソースに対して排他的な権利をどの時点でも保持している 条件待ち ある並行プロセスがリソースの保持と追加のリソース待ちを同時に行う 横取り不可 ある並行プロセスによって保持されているリソースはそのプロセスによってのみ開放される 循環待ち ある並行プロセス ( P1 ) は他の並行プロセス ( P2 ) を待たなければならない。そして P2 は P1 を待っている ライブロック ライブロックが起こる原因の多くは、試行回数に上限がない。 2 つの並行プロセスが互いのデッドロックを予防して起こる。
+リソース枯渇 ライブロックのように 1 つ以上の貪欲なプロセスが他のリソースを奪うことで起こる。
+package main import ( &#34;fmt&#34; &#34;sync&#34; &#34;time&#34; ) func main() { var wg sync.WaitGroup var sharedLock sync.Mutex const RUNTIME = 1 * time.
+		
+			<a href="https://example.org/posts/20211104175819/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20211103154457/">Go の context</a></h1>
+	<b><time>2021-11-03 15:44:57</time></b>
+	
+	<a href="/tags/golang">golang</a>
+	
+	<div>
+		context パッケージ context パッケージを見てみる。
+type Context interface { Deadline() (deadline time.Time, ok bool) Done() &lt;-chan struct{} Err() error Value(key interface{}) interface{} } context パッケージのざっくりとした目的は以下の通り。
+適切なキャンセルを行う機能を提供する リクエストのデータの置き場を提供する キャンセルには 3 つ側面がある。
+ゴルーチンの親がキャンセルしたい場合 ゴルーチンの子をキャンセルしたい場合 ゴルーチン内のブロックしている処理がキャンセルされるように中断できる必要がある場合 使い方 Context の空インスタンスを作る関数は以下の 2 つ。
+func Background() Context 通常使うのはこっち。空の Context を返す func TODO() Context 本番環境で使われることを想定していない。どの Context を使っていいかわからないとき、もしくは上流の実装が終わっていないときに使う Done / Deadline メソッド キャンセルに使う。
+context.WithCancel func context.WithCancel(parent context.Context) (ctx context.Context, cancel context.CancelFunc) キャンセルする側は context.WithCancel() によって生成された cancal 関数を実行する. そのタイミングで、キャンセルされる側の context の Done メソッドが close される。
+		
+			<a href="https://example.org/posts/20211103154457/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20211022165454/">prisma-client-go を試した</a></h1>
+	<b><time>2021-10-22 16:54:54</time></b>
+	
+	<a href="/tags/golang">golang</a>
+	
+	<div>
+		prisma のセットアップ まずは project の作成から。
+$ go mod init backend client のインストール。
+$ go get github.com/prisma/prisma-client-go スキーマの作成。
+$ npx prisma init prisma/schema.prisma と .env (と .gitignore ) が生成される。
+.env ファイルは DATABASE_URL を修正。
+# Environment variables declared in this file are automatically made available to Prisma. # See the documentation for more detail: https://pris.ly/d/prisma-schema#using-environment-variables # Prisma supports the native connection string format for PostgreSQL, MySQL, SQLite, SQL Server and MongoDB (Preview). # See the documentation for all the connection string options: https://pris.
+		
+			<a href="https://example.org/posts/20211022165454/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20210723021243/">Golang の http/net について調べた</a></h1>
+	<b><time>2021-07-23 02:12:43</time></b>
+	
+	<a href="/tags/golang">golang</a>
+	
+	<div>
+		サーバ 何もしないサーバを起動。
+package main import &#34;net/http&#34; func main() { http.ListenAndServe(&#34;&#34;, nil) } ListenAndServe はネットワークアドレスとハンドラを引数で受け取る。ハンドラが nil の場合は DefaultServerMux が使われる。
+Server の構造体はこんな感じ。
+type Server struct { Addr string Handler Handler TLSConfig *tls.Config ReadTimeout time.Duration ReadHeaderTimeout time.Duration WriteTimeout time.Duration IdleTimeout time.Duration MaxHeaderBytes int TLSNextProto map[string]func(*Server, *tls.Conn, Handler) ConnState func(net.Conn, ConnState) ErrorLog *log.Logger BaseContext func(net.Listener) context.Context ConnContext func(ctx context.Context, c net.Conn) context.Context inShutdown atomicBool disableKeepAlives int32 nextProtoOnce sync.Once nextProtoErr error mu sync.Mutex listeners map[*net.Listener]struct{} activeConn map[*conn]struct{} doneChan chan struct{} onShutdown []func() } 設定を変更する場合は Server の構造体に値を指定する。
+		
+			<a href="https://example.org/posts/20210723021243/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+		<div>
+
+	<a href="/">Previous Page</a>
+
+2 of 6
+
+	<a href="/page/3/">Next Page</a>
+
+</div>
+
+	</main>
+
+	<footer>
+	<p>&copy; 2023 <a href="https://example.org/"><b>MyDocs</b></a>.
+	</p>
+</footer>
+
+</body>
+</html>

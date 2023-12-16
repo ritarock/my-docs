@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>meta on MyDocs</title>
+    <link>https://example.org/tags/meta/</link>
+    <description>Recent content in meta on MyDocs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 16 Dec 2023 17:58:17 +0900</lastBuildDate>
+    <atom:link href="https://example.org/tags/meta/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ブログを next.js 辞めて hugo にした</title>
+      <link>https://example.org/posts/20231216175817/</link>
+      <pubDate>Sat, 16 Dec 2023 17:58:17 +0900</pubDate>
+      <guid>https://example.org/posts/20231216175817/</guid>
+      <description>理由は、next.js 13 =&amp;gt; 14 のバージョンアップが面倒くさかったから。&#xA;また、勉強して気が向いたら next.js に戻すかもしれない。&#xA;next.js 時代の最後のコミットだけ残しておこう。&#xA;https://github.com/ritarock/my-docs/commit/f063965f79b6f5a5c02f999bfdc078a15e62005a</description>
+    </item>
+    <item>
+      <title>はてなの記事移行しました</title>
+      <link>https://example.org/posts/20191103015726/</link>
+      <pubDate>Sun, 03 Nov 2019 01:57:26 +0900</pubDate>
+      <guid>https://example.org/posts/20191103015726/</guid>
+      <description>今後はこちらで。</description>
+    </item>
+  </channel>
+</rss>

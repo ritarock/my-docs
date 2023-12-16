@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>Go のコマンド</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<header>
+	============<br>
+	== <a href="https://example.org/">MyDocs</a> ==<br>
+	============
+	<div style="float: right;"></div><br>
+	<p>
+	<nav>
+			
+			
+			<a href="/tags/"><b>Tags</b></a>
+			
+	</nav>
+	</p>
+	
+</header>
+
+	
+	<main>
+		<article>
+			<h1>Go のコマンド</h1>
+			<b><time>2021-07-02 18:25:20</time></b>
+		       
+		           <a href="/tags/golang">golang</a>
+        	       
+
+			<div>
+				<p>使うたびにググっていたので。</p>
+<h2 id="go-build">go build</h2>
+<p>ソースコードのコンパイルを行う。</p>
+<ul>
+<li>通常のパッケージの場合、 <code>go build</code> を行ったあとは何もファイルを生成しない</li>
+<li>main パッケージの場合、 <code>go build</code> を行ったあとはカレントディレクトリ直下にバイナリファイルが生成される</li>
+<li><code>go build</code> は通常、カレントディレクトリにあるすべての go ファイルをコンパイルする。ファイル名を指定することで、単一ファイルのみコンパイルできる</li>
+<li><code>-o</code> オプションでコンパイル後に生成されるファイル名を指定できる。デフォルトだとパッケージ名になる</li>
+<li><code>go build</code> は <code>_</code> 、 <code>.</code> で始まるファイルは無視する</li>
+<li><code>-v</code> オプションは、コンパイル中のパッケージ名を出力する</li>
+</ul>
+<h2 id="go-fmt">go fmt</h2>
+<p>ファイルの整形。</p>
+<h2 id="go-get">go get</h2>
+<p>リモートパッケージを取得する。正確には、パッケージのダウンロードしてから、 <code>go install</code> を行う。</p>
+<ul>
+<li><code>-d</code> オプションは、ダウンロードのみでインストールは行わない</li>
+<li><code>-u</code> オプションは、パッケージとその依存パッケージを更新する</li>
+<li><code>-f</code> オプションは、 <code>-u</code> を使うときのみ有効で、 import 内の各パッケージが取得されているか検証しない。ローカルにフォークしたパッケージを使いたいときなどに使う</li>
+</ul>
+<h2 id="go-install">go install</h2>
+<p><code>go build</code> して生成されたバイナリファイルを <code>$HOME/bin</code> に移動している。</p>
+<h2 id="go-test">go test</h2>
+<p>カレントディレクトリ配下のすべての <code>\*.test.go</code> ファイルのテストを行う。</p>
+<ul>
+<li><code>-cover</code> はテストカバー率を表示する</li>
+</ul>
+<h2 id="go-generate">go generate</h2>
+<p><code>go build</code> 前にコードを自動で生成する場合に使用する。</p>
+<h2 id="go-mod">go mod</h2>
+<p>依存モジュールの検知、バージョン固定、バージョンアップ検知ができる。</p>
+<ul>
+<li><code>go mod init</code> で初期化する</li>
+<li><code>go build</code> で依存モジュールを自動インストールする</li>
+<li><code>go get</code> で依存モジュールの追加やバージョンアップを行う</li>
+<li><code>go mod tidy</code> で使われていないモジュールを削除する</li>
+</ul>
+
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h3>LATEST POSTS</h3>
+		</div>
+		<div>
+			<ul>
+				
+				<li><a href="/posts/20231216175817/">ブログを next.js 辞めて hugo にした</a></li>
+				
+				<li><a href="/posts/20230322173450/">Slack のスラッシュコマンドを Lambda で受け取る</a></li>
+				
+				<li><a href="/posts/20230223173604/">gqlgen を触る</a></li>
+				
+				<li><a href="/posts/20230210174709/">aws-sdk-go-v2 で profile を使う</a></li>
+				
+				<li><a href="/posts/20230204160502/">github action で日付を扱う</a></li>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+	<p>&copy; 2023 <a href="https://example.org/"><b>MyDocs</b></a>.
+	</p>
+</footer>
+
+</body>
+</html>

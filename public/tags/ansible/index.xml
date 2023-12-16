@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ansible on MyDocs</title>
+    <link>https://example.org/tags/ansible/</link>
+    <description>Recent content in ansible on MyDocs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 09 Apr 2018 09:00:00 +0900</lastBuildDate>
+    <atom:link href="https://example.org/tags/ansible/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ansible で MacBook を管理</title>
+      <link>https://example.org/posts/20180409090000/</link>
+      <pubDate>Mon, 09 Apr 2018 09:00:00 +0900</pubDate>
+      <guid>https://example.org/posts/20180409090000/</guid>
+      <description>MacBook の環境を管理する。&#xA;環境 # brew と brew cask は導入済み $ brew install ansible $ ansible --version ansible 2.5.0 今回用意した 2 つのファイル。&#xA;hosts localhost localhost.yml --- - hosts: localhost connection: local gather_facts: no become: no vars: homebrew_packages: - name: fish - name: git - name: node - name: pyenv - name: python - name: tree - name: vim homebrew_cask_packages: - name: atom - name: docker - name: dropbox - name: evernote - name: google-chrome - name: google-drive - name: iTerm2 - name: slack - name: vagrant - name: virtualbox tasks: - name: update homebrew homebrew: update_homebrew=yes # brew - name: install homebrew_packages homebrew: name={{ item.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>rails on MyDocs</title>
+    <link>https://example.org/tags/rails/</link>
+    <description>Recent content in rails on MyDocs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 29 Aug 2019 09:00:00 +0900</lastBuildDate>
+    <atom:link href="https://example.org/tags/rails/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>docker-compose で Rails と Mysql を使う</title>
+      <link>https://example.org/posts/20190829090000/</link>
+      <pubDate>Thu, 29 Aug 2019 09:00:00 +0900</pubDate>
+      <guid>https://example.org/posts/20190829090000/</guid>
+      <description>ディレクトリ構成 ./ ├── Dockerfile ├── docker-compose.yml ├── db_volume/ ├── mysql-confd/ │ └── default_authentication.cnf └── src/ ├── Gemfile └── Gemfile.lock ファイルの説明 Dockerfile Rails のアプリ用の Dockerfile を定義する。 MySQL と連携するために mysql-client をインストールしている。&#xA;FROM ruby:latest RUN apt-get update -qq &amp;amp;&amp;amp; \ apt-get install -y build-essential &amp;amp;&amp;amp; \ apt-get install -y libpq-dev &amp;amp;&amp;amp; \ apt-get install -y mysql-client &amp;amp;&amp;amp; \ apt-get install -y nodejs RUN mkdir /myapp ENV APP_ROOT /myapp WORKDIR $APP_ROOT ADD ./src/Gemfile $APP_ROOT/Gemfile ADD .</description>
+    </item>
+  </channel>
+</rss>

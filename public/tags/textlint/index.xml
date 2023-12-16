@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>textlint on MyDocs</title>
+    <link>https://example.org/tags/textlint/</link>
+    <description>Recent content in textlint on MyDocs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 05 Nov 2021 22:53:21 +0900</lastBuildDate>
+    <atom:link href="https://example.org/tags/textlint/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>textlint の設定を見直した</title>
+      <link>https://example.org/posts/20211105225321/</link>
+      <pubDate>Fri, 05 Nov 2021 22:53:21 +0900</pubDate>
+      <guid>https://example.org/posts/20211105225321/</guid>
+      <description>最終的な .textlintrc は以下の通り。&#xA;{ &amp;#34;filters&amp;#34;: { &amp;#34;allowlist&amp;#34;: { &amp;#34;allow&amp;#34;: [ &amp;#34;\&amp;#34;{ register } で指定.&amp;#34; ] } }, &amp;#34;rules&amp;#34;: { &amp;#34;textlint-rule-preset-ja-spacing&amp;#34;: { &amp;#34;ja-space-between-half-and-full-width&amp;#34;: { &amp;#34;space&amp;#34;: &amp;#34;always&amp;#34; }, &amp;#34;ja-space-around-code&amp;#34;: { &amp;#34;before&amp;#34;: true, &amp;#34;after&amp;#34;: true } }, &amp;#34;textlint-rule-preset-ja-technical-writing&amp;#34;: { &amp;#34;sentence-length&amp;#34;: { &amp;#34;max&amp;#34;: 90 }, &amp;#34;ja-no-mixed-period&amp;#34;: { &amp;#34;periodMark&amp;#34;: &amp;#34;.&amp;#34; }, &amp;#34;no-exclamation-question-mark&amp;#34;: false } } } 上から見ていく。&#xA;filters textlint-filter-rule-allowlist のインストールが必要。&#xA;&amp;#34;filters&amp;#34;: { &amp;#34;allowlist&amp;#34;: { &amp;#34;allow&amp;#34;: [ &amp;#34;\&amp;#34;{ register } で指定.&amp;#34; ] } }, allow のリストに error を無視する文字列や文章を入れることで、対象を無視する。</description>
+    </item>
+  </channel>
+</rss>

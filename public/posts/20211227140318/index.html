@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>k6 テスト結果の読み方</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<header>
+	============<br>
+	== <a href="https://example.org/">MyDocs</a> ==<br>
+	============
+	<div style="float: right;"></div><br>
+	<p>
+	<nav>
+			
+			
+			<a href="/tags/"><b>Tags</b></a>
+			
+	</nav>
+	</p>
+	
+</header>
+
+	
+	<main>
+		<article>
+			<h1>k6 テスト結果の読み方</h1>
+			<b><time>2021-12-27 14:03:18</time></b>
+		       
+		           <a href="/tags/k6">k6</a>
+        	       
+
+			<div>
+				<p>docker で実行した。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ docker run -i loadimpact/k6 run - &lt;script.js
+</span></span><span style="display:flex;"><span>          /<span style="color:#ae81ff">\ </span>     |‾‾| /‾‾/   /‾‾/
+</span></span><span style="display:flex;"><span>     /<span style="color:#ae81ff">\ </span> /  <span style="color:#ae81ff">\ </span>    |  |/  /   /  /
+</span></span><span style="display:flex;"><span>    /  <span style="color:#ae81ff">\/</span>    <span style="color:#ae81ff">\ </span>   |     <span style="color:#f92672">(</span>   /   ‾‾<span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>   /          <span style="color:#ae81ff">\ </span>  |  |<span style="color:#ae81ff">\ </span> <span style="color:#ae81ff">\ </span>|  <span style="color:#f92672">(</span>‾<span style="color:#f92672">)</span>  |
+</span></span><span style="display:flex;"><span>  / __________ <span style="color:#ae81ff">\ </span> |__| <span style="color:#ae81ff">\_</span>_<span style="color:#ae81ff">\ \_</span>____/ .io
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  execution: local
+</span></span><span style="display:flex;"><span>     script: -
+</span></span><span style="display:flex;"><span>     output: -
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  scenarios: <span style="color:#f92672">(</span>100.00%<span style="color:#f92672">)</span> <span style="color:#ae81ff">1</span> scenario, <span style="color:#ae81ff">20</span> max VUs, 2m50s max duration <span style="color:#f92672">(</span>incl. graceful stop<span style="color:#f92672">)</span>:
+</span></span><span style="display:flex;"><span>           * default: Up to <span style="color:#ae81ff">20</span> looping VUs <span style="color:#66d9ef">for</span> 2m20s over <span style="color:#ae81ff">3</span> stages <span style="color:#f92672">(</span>gracefulRampDown: 30s, gracefulStop: 30s<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>running <span style="color:#f92672">(</span>0m01.0s<span style="color:#f92672">)</span>, 01/20 VUs, <span style="color:#ae81ff">0</span> complete and <span style="color:#ae81ff">0</span> interrupted iterations
+</span></span><span style="display:flex;"><span>default   <span style="color:#f92672">[</span>   1% <span style="color:#f92672">]</span> 01/20 VUs  0m01.0s/2m20.0s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>running <span style="color:#f92672">(</span>0m02.0s<span style="color:#f92672">)</span>, 02/20 VUs, <span style="color:#ae81ff">1</span> complete and <span style="color:#ae81ff">0</span> interrupted iterations
+</span></span><span style="display:flex;"><span>default   <span style="color:#f92672">[</span>   1% <span style="color:#f92672">]</span> 02/20 VUs  0m02.0s/2m20.0s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>running <span style="color:#f92672">(</span>0m03.0s<span style="color:#f92672">)</span>, 02/20 VUs, <span style="color:#ae81ff">1</span> complete and <span style="color:#ae81ff">0</span> interrupted iterations
+</span></span><span style="display:flex;"><span>default   <span style="color:#f92672">[</span>   2% <span style="color:#f92672">]</span> 02/20 VUs  0m03.0s/2m20.0s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>~~
+</span></span><span style="display:flex;"><span>中略
+</span></span><span style="display:flex;"><span>~~
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>running <span style="color:#f92672">(</span>2m19.9s<span style="color:#f92672">)</span>, 01/20 VUs, <span style="color:#ae81ff">1500</span> complete and <span style="color:#ae81ff">0</span> interrupted iterations
+</span></span><span style="display:flex;"><span>default   <span style="color:#f92672">[</span> 100% <span style="color:#f92672">]</span> 01/20 VUs  2m20.0s/2m20.0s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>running <span style="color:#f92672">(</span>2m20.9s<span style="color:#f92672">)</span>, 01/20 VUs, <span style="color:#ae81ff">1500</span> complete and <span style="color:#ae81ff">0</span> interrupted iterations
+</span></span><span style="display:flex;"><span>default ↓ <span style="color:#f92672">[</span> 100% <span style="color:#f92672">]</span> 01/20 VUs  2m20s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>running <span style="color:#f92672">(</span>2m21.0s<span style="color:#f92672">)</span>, 00/20 VUs, <span style="color:#ae81ff">1501</span> complete and <span style="color:#ae81ff">0</span> interrupted iterations
+</span></span><span style="display:flex;"><span>default ✗ <span style="color:#f92672">[</span> 100% <span style="color:#f92672">]</span> 00/20 VUs  2m20s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     ✗ status was <span style="color:#ae81ff">200</span>
+</span></span><span style="display:flex;"><span>      ↳  99% — ✓ <span style="color:#ae81ff">1500</span> / ✗ <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     checks.........................: 99.93% ✓ <span style="color:#ae81ff">1500</span>      ✗ <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>     data_received..................: <span style="color:#ae81ff">15</span> MB  <span style="color:#ae81ff">105</span> kB/s
+</span></span><span style="display:flex;"><span>     data_sent......................: <span style="color:#ae81ff">139</span> kB <span style="color:#ae81ff">985</span> B/s
+</span></span><span style="display:flex;"><span>     http_req_blocked...............: avg<span style="color:#f92672">=</span>7.32ms   min<span style="color:#f92672">=</span>224ns    med<span style="color:#f92672">=</span>729ns    max<span style="color:#f92672">=</span>595.34ms p<span style="color:#f92672">(</span>90<span style="color:#f92672">)=</span>1.26µs   p<span style="color:#f92672">(</span>95<span style="color:#f92672">)=</span>1.53µs
+</span></span><span style="display:flex;"><span>     http_req_connecting............: avg<span style="color:#f92672">=</span>2.44ms   min<span style="color:#f92672">=</span>0s       med<span style="color:#f92672">=</span>0s       max<span style="color:#f92672">=</span>194.35ms p<span style="color:#f92672">(</span>90<span style="color:#f92672">)=</span>0s       p<span style="color:#f92672">(</span>95<span style="color:#f92672">)=</span>0s
+</span></span><span style="display:flex;"><span>     http_req_duration..............: avg<span style="color:#f92672">=</span>202.66ms min<span style="color:#f92672">=</span>154.95ms med<span style="color:#f92672">=</span>183.24ms max<span style="color:#f92672">=</span>833.52ms p<span style="color:#f92672">(</span>90<span style="color:#f92672">)=</span>196.11ms p<span style="color:#f92672">(</span>95<span style="color:#f92672">)=</span>363.11ms
+</span></span><span style="display:flex;"><span>       <span style="color:#f92672">{</span> expected_response:true <span style="color:#f92672">}</span>...: avg<span style="color:#f92672">=</span>202.67ms min<span style="color:#f92672">=</span>154.95ms med<span style="color:#f92672">=</span>183.25ms max<span style="color:#f92672">=</span>833.52ms p<span style="color:#f92672">(</span>90<span style="color:#f92672">)=</span>196.11ms p<span style="color:#f92672">(</span>95<span style="color:#f92672">)=</span>363.36ms
+</span></span><span style="display:flex;"><span>     http_req_failed................: 0.06%  ✓ <span style="color:#ae81ff">1</span>         ✗ <span style="color:#ae81ff">1500</span>
+</span></span><span style="display:flex;"><span>     http_req_receiving.............: avg<span style="color:#f92672">=</span>417.46µs min<span style="color:#f92672">=</span>103.5µs  med<span style="color:#f92672">=</span>363.64µs max<span style="color:#f92672">=</span>11.21ms  p<span style="color:#f92672">(</span>90<span style="color:#f92672">)=</span>633.19µs p<span style="color:#f92672">(</span>95<span style="color:#f92672">)=</span>766.71µs
+</span></span><span style="display:flex;"><span>     http_req_sending...............: avg<span style="color:#f92672">=</span>346.35µs min<span style="color:#f92672">=</span>65.42µs  med<span style="color:#f92672">=</span>310.89µs max<span style="color:#f92672">=</span>2.73ms   p<span style="color:#f92672">(</span>90<span style="color:#f92672">)=</span>531.17µs p<span style="color:#f92672">(</span>95<span style="color:#f92672">)=</span>645.74µs
+</span></span><span style="display:flex;"><span>     http_req_tls_handshaking.......: avg<span style="color:#f92672">=</span>4.85ms   min<span style="color:#f92672">=</span>0s       med<span style="color:#f92672">=</span>0s       max<span style="color:#f92672">=</span>393.86ms p<span style="color:#f92672">(</span>90<span style="color:#f92672">)=</span>0s       p<span style="color:#f92672">(</span>95<span style="color:#f92672">)=</span>0s
+</span></span><span style="display:flex;"><span>     http_req_waiting...............: avg<span style="color:#f92672">=</span>201.89ms min<span style="color:#f92672">=</span>154.02ms med<span style="color:#f92672">=</span>182.51ms max<span style="color:#f92672">=</span>832.89ms p<span style="color:#f92672">(</span>90<span style="color:#f92672">)=</span>195.27ms p<span style="color:#f92672">(</span>95<span style="color:#f92672">)=</span>362.27ms
+</span></span><span style="display:flex;"><span>     http_reqs......................: <span style="color:#ae81ff">1501</span>   10.645297/s
+</span></span><span style="display:flex;"><span>     iteration_duration.............: avg<span style="color:#f92672">=</span>1.21s    min<span style="color:#f92672">=</span>1.17s    med<span style="color:#f92672">=</span>1.18s    max<span style="color:#f92672">=</span>2.08s    p<span style="color:#f92672">(</span>90<span style="color:#f92672">)=</span>1.21s    p<span style="color:#f92672">(</span>95<span style="color:#f92672">)=</span>1.4s
+</span></span><span style="display:flex;"><span>     iterations.....................: <span style="color:#ae81ff">1501</span>   10.645297/s
+</span></span><span style="display:flex;"><span>     vus............................: <span style="color:#ae81ff">1</span>      min<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>       max<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>
+</span></span><span style="display:flex;"><span>     vus_max........................: <span style="color:#ae81ff">20</span>     min<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>      max<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>
+</span></span></code></pre></div><h3 id="test-details">Test details</h3>
+<p>テストの説明を書いているブロック。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  execution: local
+</span></span><span style="display:flex;"><span>     script: -
+</span></span><span style="display:flex;"><span>     output: -
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  scenarios: <span style="color:#f92672">(</span>100.00%<span style="color:#f92672">)</span> <span style="color:#ae81ff">1</span> scenario, <span style="color:#ae81ff">20</span> max VUs, 2m50s max duration <span style="color:#f92672">(</span>incl. graceful stop<span style="color:#f92672">)</span>:
+</span></span><span style="display:flex;"><span>           * default: Up to <span style="color:#ae81ff">20</span> looping VUs <span style="color:#66d9ef">for</span> 2m20s over <span style="color:#ae81ff">3</span> stages <span style="color:#f92672">(</span>gracefulRampDown: 30s, gracefulStop: 30s<span style="color:#f92672">)</span>
+</span></span></code></pre></div><ul>
+<li>execution
+<ul>
+<li>テストモード</li>
+</ul>
+</li>
+<li>scenarios
+<ul>
+<li>シナリオの概要</li>
+</ul>
+</li>
+</ul>
+<h3 id="progress-bar">Progress bar</h3>
+<p>テスト中のプログレスバー。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>running <span style="color:#f92672">(</span>0m01.0s<span style="color:#f92672">)</span>, 01/20 VUs, <span style="color:#ae81ff">0</span> complete and <span style="color:#ae81ff">0</span> interrupted iterations
+</span></span><span style="display:flex;"><span>default   <span style="color:#f92672">[</span>   1% <span style="color:#f92672">]</span> 01/20 VUs  0m01.0s/2m20.0s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>running <span style="color:#f92672">(</span>0m02.0s<span style="color:#f92672">)</span>, 02/20 VUs, <span style="color:#ae81ff">1</span> complete and <span style="color:#ae81ff">0</span> interrupted iterations
+</span></span><span style="display:flex;"><span>default   <span style="color:#f92672">[</span>   1% <span style="color:#f92672">]</span> 02/20 VUs  0m02.0s/2m20.0s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>running <span style="color:#f92672">(</span>0m03.0s<span style="color:#f92672">)</span>, 02/20 VUs, <span style="color:#ae81ff">1</span> complete and <span style="color:#ae81ff">0</span> interrupted iterations
+</span></span><span style="display:flex;"><span>default   <span style="color:#f92672">[</span>   2% <span style="color:#f92672">]</span> 02/20 VUs  0m03.0s/2m20.0s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>~~
+</span></span><span style="display:flex;"><span>中略
+</span></span><span style="display:flex;"><span>~~
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>running <span style="color:#f92672">(</span>2m19.9s<span style="color:#f92672">)</span>, 01/20 VUs, <span style="color:#ae81ff">1500</span> complete and <span style="color:#ae81ff">0</span> interrupted iterations
+</span></span><span style="display:flex;"><span>default   <span style="color:#f92672">[</span> 100% <span style="color:#f92672">]</span> 01/20 VUs  2m20.0s/2m20.0s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>running <span style="color:#f92672">(</span>2m20.9s<span style="color:#f92672">)</span>, 01/20 VUs, <span style="color:#ae81ff">1500</span> complete and <span style="color:#ae81ff">0</span> interrupted iterations
+</span></span><span style="display:flex;"><span>default ↓ <span style="color:#f92672">[</span> 100% <span style="color:#f92672">]</span> 01/20 VUs  2m20s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>running <span style="color:#f92672">(</span>2m21.0s<span style="color:#f92672">)</span>, 00/20 VUs, <span style="color:#ae81ff">1501</span> complete and <span style="color:#ae81ff">0</span> interrupted iterations
+</span></span><span style="display:flex;"><span>default ✗ <span style="color:#f92672">[</span> 100% <span style="color:#f92672">]</span> 00/20 VUs  2m20s
+</span></span></code></pre></div><h3 id="test-summary">test summary</h3>
+<p>テスト結果の詳細が出力されるブロック。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>     ✗ status was <span style="color:#ae81ff">200</span>
+</span></span><span style="display:flex;"><span>      ↳  99% — ✓ <span style="color:#ae81ff">1500</span> / ✗ <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     checks.........................: 99.93% ✓ <span style="color:#ae81ff">1500</span>      ✗ <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>     data_received..................: <span style="color:#ae81ff">15</span> MB  <span style="color:#ae81ff">105</span> kB/s
+</span></span><span style="display:flex;"><span>     data_sent......................: <span style="color:#ae81ff">139</span> kB <span style="color:#ae81ff">985</span> B/s
+</span></span><span style="display:flex;"><span>     http_req_blocked...............: avg<span style="color:#f92672">=</span>7.32ms   min<span style="color:#f92672">=</span>224ns    med<span style="color:#f92672">=</span>729ns    max<span style="color:#f92672">=</span>595.34ms p<span style="color:#f92672">(</span>90<span style="color:#f92672">)=</span>1.26µs   p<span style="color:#f92672">(</span>95<span style="color:#f92672">)=</span>1.53µs
+</span></span><span style="display:flex;"><span>     http_req_connecting............: avg<span style="color:#f92672">=</span>2.44ms   min<span style="color:#f92672">=</span>0s       med<span style="color:#f92672">=</span>0s       max<span style="color:#f92672">=</span>194.35ms p<span style="color:#f92672">(</span>90<span style="color:#f92672">)=</span>0s       p<span style="color:#f92672">(</span>95<span style="color:#f92672">)=</span>0s
+</span></span><span style="display:flex;"><span>     http_req_duration..............: avg<span style="color:#f92672">=</span>202.66ms min<span style="color:#f92672">=</span>154.95ms med<span style="color:#f92672">=</span>183.24ms max<span style="color:#f92672">=</span>833.52ms p<span style="color:#f92672">(</span>90<span style="color:#f92672">)=</span>196.11ms p<span style="color:#f92672">(</span>95<span style="color:#f92672">)=</span>363.11ms
+</span></span><span style="display:flex;"><span>       <span style="color:#f92672">{</span> expected_response:true <span style="color:#f92672">}</span>...: avg<span style="color:#f92672">=</span>202.67ms min<span style="color:#f92672">=</span>154.95ms med<span style="color:#f92672">=</span>183.25ms max<span style="color:#f92672">=</span>833.52ms p<span style="color:#f92672">(</span>90<span style="color:#f92672">)=</span>196.11ms p<span style="color:#f92672">(</span>95<span style="color:#f92672">)=</span>363.36ms
+</span></span><span style="display:flex;"><span>     http_req_failed................: 0.06%  ✓ <span style="color:#ae81ff">1</span>         ✗ <span style="color:#ae81ff">1500</span>
+</span></span><span style="display:flex;"><span>     http_req_receiving.............: avg<span style="color:#f92672">=</span>417.46µs min<span style="color:#f92672">=</span>103.5µs  med<span style="color:#f92672">=</span>363.64µs max<span style="color:#f92672">=</span>11.21ms  p<span style="color:#f92672">(</span>90<span style="color:#f92672">)=</span>633.19µs p<span style="color:#f92672">(</span>95<span style="color:#f92672">)=</span>766.71µs
+</span></span><span style="display:flex;"><span>     http_req_sending...............: avg<span style="color:#f92672">=</span>346.35µs min<span style="color:#f92672">=</span>65.42µs  med<span style="color:#f92672">=</span>310.89µs max<span style="color:#f92672">=</span>2.73ms   p<span style="color:#f92672">(</span>90<span style="color:#f92672">)=</span>531.17µs p<span style="color:#f92672">(</span>95<span style="color:#f92672">)=</span>645.74µs
+</span></span><span style="display:flex;"><span>     http_req_tls_handshaking.......: avg<span style="color:#f92672">=</span>4.85ms   min<span style="color:#f92672">=</span>0s       med<span style="color:#f92672">=</span>0s       max<span style="color:#f92672">=</span>393.86ms p<span style="color:#f92672">(</span>90<span style="color:#f92672">)=</span>0s       p<span style="color:#f92672">(</span>95<span style="color:#f92672">)=</span>0s
+</span></span><span style="display:flex;"><span>     http_req_waiting...............: avg<span style="color:#f92672">=</span>201.89ms min<span style="color:#f92672">=</span>154.02ms med<span style="color:#f92672">=</span>182.51ms max<span style="color:#f92672">=</span>832.89ms p<span style="color:#f92672">(</span>90<span style="color:#f92672">)=</span>195.27ms p<span style="color:#f92672">(</span>95<span style="color:#f92672">)=</span>362.27ms
+</span></span><span style="display:flex;"><span>     http_reqs......................: <span style="color:#ae81ff">1501</span>   10.645297/s
+</span></span><span style="display:flex;"><span>     iteration_duration.............: avg<span style="color:#f92672">=</span>1.21s    min<span style="color:#f92672">=</span>1.17s    med<span style="color:#f92672">=</span>1.18s    max<span style="color:#f92672">=</span>2.08s    p<span style="color:#f92672">(</span>90<span style="color:#f92672">)=</span>1.21s    p<span style="color:#f92672">(</span>95<span style="color:#f92672">)=</span>1.4s
+</span></span><span style="display:flex;"><span>     iterations.....................: <span style="color:#ae81ff">1501</span>   10.645297/s
+</span></span><span style="display:flex;"><span>     vus............................: <span style="color:#ae81ff">1</span>      min<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>       max<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>
+</span></span><span style="display:flex;"><span>     vus_max........................: <span style="color:#ae81ff">20</span>     min<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>      max<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>
+</span></span></code></pre></div><table>
+<thead>
+<tr>
+<th>メトリクス名</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>checks</td>
+<td>チェックの成功率</td>
+</tr>
+<tr>
+<td>data_received</td>
+<td>受信したデータ量</td>
+</tr>
+<tr>
+<td>data_sent</td>
+<td>送信したデータ量</td>
+</tr>
+<tr>
+<td>http_req_blocked</td>
+<td>リクエストが開始されるまでのブロック時間</td>
+</tr>
+<tr>
+<td>http_req_connecting</td>
+<td>TCP コネクションを確立するのに要した時間</td>
+</tr>
+<tr>
+<td>http_req_duration</td>
+<td>リクエストに要した総時間 ( <code>http_req_sending + http_req_waiting + http_req_receiving</code> )</td>
+</tr>
+<tr>
+<td>http_req_failed</td>
+<td>失敗したリクエストの割合</td>
+</tr>
+<tr>
+<td>http_req_receiving</td>
+<td>リモートホストからデータ応答に要した時間</td>
+</tr>
+<tr>
+<td>http_req_sending</td>
+<td>リモートホストへのデータ送信に要した時間</td>
+</tr>
+<tr>
+<td>http_req_tls_handshaking</td>
+<td>TLS セッションのハンドシェイクに要した時間</td>
+</tr>
+<tr>
+<td>http_req_waiting</td>
+<td>リモートホストからの応答を待つのに要した時間</td>
+</tr>
+<tr>
+<td>http_reqs</td>
+<td>発生したリクエスト件数</td>
+</tr>
+<tr>
+<td>iteration_duration</td>
+<td>1 回のループに要した時間</td>
+</tr>
+<tr>
+<td>iterations</td>
+<td><code>default function</code> が実行された回数</td>
+</tr>
+<tr>
+<td>vus</td>
+<td>バーチャルユーザ数</td>
+</tr>
+<tr>
+<td>vus_max</td>
+<td>最大のバーチャルユーザ数</td>
+</tr>
+</tbody>
+</table>
+
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h3>LATEST POSTS</h3>
+		</div>
+		<div>
+			<ul>
+				
+				<li><a href="/posts/20231216175817/">ブログを next.js 辞めて hugo にした</a></li>
+				
+				<li><a href="/posts/20230322173450/">Slack のスラッシュコマンドを Lambda で受け取る</a></li>
+				
+				<li><a href="/posts/20230223173604/">gqlgen を触る</a></li>
+				
+				<li><a href="/posts/20230210174709/">aws-sdk-go-v2 で profile を使う</a></li>
+				
+				<li><a href="/posts/20230204160502/">github action で日付を扱う</a></li>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+	<p>&copy; 2023 <a href="https://example.org/"><b>MyDocs</b></a>.
+	</p>
+</footer>
+
+</body>
+</html>

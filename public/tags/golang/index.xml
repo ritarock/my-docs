@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>golang on MyDocs</title>
+    <link>https://example.org/tags/golang/</link>
+    <description>Recent content in golang on MyDocs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 22 Mar 2023 17:34:50 +0900</lastBuildDate>
+    <atom:link href="https://example.org/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Slack のスラッシュコマンドを Lambda で受け取る</title>
+      <link>https://example.org/posts/20230322173450/</link>
+      <pubDate>Wed, 22 Mar 2023 17:34:50 +0900</pubDate>
+      <guid>https://example.org/posts/20230322173450/</guid>
+      <description>構成は、slack =&amp;gt; API Gateway =&amp;gt; Lambda。&#xA;event を Decode する必要がある。&#xA;func Handler(event events.APIGatewayProxyRequest) (Response, error) { if err := ensureDecode(&amp;amp;event); err != nil { panic(err) } fmt.Println(event.Body) } func ensureDecode(event *events.APIGatewayProxyRequest) error { if event.IsBase64Encoded { body, err := base64.StdEncoding.DecodeString(event.Body) if err != nil { return err } event.Body = string(body) event.IsBase64Encoded = false } return nil } </description>
+    </item>
+    <item>
+      <title>gqlgen を触る</title>
+      <link>https://example.org/posts/20230223173604/</link>
+      <pubDate>Thu, 23 Feb 2023 17:36:04 +0900</pubDate>
+      <guid>https://example.org/posts/20230223173604/</guid>
+      <description>database の準備 $ go run -mod=mod entgo.io/ent/cmd/ent new Todo schema の設定。&#xA;// Fields of the Todo. func (Todo) Fields() []ent.Field { return []ent.Field{ field.String(&amp;#34;title&amp;#34;), field.String(&amp;#34;note&amp;#34;), field.Bool(&amp;#34;completed&amp;#34;).Default(false), field.Time(&amp;#34;created_at&amp;#34;).Default(time.Now()), field.Time(&amp;#34;updated_at&amp;#34;).Default(time.Now()), } } $ go generate ./ent gqlgen $ printf &amp;#39;// +build tools\npackage tools\nimport (_ &amp;#34;github.com/99designs/gqlgen&amp;#34;\n _ &amp;#34;github.com/99designs/gqlgen/graphql/introspection&amp;#34;)&amp;#39; | gofmt &amp;gt; tools.go $ go mod tidy $ go run github.com/99designs/gqlgen init graph/ に生成されたファイル。&#xA;tree graph/ graph/ ├── generated.go # 自動生成 ├── model │ └── models_gen.</description>
+    </item>
+    <item>
+      <title>aws-sdk-go-v2 で profile を使う</title>
+      <link>https://example.org/posts/20230210174709/</link>
+      <pubDate>Fri, 10 Feb 2023 17:47:09 +0900</pubDate>
+      <guid>https://example.org/posts/20230210174709/</guid>
+      <description>profile を指定している場合は profile を使うが、指定していない場合は IAM ロールを使う。&#xA;func session(ctx context.Context, profile string) (aws.Config, error) { configOptions := []func(*config.LoadOptions) error{ config.WithRegion(&amp;#34;ap-northeast-1&amp;#34;), } if profile != &amp;#34;&amp;#34; { configOptions = append(configOptions, config.WithSharedConfigProfile(aws.ToString(&amp;amp;profile))) } cfg, err := config.LoadDefaultConfig(ctx, configOptions...) if err != nil { return aws.Config{}, err } return cfg, nil } このコード が参考になった。</description>
+    </item>
+    <item>
+      <title>cobra-cli を使う</title>
+      <link>https://example.org/posts/20220522180736/</link>
+      <pubDate>Sun, 22 May 2022 18:07:36 +0900</pubDate>
+      <guid>https://example.org/posts/20220522180736/</guid>
+      <description>cobra-cli を使う go.mod を作成 $ go mod init sample go: creating new go.mod: module sample project の開始 init コマンドを実行。&#xA;$ go run -mod=mod github.com/spf13/cobra-cli@latest init $ tree tree . ├── LICENSE ├── cmd │ └── root.go ├── go.mod ├── go.sum └── main.go main.go は cmd.Execute() を呼び出しているだけ。&#xA;/* Copyright © 2022 NAME HERE &amp;lt;EMAIL ADDRESS&amp;gt; */ package main import &amp;#34;sample/cmd&amp;#34; func main() { cmd.Execute() } cmd/root.go を編集。実行したら Hello を出力する。&#xA;/* Copyright © 2022 NAME HERE &amp;lt;EMAIL ADDRESS&amp;gt; */ package cmd import ( &amp;#34;fmt&amp;#34; &amp;#34;os&amp;#34; &amp;#34;github.</description>
+    </item>
+    <item>
+      <title>echo で middleware を実装する</title>
+      <link>https://example.org/posts/20220129163904/</link>
+      <pubDate>Sat, 29 Jan 2022 16:39:04 +0900</pubDate>
+      <guid>https://example.org/posts/20220129163904/</guid>
+      <description>公式ドキュメントを参考に今回はアクセスの回数をログに出力する middleware を実装する。&#xA;middleware は echo.HandlerFunc を返す関数を作れば良さそう。&#xA;package main import ( &amp;#34;fmt&amp;#34; &amp;#34;sync&amp;#34; &amp;#34;github.com/labstack/echo/v4&amp;#34; ) type Counter struct { mutex sync.Mutex value int } var counter = new(Counter) func accessCounter(next echo.HandlerFunc) echo.HandlerFunc { return func(c echo.Context) error { counter.mutex.Lock() counter.value++ counter.mutex.Unlock() fmt.Println(counter.value) return next(c) } } func main() { e := echo.New() e.Use(accessCounter) e.Start(&amp;#34;:8080&amp;#34;) } </description>
+    </item>
+    <item>
+      <title>ent と echo で API 作る</title>
+      <link>https://example.org/posts/20220108155408/</link>
+      <pubDate>Sat, 08 Jan 2022 15:54:08 +0900</pubDate>
+      <guid>https://example.org/posts/20220108155408/</guid>
+      <description>ent インストール ent と DB の client をインストールする。&#xA;$ go get -d entgo.io/ent/cmd/ent $ go get github.com/mattn/go-sqlite3 スキーマの作成 $ go run entgo.io/ent/cmd/ent init Todo ent/schema/todo.go を編集する。&#xA;// Fields of the Todo. func (Todo) Fields() []ent.Field { return []ent.Field{ field.String(&amp;#34;name&amp;#34;). Default(&amp;#34;&amp;#34;), field.Bool(&amp;#34;status&amp;#34;). Default(false), field.Time(&amp;#34;created_at&amp;#34;). Default(func() time.Time { return time.Now() }), } } コード生成 shema ファイルを元にコードを生成するので編集後は実行する必要がある。&#xA;$ go generate ./ent マイグレーション部分を実装 func main() { client, err := ent.Open(&amp;#34;sqlite3&amp;#34;, &amp;#34;file:todo.sqlite?cache=shared&amp;amp;_fk=1&amp;#34;) if err != nil { log.</description>
+    </item>
+    <item>
+      <title>sql-migrate を試す</title>
+      <link>https://example.org/posts/20211120165745/</link>
+      <pubDate>Sat, 20 Nov 2021 16:57:45 +0900</pubDate>
+      <guid>https://example.org/posts/20211120165745/</guid>
+      <description>https://github.com/rubenv/sql-migrate を試してみた。&#xA;docker で試す 通常のアプリを起動する docker-compose.yml とは別に docker-compose.migration.yml を用意した。&#xA;version: &amp;#39;3&amp;#39; services: db: build: context: ./docker/database restart: always environment: MYSQL_DATABASE: app MYSQL_USER: user MYSQL_PASSWORD: pass MYSQL_ROOT_PASSWORD: pass ports: - 3306:3306 volumes: - ./docker/database/mysql:/var/lib/mysql migration: build: context: ./docker/migration volumes: - ./migrations:/work depends_on: - db migration 用の Dockerfile はこんな感じ。&#xA;FROM golang:1.17.3 WORKDIR /work RUN go get -v github.com/rubenv/sql-migrate/... migration コンテナにマウントしてる ./migrations にはマイグレーション用の SQL と dbconfig.yml を置いている。&#xA;dbconfig.yml では接続する DB の設定を書いておく。&#xA;development: dialect: mysql datasource: user:pass@tcp(db:3306)/app?</description>
+    </item>
+    <item>
+      <title>Go のテストを勉強する</title>
+      <link>https://example.org/posts/20211112233257/</link>
+      <pubDate>Fri, 12 Nov 2021 23:32:57 +0900</pubDate>
+      <guid>https://example.org/posts/20211112233257/</guid>
+      <description>今まで VSCode の Generate Unit Tests For Function で作成してなんとなくで書いてたけどちゃんと勉強した。&#xA;https://github.com/andmorefine/learn-go-with-tests を使って勉強した。日本語訳が微妙だったので英語版がよかった。&#xA;以下メモ。&#xA;t.Helper() を使えば失敗した行が関数呼び出し側になる Benchmark 実行には go test -bench=. を実行する カバレッジを確認するには go test -cover を実行する スライスの test は reflect.DeepEqual を使って変数を比較する。 ただ reflect.DeepEqual は型安全ではないので注意 マップは nil に書き込もうとするとランタイムパニックになるので初期化に気をつける NG: var m map[string]string OK: var dictonary = map[string]string{} もしくは var dictonary = make(map[string]string) 標準ライブラリに net/http/httptest があってこれで模擬 HTTP サーバを作れる &amp;lsquo;入力 X のとき出力 Y を期待する&amp;rsquo; というテストを作るときはテーブルベースのテストを使う </description>
+    </item>
+    <item>
+      <title>echo を触ってみる</title>
+      <link>https://example.org/posts/20211106130548/</link>
+      <pubDate>Sat, 06 Nov 2021 13:05:48 +0900</pubDate>
+      <guid>https://example.org/posts/20211106130548/</guid>
+      <description>最小構成。&#xA;$ go get github.com/labstack/echo/v4 package main import ( &amp;#34;net/http&amp;#34; &amp;#34;github.com/labstack/echo/v4&amp;#34; ) func main() { e := echo.New() e.GET(&amp;#34;/&amp;#34;, func(c echo.Context) error { return c.String(http.StatusOK, &amp;#34;Hello World!&amp;#34;) }) e.Logger.Fatal(e.Start(&amp;#34;:8080&amp;#34;)) } path parameters http://localhost:8080/users/1&#xA;1 が返ってくる。&#xA;package main import ( &amp;#34;net/http&amp;#34; &amp;#34;github.com/labstack/echo/v4&amp;#34; ) func main() { e := echo.New() e.GET(&amp;#34;/users/:id&amp;#34;, getUser) e.Logger.Fatal(e.Start(&amp;#34;:8080&amp;#34;)) } func getUser(c echo.Context) error { id := c.Param(&amp;#34;id&amp;#34;) return c.String(http.StatusOK, id) } query parameters http://localhost:8080/show?team=x-men&amp;amp;member=wolverine&#xA;team: x-men, member: wolverine が返ってくる。</description>
+    </item>
+    <item>
+      <title>並行処理の考え方</title>
+      <link>https://example.org/posts/20211104175819/</link>
+      <pubDate>Thu, 04 Nov 2021 17:58:19 +0900</pubDate>
+      <guid>https://example.org/posts/20211104175819/</guid>
+      <description>競合状態 データ処理に順番ありの可能性がある。処理の間に 1 時間掛かっても問題ないか?と考える。&#xA;アトミック性 処理が行われたか、行われたかったかの 2 パターンしかない。処理を分解したときにこれ以上分解できない単位。 i++ は非アトミック。&#xA;i の値を取得する i の値を 1 増やす i の値を保存する アトミックな処理であれば複数のゴルーチンで安全に扱える。&#xA;メモリアクセス同期 排他処理が必要。 sync.Mutex で解決できる。&#xA;デッドロック 相互排他 ある並行プロセスがリソースに対して排他的な権利をどの時点でも保持している 条件待ち ある並行プロセスがリソースの保持と追加のリソース待ちを同時に行う 横取り不可 ある並行プロセスによって保持されているリソースはそのプロセスによってのみ開放される 循環待ち ある並行プロセス ( P1 ) は他の並行プロセス ( P2 ) を待たなければならない。そして P2 は P1 を待っている ライブロック ライブロックが起こる原因の多くは、試行回数に上限がない。 2 つの並行プロセスが互いのデッドロックを予防して起こる。&#xA;リソース枯渇 ライブロックのように 1 つ以上の貪欲なプロセスが他のリソースを奪うことで起こる。&#xA;package main import ( &amp;#34;fmt&amp;#34; &amp;#34;sync&amp;#34; &amp;#34;time&amp;#34; ) func main() { var wg sync.WaitGroup var sharedLock sync.Mutex const RUNTIME = 1 * time.</description>
+    </item>
+    <item>
+      <title>Go の context</title>
+      <link>https://example.org/posts/20211103154457/</link>
+      <pubDate>Wed, 03 Nov 2021 15:44:57 +0900</pubDate>
+      <guid>https://example.org/posts/20211103154457/</guid>
+      <description>context パッケージ context パッケージを見てみる。&#xA;type Context interface { Deadline() (deadline time.Time, ok bool) Done() &amp;lt;-chan struct{} Err() error Value(key interface{}) interface{} } context パッケージのざっくりとした目的は以下の通り。&#xA;適切なキャンセルを行う機能を提供する リクエストのデータの置き場を提供する キャンセルには 3 つ側面がある。&#xA;ゴルーチンの親がキャンセルしたい場合 ゴルーチンの子をキャンセルしたい場合 ゴルーチン内のブロックしている処理がキャンセルされるように中断できる必要がある場合 使い方 Context の空インスタンスを作る関数は以下の 2 つ。&#xA;func Background() Context 通常使うのはこっち。空の Context を返す func TODO() Context 本番環境で使われることを想定していない。どの Context を使っていいかわからないとき、もしくは上流の実装が終わっていないときに使う Done / Deadline メソッド キャンセルに使う。&#xA;context.WithCancel func context.WithCancel(parent context.Context) (ctx context.Context, cancel context.CancelFunc) キャンセルする側は context.WithCancel() によって生成された cancal 関数を実行する. そのタイミングで、キャンセルされる側の context の Done メソッドが close される。</description>
+    </item>
+    <item>
+      <title>prisma-client-go を試した</title>
+      <link>https://example.org/posts/20211022165454/</link>
+      <pubDate>Fri, 22 Oct 2021 16:54:54 +0900</pubDate>
+      <guid>https://example.org/posts/20211022165454/</guid>
+      <description>prisma のセットアップ まずは project の作成から。&#xA;$ go mod init backend client のインストール。&#xA;$ go get github.com/prisma/prisma-client-go スキーマの作成。&#xA;$ npx prisma init prisma/schema.prisma と .env (と .gitignore ) が生成される。&#xA;.env ファイルは DATABASE_URL を修正。&#xA;# Environment variables declared in this file are automatically made available to Prisma. # See the documentation for more detail: https://pris.ly/d/prisma-schema#using-environment-variables # Prisma supports the native connection string format for PostgreSQL, MySQL, SQLite, SQL Server and MongoDB (Preview). # See the documentation for all the connection string options: https://pris.</description>
+    </item>
+    <item>
+      <title>Golang の http/net について調べた</title>
+      <link>https://example.org/posts/20210723021243/</link>
+      <pubDate>Fri, 23 Jul 2021 02:12:43 +0900</pubDate>
+      <guid>https://example.org/posts/20210723021243/</guid>
+      <description>サーバ 何もしないサーバを起動。&#xA;package main import &amp;#34;net/http&amp;#34; func main() { http.ListenAndServe(&amp;#34;&amp;#34;, nil) } ListenAndServe はネットワークアドレスとハンドラを引数で受け取る。ハンドラが nil の場合は DefaultServerMux が使われる。&#xA;Server の構造体はこんな感じ。&#xA;type Server struct { Addr string Handler Handler TLSConfig *tls.Config ReadTimeout time.Duration ReadHeaderTimeout time.Duration WriteTimeout time.Duration IdleTimeout time.Duration MaxHeaderBytes int TLSNextProto map[string]func(*Server, *tls.Conn, Handler) ConnState func(net.Conn, ConnState) ErrorLog *log.Logger BaseContext func(net.Listener) context.Context ConnContext func(ctx context.Context, c net.Conn) context.Context inShutdown atomicBool disableKeepAlives int32 nextProtoOnce sync.Once nextProtoErr error mu sync.Mutex listeners map[*net.Listener]struct{} activeConn map[*conn]struct{} doneChan chan struct{} onShutdown []func() } 設定を変更する場合は Server の構造体に値を指定する。</description>
+    </item>
+    <item>
+      <title>Golang で json を操作する</title>
+      <link>https://example.org/posts/20210718124235/</link>
+      <pubDate>Sun, 18 Jul 2021 12:42:35 +0900</pubDate>
+      <guid>https://example.org/posts/20210718124235/</guid>
+      <description>JSON の解析 今回使う JSON ファイル。&#xA;{ &amp;#34;id&amp;#34;: 1, &amp;#34;content&amp;#34;: &amp;#34;Hello&amp;#34;, &amp;#34;author&amp;#34;: { &amp;#34;id&amp;#34;: 1, &amp;#34;name&amp;#34;: &amp;#34;author1&amp;#34; }, &amp;#34;comments&amp;#34;: [ { &amp;#34;id&amp;#34;: 1, &amp;#34;content&amp;#34;: &amp;#34;comment1&amp;#34;, &amp;#34;author&amp;#34;: &amp;#34;author2&amp;#34; }, { &amp;#34;id&amp;#34;: 2, &amp;#34;content&amp;#34;: &amp;#34;comment2&amp;#34;, &amp;#34;author&amp;#34;: &amp;#34;author3&amp;#34; } ] } Unmarshal を使う 文字列データの場合は Unmarshal を使う。&#xA;構造体を定義 JSON を構造体に格納 package main import ( &amp;#34;encoding/json&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;io/ioutil&amp;#34; &amp;#34;os&amp;#34; ) type Post struct { Id int `json:&amp;#34;id&amp;#34;` Content string `json:&amp;#34;content&amp;#34;` Author struct { Id int `json:&amp;#34;id&amp;#34;` Name string `json:&amp;#34;name&amp;#34;` } `json:&amp;#34;author&amp;#34;` Comments []struct { Id int `json:&amp;#34;id&amp;#34;` Content string `json:&amp;#34;content&amp;#34;` Author string `json:&amp;#34;author&amp;#34;` } `json:&amp;#34;comments&amp;#34;` } func main() { jsonFile, err := os.</description>
+    </item>
+    <item>
+      <title>Golang の ORM 試した</title>
+      <link>https://example.org/posts/20210717123805/</link>
+      <pubDate>Sat, 17 Jul 2021 12:38:05 +0900</pubDate>
+      <guid>https://example.org/posts/20210717123805/</guid>
+      <description>試したリポジトリはここ。&#xA;https://github.com/ritarock/sandbox/tree/master/golang/sample_gorm&#xA;DB に接続 gorm.Open(dialect string, args ...interface{}) の第一引数は接続するデータベース、第二引数には接続情報。&#xA;今回は Docker で実行したのでコンテナが起動しても mysql は起動していない場合があったので 30 秒待つ処理を入れた。&#xA;func gormConnect() *gorm.DB { DBMS := &amp;#34;mysql&amp;#34; PROTOCOL := &amp;#34;tcp(db:3306)&amp;#34; USER := &amp;#34;user&amp;#34; PASS := &amp;#34;password&amp;#34; DBNAME := &amp;#34;app&amp;#34; CONNECT := USER + &amp;#34;:&amp;#34; + PASS + &amp;#34;@&amp;#34; + PROTOCOL + &amp;#34;/&amp;#34; + DBNAME + &amp;#34;?parseTime=true&amp;#34; var err error db, err := gorm.Open(DBMS, CONNECT) if err != nil { fmt.Println(&amp;#34;Not ready&amp;#34;) time.Sleep(time.Second) count++ if count &amp;gt; 30 { panic(err.</description>
+    </item>
+    <item>
+      <title>Go のコマンド</title>
+      <link>https://example.org/posts/20210702182520/</link>
+      <pubDate>Fri, 02 Jul 2021 18:25:20 +0900</pubDate>
+      <guid>https://example.org/posts/20210702182520/</guid>
+      <description>使うたびにググっていたので。&#xA;go build ソースコードのコンパイルを行う。&#xA;通常のパッケージの場合、 go build を行ったあとは何もファイルを生成しない main パッケージの場合、 go build を行ったあとはカレントディレクトリ直下にバイナリファイルが生成される go build は通常、カレントディレクトリにあるすべての go ファイルをコンパイルする。ファイル名を指定することで、単一ファイルのみコンパイルできる -o オプションでコンパイル後に生成されるファイル名を指定できる。デフォルトだとパッケージ名になる go build は _ 、 . で始まるファイルは無視する -v オプションは、コンパイル中のパッケージ名を出力する go fmt ファイルの整形。&#xA;go get リモートパッケージを取得する。正確には、パッケージのダウンロードしてから、 go install を行う。&#xA;-d オプションは、ダウンロードのみでインストールは行わない -u オプションは、パッケージとその依存パッケージを更新する -f オプションは、 -u を使うときのみ有効で、 import 内の各パッケージが取得されているか検証しない。ローカルにフォークしたパッケージを使いたいときなどに使う go install go build して生成されたバイナリファイルを $HOME/bin に移動している。&#xA;go test カレントディレクトリ配下のすべての \*.test.go ファイルのテストを行う。&#xA;-cover はテストカバー率を表示する go generate go build 前にコードを自動で生成する場合に使用する。&#xA;go mod 依存モジュールの検知、バージョン固定、バージョンアップ検知ができる。</description>
+    </item>
+    <item>
+      <title>Golang で 集合の演算</title>
+      <link>https://example.org/posts/20210508160959/</link>
+      <pubDate>Sat, 08 May 2021 16:09:59 +0900</pubDate>
+      <guid>https://example.org/posts/20210508160959/</guid>
+      <description>何も使わずに実装する 和集合 package main import &amp;#34;fmt&amp;#34; func main() { a := []int{1, 2, 3} b := []int{2, 3, 4} c := []int{3} result := func(array ...[]int) []int { m := make(map[int]struct{}) for _, arr := range array { for _, v := range arr { m[v] = struct{}{} } } tmp := []int{} for k := range m { tmp = append(tmp, k) } return tmp }(a, b, c) fmt.Println(result) } // [3 4 1 2] 積集合 package main import &amp;#34;fmt&amp;#34; func main() { a := []int{1, 2, 3} b := []int{2, 3, 4} c := []int{3} result := func(array .</description>
+    </item>
+    <item>
+      <title>Golang の 並列 / 並行 処理でいろいろ</title>
+      <link>https://example.org/posts/20210429182820/</link>
+      <pubDate>Thu, 29 Apr 2021 18:28:20 +0900</pubDate>
+      <guid>https://example.org/posts/20210429182820/</guid>
+      <description>並列 / 並行 処理 並列処理 Parallelism 同時に同じ処理が複数走る 並行処理 Concurrency 同時に色々な処理が走る channel を使う package main import ( &amp;#34;fmt&amp;#34; &amp;#34;time&amp;#34; ) func process(num int, str string) { for i := 0; i &amp;lt; num; i++ { time.Sleep(1 * time.Second) fmt.Println(i, str) } } func main() { fmt.Println(&amp;#34;Start&amp;#34;) process(2, &amp;#34;A&amp;#34;) process(2, &amp;#34;B&amp;#34;) process(2, &amp;#34;C&amp;#34;) fmt.Println(&amp;#34;Finish&amp;#34;) } // Start // 0 A // 1 A // 0 B // 1 B // 0 C // 1 C // Finish // // ________________________________________________________ // Executed in 6.</description>
+    </item>
+    <item>
+      <title>Golang の goroutine / channel とか</title>
+      <link>https://example.org/posts/20210429010135/</link>
+      <pubDate>Thu, 29 Apr 2021 01:01:35 +0900</pubDate>
+      <guid>https://example.org/posts/20210429010135/</guid>
+      <description>goroutine goroutine は軽量なスレッド。&#xA;go f(x, y) と書くだけ。&#xA;package main import ( &amp;#34;fmt&amp;#34; &amp;#34;time&amp;#34; ) func say(s string) { for i := 0; i &amp;lt; 5; i++ { time.Sleep(100 * time.Millisecond) fmt.Println(s) } } func main() { go say(&amp;#34;hello&amp;#34;) say(&amp;#34;world&amp;#34;) } // hello // world // world // hello // hello // world // hello // world // world // hello channel channel 型は &amp;lt;- を用いて値の送受信を行う。&#xA;ch &amp;lt;- v // v をチャネル ch に送信する v := &amp;lt;- ch // チャネル ch から変数を v に割り当てる チャネルは make で作る。</description>
+    </item>
+    <item>
+      <title>Golang で時間操作とソート</title>
+      <link>https://example.org/posts/20210104181641/</link>
+      <pubDate>Mon, 04 Jan 2021 18:16:41 +0900</pubDate>
+      <guid>https://example.org/posts/20210104181641/</guid>
+      <description>インスタンスのCPUをCLIで確認する&#xA;この CLI を作るにあたってハマったところとその解決法。&#xA;時間でソートする 配列のソート Golang の場合、お決まりのやり方があるみたいでググると大体同じやり方でやっている。&#xA;struct を定義して、Len, Less, Swap メソッドを用意する。&#xA;type Bytime []*cloudwatch.Datapoint func (arr Bytime) Len() int { return len(arr) } func (arr Bytime) Less(i, j int) bool { return arr[i].Timestamp.Before(*arr[j].Timestamp) } func (arr Bytime) Swap(i, j int) { arr[i], arr[j] = arr[j], arr[i] } 実際にソートするときは、別の配列を用意した。&#xA;var sortedResp Bytime = resp.Datapoints sort.Sort(sortedResp) 時間の比較 timeA(2020-01-01 00:00:00 +0000 UTC) と timeB(2021-01-01 00:00:00 +0000 UTC) があるとする。&#xA;timeA, timeB := time.</description>
+    </item>
+    <item>
+      <title>配列をユニークにする</title>
+      <link>https://example.org/posts/20200904174900/</link>
+      <pubDate>Fri, 04 Sep 2020 17:49:00 +0900</pubDate>
+      <guid>https://example.org/posts/20200904174900/</guid>
+      <description>JavaScript set を使う 配列を Set に変換。&#xA;const arr = [0, 0, 1, 1, 1, 2, 3, 4, 5, 5, 5, 6, 6, 7, 8, 9, 9, 9] const set = new Set(arr) console.log(set) // Set(10) { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 } Set を配列に変換。&#xA;const arr = [0, 0, 1, 1, 1, 2, 3, 4, 5, 5, 5, 6, 6, 7, 8, 9, 9, 9] const set = new Set(arr) const setToAArr = Array.</description>
+    </item>
+    <item>
+      <title>atcorder 過去問精鋭10問を Golang で解いた</title>
+      <link>https://example.org/posts/20200505151108/</link>
+      <pubDate>Tue, 05 May 2020 15:11:08 +0900</pubDate>
+      <guid>https://example.org/posts/20200505151108/</guid>
+      <description>1問目 ABC 086 A - Product package main import &amp;#34;fmt&amp;#34; func main() { var a, b int fmt.Scan(&amp;amp;a, &amp;amp;b) if (a*b)%2 == 0 { fmt.Println(&amp;#34;Even&amp;#34;) } else { fmt.Println(&amp;#34;Odd&amp;#34;) } } 2問目 ABC 081 A - Placing Marbles package main import ( &amp;#34;fmt&amp;#34; &amp;#34;strings&amp;#34; ) func main() { var s string var count int fmt.Scan(&amp;amp;s) splitWord := strings.Split(s, &amp;#34;&amp;#34;) for _, w := range splitWord { if w == &amp;#34;1&amp;#34; { count++ } } fmt.</description>
+    </item>
+    <item>
+      <title>Golang で atcorder の入出力とか繰り返しとか</title>
+      <link>https://example.org/posts/20200504145305/</link>
+      <pubDate>Mon, 04 May 2020 14:53:05 +0900</pubDate>
+      <guid>https://example.org/posts/20200504145305/</guid>
+      <description>入出力 単一数値、文字 var N int fmt.Scan(&amp;amp;N) fmt.Println(N) var s string fmt.Scan(&amp;amp;s) fmt.Println(s) 文字列、数列群をスライスで返す func scanStrings(len int) []string { var str string var strs []string for i := 0; i &amp;lt; len; i++ { fmt.Scanf(&amp;#34;%s&amp;#34;, &amp;amp;str) strs = append(strs, str) } return strings } func scanNums(len int) []int { var num int var nums []int for i := 0; i &amp;lt; len; i ++ { fmt.Scan(&amp;amp;num) nums = append(nums, num) } return nums } 与えられた列をスライスで返す n := 3 arr := make([]int, n) for i:= 0; i &amp;lt; n; i ++ { fmt.</description>
+    </item>
+  </channel>
+</rss>

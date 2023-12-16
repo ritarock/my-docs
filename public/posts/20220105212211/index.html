@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>TypeScript の Utility Types</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<header>
+	============<br>
+	== <a href="https://example.org/">MyDocs</a> ==<br>
+	============
+	<div style="float: right;"></div><br>
+	<p>
+	<nav>
+			
+			
+			<a href="/tags/"><b>Tags</b></a>
+			
+	</nav>
+	</p>
+	
+</header>
+
+	
+	<main>
+		<article>
+			<h1>TypeScript の Utility Types</h1>
+			<b><time>2022-01-05 21:22:11</time></b>
+		       
+		           <a href="/tags/typescript">typescript</a>
+        	       
+
+			<div>
+				<h2 id="partialtype">Partial<!-- raw HTML omitted --></h2>
+<p><code>Partial&lt;Type&gt;</code> で指定した型に一時的に切り替えることができる。値を返すときはキャストする必要がある。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Todo</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">title</span>: <span style="color:#66d9ef">string</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">desc</span>: <span style="color:#66d9ef">string</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">date</span>: <span style="color:#66d9ef">Date</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">createTodo</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">title</span>: <span style="color:#66d9ef">string</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">desc</span>: <span style="color:#66d9ef">string</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">date</span>: <span style="color:#66d9ef">Date</span>,
+</span></span><span style="display:flex;"><span>)<span style="color:#f92672">:</span> <span style="color:#a6e22e">Todo</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// let todo: Todo = {} // ここでのエラーを防ぐ
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">todo</span>: <span style="color:#66d9ef">Partial</span>&lt;<span style="color:#f92672">Todo</span>&gt; <span style="color:#f92672">=</span> {};
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">todo</span>.<span style="color:#a6e22e">title</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">title</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">todo</span>.<span style="color:#a6e22e">desc</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">desc</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">todo</span>.<span style="color:#a6e22e">date</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">date</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">todo</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">Todo</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="requiredtype">Required<!-- raw HTML omitted --></h2>
+<p>パラメータが欠損したらエラー。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Todo</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">title</span>: <span style="color:#66d9ef">string</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">desc</span>: <span style="color:#66d9ef">string</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">date</span>: <span style="color:#66d9ef">Date</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">createTodo</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">title</span>: <span style="color:#66d9ef">string</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">desc</span>: <span style="color:#66d9ef">string</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">date</span>: <span style="color:#66d9ef">Date</span>,
+</span></span><span style="display:flex;"><span>)<span style="color:#f92672">:</span> <span style="color:#a6e22e">Todo</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">todo</span>: <span style="color:#66d9ef">Required</span>&lt;<span style="color:#f92672">Todo</span>&gt; <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">title</span>: <span style="color:#66d9ef">title</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">desc</span>: <span style="color:#66d9ef">desc</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">date</span>: <span style="color:#66d9ef">date</span>,
+</span></span><span style="display:flex;"><span>  };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">todo</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="readonlytype">Readonly<!-- raw HTML omitted --></h2>
+<p>初期化したあとにパラメータを変更できないようにする。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Todo</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">title</span>: <span style="color:#66d9ef">string</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">todo</span>: <span style="color:#66d9ef">Readonly</span>&lt;<span style="color:#f92672">Todo</span>&gt; <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">title</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;create&#34;</span>,
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// todo.title = &#34;update&#34;
+</span></span></span></code></pre></div><h2 id="recordkeys-type">Record&lt;Keys, Type&gt;</h2>
+<p>Key とその型を指定できる。辞書として使いたい場合に適している。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">CatInfo</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">age</span>: <span style="color:#66d9ef">number</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">breed</span>: <span style="color:#66d9ef">string</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">CatName</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;miffy&#34;</span> <span style="color:#f92672">|</span> <span style="color:#e6db74">&#34;boris&#34;</span> <span style="color:#f92672">|</span> <span style="color:#e6db74">&#34;mordred&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">cats</span>: <span style="color:#66d9ef">Record</span>&lt;<span style="color:#f92672">CatName</span><span style="color:#960050;background-color:#1e0010">,</span> <span style="color:#a6e22e">CatInfo</span>&gt; <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">miffy</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">age</span>: <span style="color:#66d9ef">10</span>, <span style="color:#a6e22e">breed</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Persian&#34;</span> },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">boris</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">age</span>: <span style="color:#66d9ef">5</span>, <span style="color:#a6e22e">breed</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Maine Coon&#34;</span> },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mordred</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">age</span>: <span style="color:#66d9ef">16</span>, <span style="color:#a6e22e">breed</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;British Shorthair&#34;</span> },
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">cats</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//   miffy: { age: 10, breed: &#34;Persian&#34; },
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//   boris: { age: 5, breed: &#34;Maine Coon&#34; },
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//   mordred: { age: 16, breed: &#34;British Shorthair&#34; }
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// }
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">cats</span>.<span style="color:#a6e22e">boris</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// { age: 5, breed: &#34;Maine Coon&#34; }
+</span></span></span></code></pre></div><h2 id="picktype-keys">Pick&lt;Type, Keys&gt;</h2>
+<p>keys に指定したプロパティの型になる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Todo</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">title</span>: <span style="color:#66d9ef">string</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">desc</span>: <span style="color:#66d9ef">string</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">completed</span>: <span style="color:#66d9ef">boolean</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">TodoPreview</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Pick</span>&lt;<span style="color:#f92672">Todo</span><span style="color:#960050;background-color:#1e0010">,</span> <span style="color:#960050;background-color:#1e0010">&#34;</span><span style="color:#a6e22e">title</span><span style="color:#960050;background-color:#1e0010">&#34;</span> <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#960050;background-color:#1e0010">&#34;</span><span style="color:#a6e22e">completed</span><span style="color:#960050;background-color:#1e0010">&#34;</span>&gt;;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">todo</span>: <span style="color:#66d9ef">TodoPreview</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">title</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Clean room&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">completed</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h2 id="omittype-keys">Omit&lt;Type, Keys&gt;</h2>
+<p>keys に指定した以外のプロパティの型になる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Todo</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">title</span>: <span style="color:#66d9ef">string</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">desc</span>: <span style="color:#66d9ef">string</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">completed</span>: <span style="color:#66d9ef">boolean</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">createdAt</span>: <span style="color:#66d9ef">number</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">TodoPreview</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Omit</span>&lt;<span style="color:#f92672">Todo</span><span style="color:#960050;background-color:#1e0010">,</span> <span style="color:#960050;background-color:#1e0010">&#34;</span><span style="color:#a6e22e">desc</span><span style="color:#960050;background-color:#1e0010">&#34;</span>&gt;;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">todo</span>: <span style="color:#66d9ef">TodoPreview</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">title</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Clean room&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">completed</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">createdAt</span>: <span style="color:#66d9ef">1000</span>,
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h2 id="excludetype-excludedunion">Exclude&lt;Type, ExcludedUnion&gt;</h2>
+<p><code>Exclude&lt;T, U&gt;</code> T から U を除いた型になる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">T0</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Exclude</span><span style="color:#f92672">&lt;</span><span style="color:#e6db74">&#34;a&#34;</span> <span style="color:#f92672">|</span> <span style="color:#e6db74">&#34;b&#34;</span> <span style="color:#f92672">|</span> <span style="color:#e6db74">&#34;c&#34;</span>, <span style="color:#e6db74">&#34;a&#34;</span><span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// type T0 = &#34;b&#34; | &#34;c&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">T1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Exclude</span><span style="color:#f92672">&lt;</span><span style="color:#e6db74">&#34;a&#34;</span> <span style="color:#f92672">|</span> <span style="color:#e6db74">&#34;b&#34;</span> <span style="color:#f92672">|</span> <span style="color:#e6db74">&#34;c&#34;</span>, <span style="color:#e6db74">&#34;a&#34;</span> <span style="color:#f92672">|</span> <span style="color:#e6db74">&#34;b&#34;</span><span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// type T1 = &#34;c&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">T2</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Exclude</span>&lt;<span style="color:#f92672">string</span> <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#a6e22e">number</span> <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#960050;background-color:#1e0010">(()</span> <span style="color:#960050;background-color:#1e0010">=</span>&gt; <span style="color:#66d9ef">void</span>), Function<span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// type T2 = string | number
+</span></span></span></code></pre></div><h2 id="extracttype-union">Extract&lt;Type, Union&gt;</h2>
+<p><code>Extract&lt;T, U&gt;</code> T と U のユニオン型になる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">T0</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Extract</span><span style="color:#f92672">&lt;</span><span style="color:#e6db74">&#34;a&#34;</span> <span style="color:#f92672">|</span> <span style="color:#e6db74">&#34;b&#34;</span> <span style="color:#f92672">|</span> <span style="color:#e6db74">&#34;c&#34;</span>, <span style="color:#e6db74">&#34;a&#34;</span> <span style="color:#f92672">|</span> <span style="color:#e6db74">&#34;f&#34;</span><span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// type T0 = &#34;a&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">T1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Extract</span>&lt;<span style="color:#f92672">string</span> <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#a6e22e">number</span> <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#960050;background-color:#1e0010">(()</span> <span style="color:#960050;background-color:#1e0010">=</span>&gt; <span style="color:#66d9ef">void</span>), Function<span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// type T1 = () =&gt; void
+</span></span></span></code></pre></div><h2 id="nonnullabletype">NonNullable<!-- raw HTML omitted --></h2>
+<p><code>null</code> と <code>undefined</code> を除いた型になる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">T0</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">NonNullable</span>&lt;<span style="color:#f92672">string</span> <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#a6e22e">number</span> <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#a6e22e">undefined</span>&gt;;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// type T0 = string | number
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">T1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">NonNullable</span>&lt;<span style="color:#f92672">string</span><span style="color:#960050;background-color:#1e0010">[]</span> <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#a6e22e">null</span> <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#a6e22e">undefined</span>&gt;;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// type T1 = string[]
+</span></span></span></code></pre></div><h2 id="parameterstype">Parameters<!-- raw HTML omitted --></h2>
+<p><code>Parameters&lt;T&gt;</code> では T は関数型の必要がある。 T が関数のとき T の引数一覧をタプル型で作成する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">declare</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">f1</span>(<span style="color:#a6e22e">arg</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">a</span>: <span style="color:#66d9ef">number</span>; <span style="color:#a6e22e">b</span>: <span style="color:#66d9ef">string</span> })<span style="color:#f92672">:</span> <span style="color:#66d9ef">void</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">T0</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Parameters</span><span style="color:#f92672">&lt;</span>() <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">string</span><span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// type T0 = []
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">T1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Parameters</span><span style="color:#f92672">&lt;</span>(<span style="color:#a6e22e">s</span>: <span style="color:#66d9ef">string</span>) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// type T1 = [s: string]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">T2</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Parameters</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>(<span style="color:#a6e22e">arg</span>: <span style="color:#66d9ef">T</span>) <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// type T2 = [arg: unknown]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">T3</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Parameters</span>&lt;<span style="color:#f92672">typeof</span> <span style="color:#a6e22e">f1</span>&gt;;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// type T3 = [arg: {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//   a: number;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//   b: string;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// }]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">F</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">arg1</span>: <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">arg2</span>: <span style="color:#66d9ef">number</span>) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">string</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">F1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Parameters</span>&lt;<span style="color:#f92672">F</span>&gt;;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// type F1 = [arg1: string, arg2: number]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">v</span>: <span style="color:#66d9ef">F1</span> <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;a&#34;</span>, <span style="color:#ae81ff">123</span>];
+</span></span></code></pre></div><h2 id="constructorparameterstype">ConstructorParameters<!-- raw HTML omitted --></h2>
+<p>class のコンストラクタ関数の引数の型からタプル型を作成する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">T0</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">ConstructorParameters</span>&lt;<span style="color:#f92672">ErrorConstructor</span>&gt;;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// type T0 = [message?: string]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">T1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">ConstructorParameters</span>&lt;<span style="color:#f92672">FunctionConstructor</span>&gt;;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// type T1 = string[]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">constructor</span>(<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">id</span>: <span style="color:#66d9ef">number</span>, <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">name</span>: <span style="color:#66d9ef">string</span>) {}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">P</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">ConstructorParameters</span>&lt;<span style="color:#f92672">typeof</span> <span style="color:#a6e22e">Person</span>&gt;;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// type P = [id: number, name: string]
+</span></span></span></code></pre></div><h2 id="returntypetype">ReturnType<!-- raw HTML omitted --></h2>
+<p>戻り値からなる型になる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">declare</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">f1</span>()<span style="color:#f92672">:</span> { <span style="color:#a6e22e">a</span>: <span style="color:#66d9ef">number</span>; <span style="color:#a6e22e">b</span>: <span style="color:#66d9ef">string</span> };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">T0</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">ReturnType</span><span style="color:#f92672">&lt;</span>() <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">string</span><span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// type T0 = string
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">T1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">ReturnType</span><span style="color:#f92672">&lt;</span>(<span style="color:#a6e22e">s</span>: <span style="color:#66d9ef">string</span>) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// type T1 = void
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">T2</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">ReturnType</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>() <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// type T2 = unknown
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">T3</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">ReturnType</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#a6e22e">T</span> <span style="color:#66d9ef">extends</span> <span style="color:#a6e22e">U</span>, <span style="color:#a6e22e">U</span> <span style="color:#66d9ef">extends</span> <span style="color:#66d9ef">number</span>[]<span style="color:#f92672">&gt;</span>() <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// type T3 = number[]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">T4</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">ReturnType</span>&lt;<span style="color:#f92672">typeof</span> <span style="color:#a6e22e">f1</span>&gt;;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// type T4 = {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//   a: number;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//   b: string;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// }
+</span></span></span></code></pre></div><h2 id="instancetypetype">InstanceType<!-- raw HTML omitted --></h2>
+<p>コンストラクタの戻り値からなる型。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">C</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">x</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">y</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Foo</span> {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">T0</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">InstanceType</span>&lt;<span style="color:#f92672">typeof</span> <span style="color:#a6e22e">C</span>&gt;;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// type T0 = C
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">T1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">InstanceType</span>&lt;<span style="color:#f92672">typeof</span> <span style="color:#a6e22e">Foo</span>&gt;;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// type T1 = Foo
+</span></span></span></code></pre></div><h2 id="thisparametertypetype">ThisParameterType<!-- raw HTML omitted --></h2>
+<p>関数型の this パラメータの型を抽出した型になる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">toHex</span>(<span style="color:#66d9ef">this</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">number</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">toString</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">numberToString</span>(<span style="color:#a6e22e">n</span>: <span style="color:#66d9ef">ThisParameterType</span>&lt;<span style="color:#f92672">typeof</span> <span style="color:#a6e22e">toHex</span>&gt;) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">toHex</span>.<span style="color:#a6e22e">apply</span>(<span style="color:#a6e22e">n</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">numberToString</span>(<span style="color:#ae81ff">123</span>));
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 123
+</span></span></span></code></pre></div><h2 id="omitthisparametertype">OmitThisParameter<!-- raw HTML omitted --></h2>
+<p>関数型の this パラメータの型を除いた型になる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">toHex</span>(<span style="color:#66d9ef">this</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">number</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">toString</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">fiveToHex</span>: <span style="color:#66d9ef">OmitThisParameter</span>&lt;<span style="color:#f92672">typeof</span> <span style="color:#a6e22e">toHex</span>&gt; <span style="color:#f92672">=</span> <span style="color:#a6e22e">toHex</span>.<span style="color:#a6e22e">bind</span>(<span style="color:#ae81ff">123</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">fiveToHex</span>());
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 123
+</span></span></span></code></pre></div><h2 id="thistypetype">ThisType<!-- raw HTML omitted --></h2>
+<p>オブジェクト内の this の型を正しい型にする。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">User</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">name</span>: <span style="color:#66d9ef">string</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Greeting</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">hello</span>()<span style="color:#f92672">:</span> <span style="color:#66d9ef">void</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">user</span>: <span style="color:#66d9ef">Greeting</span> <span style="color:#f92672">&amp;</span> <span style="color:#a6e22e">ThisType</span>&lt;<span style="color:#f92672">User</span>&gt; <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">hello() {</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`Hello </span><span style="color:#e6db74">${</span><span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">name</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h3>LATEST POSTS</h3>
+		</div>
+		<div>
+			<ul>
+				
+				<li><a href="/posts/20231216175817/">ブログを next.js 辞めて hugo にした</a></li>
+				
+				<li><a href="/posts/20230322173450/">Slack のスラッシュコマンドを Lambda で受け取る</a></li>
+				
+				<li><a href="/posts/20230223173604/">gqlgen を触る</a></li>
+				
+				<li><a href="/posts/20230210174709/">aws-sdk-go-v2 で profile を使う</a></li>
+				
+				<li><a href="/posts/20230204160502/">github action で日付を扱う</a></li>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+	<p>&copy; 2023 <a href="https://example.org/"><b>MyDocs</b></a>.
+	</p>
+</footer>
+
+</body>
+</html>

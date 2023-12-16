@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>Terraform 0.13 / 0.14 の新機能について</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<header>
+	============<br>
+	== <a href="https://example.org/">MyDocs</a> ==<br>
+	============
+	<div style="float: right;"></div><br>
+	<p>
+	<nav>
+			
+			
+			<a href="/tags/"><b>Tags</b></a>
+			
+	</nav>
+	</p>
+	
+</header>
+
+	
+	<main>
+		<article>
+			<h1>Terraform 0.13 / 0.14 の新機能について</h1>
+			<b><time>2021-03-12 17:24:37</time></b>
+		       
+		           <a href="/tags/terraform">terraform</a>
+        	       
+
+			<div>
+				<p>個人的に良さそうなやつだけピックアップ。</p>
+<h2 id="013-の新機能">0.13 の新機能</h2>
+<ul>
+<li>module 側で depends_on が使えるようになった</li>
+</ul>
+<h2 id="014-の新機能">0.14 の新機能</h2>
+<ul>
+<li>plan の差分が簡潔になった</li>
+<li>プロバイダーの依存関係のロックファイルが追加された</li>
+</ul>
+<p><code>.terraform.lock.hcl</code> が追加された。</p>
+<p>ロックファイルは <code>terraform init --upgrade</code> のタイミングで更新される。</p>
+<p>ロックファイルがあることで、 provider が新バージョンをリリースしたら突然差分が発生するみたいなことはなくなる。</p>
+
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h3>LATEST POSTS</h3>
+		</div>
+		<div>
+			<ul>
+				
+				<li><a href="/posts/20231216175817/">ブログを next.js 辞めて hugo にした</a></li>
+				
+				<li><a href="/posts/20230322173450/">Slack のスラッシュコマンドを Lambda で受け取る</a></li>
+				
+				<li><a href="/posts/20230223173604/">gqlgen を触る</a></li>
+				
+				<li><a href="/posts/20230210174709/">aws-sdk-go-v2 で profile を使う</a></li>
+				
+				<li><a href="/posts/20230204160502/">github action で日付を扱う</a></li>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+	<p>&copy; 2023 <a href="https://example.org/"><b>MyDocs</b></a>.
+	</p>
+</footer>
+
+</body>
+</html>

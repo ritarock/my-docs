@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>データベース操作</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<header>
+	============<br>
+	== <a href="https://example.org/">MyDocs</a> ==<br>
+	============
+	<div style="float: right;"></div><br>
+	<p>
+	<nav>
+			
+			
+			<a href="/tags/"><b>Tags</b></a>
+			
+	</nav>
+	</p>
+	
+</header>
+
+	
+	<main>
+		<article>
+			<h1>データベース操作</h1>
+			<b><time>2019-11-03 01:57:27</time></b>
+		       
+		           <a href="/tags/mysql">mysql</a>
+        	       
+
+			<div>
+				<h2 id="データベースの作成">データベースの作成</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">DATABASE</span> database_name;
+</span></span></code></pre></div><h2 id="データベースの削除">データベースの削除</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">DATABASE</span> database_name;
+</span></span></code></pre></div><h2 id="テーブルの作成">テーブルの作成</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">table_name</span> (col_name <span style="color:#66d9ef">type</span>, ...);
+</span></span></code></pre></div><h3 id="主キー">主キー</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">table_name</span> (col_name <span style="color:#66d9ef">type</span>, ..., <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> (col_name));
+</span></span></code></pre></div><ul>
+<li>PRIMARY KEY の重複と NULL は NG</li>
+<li>複数の列を指定できる (複合主キー)
+<ul>
+<li>PRIMARY KEY (列名 1, 列名 2 )</li>
+</ul>
+</li>
+</ul>
+<h3 id="外部キー">外部キー</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">table_name</span> (
+</span></span><span style="display:flex;"><span>  col_name <span style="color:#66d9ef">type</span>, ...,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">FOREIGN</span> <span style="color:#66d9ef">KEY</span> (col_name) <span style="color:#66d9ef">REFERENCES</span> parent_table_name(col_name)
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><ul>
+<li>子テーブルの外部キーの値は親テーブルに存在しないといけない</li>
+<li>参照される値 (親テーブル) の UPDATE / DELETE は NG</li>
+</ul>
+<h4 id="親テーブルの-update--delete-時の設定">親テーブルの UPDATE / DELETE 時の設定</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">table_name</span> (
+</span></span><span style="display:flex;"><span>  col_name <span style="color:#66d9ef">type</span>, ...,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">FOREIGN</span> <span style="color:#66d9ef">KEY</span> (col_name) <span style="color:#66d9ef">REFERENCES</span> parent_table_name(col_name)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">DELETE</span> [ <span style="color:#960050;background-color:#1e0010">アクション</span> ]
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">UPDATE</span> [ <span style="color:#960050;background-color:#1e0010">アクション</span> ]
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><p>設定できるアクション。</p>
+<table>
+<thead>
+<tr>
+<th>アクション</th>
+<th>詳細</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RESTRICT</td>
+<td>親テーブルに対して UPDATE / DELETE を行うとエラーになる ( デフォルト )</td>
+</tr>
+<tr>
+<td>CASCADE</td>
+<td>親テーブルに対して UPDATE / DELETE を行うと、子テーブルの一致する行に自動的に UPDATE / DELETE を行う</td>
+</tr>
+<tr>
+<td>SET NULL</td>
+<td>親テーブルに対して UPDATE / DELETE を行うと、子テーブルの外部キーを NULL に設定する</td>
+</tr>
+</tbody>
+</table>
+<h2 id="データの検索">データの検索</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> col_name1, col_name2, ... <span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">table_name</span> [ <span style="color:#960050;background-color:#1e0010">条件</span> ];
+</span></span></code></pre></div><h3 id="条件">条件</h3>
+<ul>
+<li>比較演算子</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>演算子</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&ldquo;=&rdquo;</td>
+<td>等しい</td>
+</tr>
+<tr>
+<td>&ldquo;&lt;&rdquo;</td>
+<td>小さい</td>
+</tr>
+<tr>
+<td>&ldquo;&gt;&rdquo;</td>
+<td>大きい</td>
+</tr>
+<tr>
+<td>&ldquo;&lt;=&rdquo;</td>
+<td>以下</td>
+</tr>
+<tr>
+<td>&ldquo;&gt;=&rdquo;</td>
+<td>以上</td>
+</tr>
+<tr>
+<td>&ldquo;&lt;&gt;&rdquo;</td>
+<td>等しくない</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>BETWEEN</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">table_name</span> <span style="color:#66d9ef">WHERE</span> <span style="color:#66d9ef">BETWEEN</span> value1 <span style="color:#66d9ef">AND</span> value2;
+</span></span></code></pre></div><p>指定した範囲に値があるものを取得。</p>
+<ul>
+<li>IN</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">table_name</span> <span style="color:#66d9ef">WHERE</span> col_name <span style="color:#66d9ef">IN</span> (<span style="color:#e6db74">&#39;value1&#39;</span>, <span style="color:#e6db74">&#39;value2&#39;</span>);
+</span></span></code></pre></div><p>指定した値のリストの中にあるものを取得。</p>
+<ul>
+<li>LIKE</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">table_name</span> <span style="color:#66d9ef">WHERE</span> col_name <span style="color:#66d9ef">LIKE</span> <span style="color:#e6db74">&#39;_100%&#39;</span>;
+</span></span></code></pre></div><p><code>%</code> は任意の文字数の任意の文字、 <code>_</code> は 1 文字の任意の文字。</p>
+<ul>
+<li>サブクエリ</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">table_name</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> col_name1 <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">table_name</span> <span style="color:#66d9ef">WHERE</span> col_name2 <span style="color:#f92672">=</span> value
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><p>副問合せ。</p>
+<h3 id="distinct">DISTINCT</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">DISTINCT</span> col_name1, col_name2, ... <span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">table_name</span>;
+</span></span></code></pre></div><p>SELECT の結果から重複業を除外できる。</p>
+<p><code>GROUP BY</code> でも重複削除できる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> col_name1, col_name2, ... <span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">table_name</span> <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> col_name1;
+</span></span></code></pre></div><h3 id="order-by">ORDER BY</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">table_name</span> <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> col_name1 <span style="color:#66d9ef">ASC</span>, col_name2 <span style="color:#66d9ef">DESC</span>;
+</span></span></code></pre></div><p>ASC は昇順。 DESC は降順。 ASC は省略可能。</p>
+<h3 id="limit">LIMIT</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">table_name</span> <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> col_name <span style="color:#66d9ef">LIMIT</span> <span style="color:#ae81ff">5</span>;
+</span></span></code></pre></div><h3 id="集約関数">集約関数</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> col_name, <span style="color:#66d9ef">MAX</span>(col_name) <span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">table_name</span>;
+</span></span></code></pre></div><p>基本的に NULL は無視される。
+集約関数の種類。</p>
+<table>
+<thead>
+<tr>
+<th>関数</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MAX</td>
+<td>最大値</td>
+</tr>
+<tr>
+<td>MIN</td>
+<td>最小値</td>
+</tr>
+<tr>
+<td>SUM</td>
+<td>合計</td>
+</tr>
+<tr>
+<td>AVG</td>
+<td>平均</td>
+</tr>
+<tr>
+<td>COUNT</td>
+<td>カウント</td>
+</tr>
+</tbody>
+</table>
+<p>SUM / AVG / COUNT は DISTINCT をサポートしている。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> col_name, <span style="color:#66d9ef">COUNT</span>( <span style="color:#66d9ef">DISTINCT</span> col_name ) <span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">table_name</span>;
+</span></span></code></pre></div><h3 id="group-by">GROUP BY</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> col_name, <span style="color:#66d9ef">COUNT</span>(col_name) <span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">table_name</span> <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> col_name;
+</span></span></code></pre></div><p>テーブルを集約キーでグループ分けしてから集計する。</p>
+<h3 id="having">HAVING</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">COUNT</span>(col_name1) <span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">table_name</span> <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> col_name1 <span style="color:#66d9ef">HAVING</span> <span style="color:#66d9ef">COUNT</span>(col_name1) <span style="color:#f92672">&gt;=</span> value;
+</span></span></code></pre></div><p><code>GROUP BY</code> されたグループに対して条件を指定できる。</p>
+<p>この場合、列名 1 で集計した値をカウントしてから HAVING で指定した条件のもののみを取得する。</p>
+<h2 id="結合--join-">結合 ( JOIN )</h2>
+<p>結合の種類は 3 つ。</p>
+<ul>
+<li>クロス結合 ( CROSS JOIN )</li>
+<li>内部結合 ( INNER JOIN )</li>
+<li>外部結合 ( OUTER JOIN )</li>
+</ul>
+<h3 id="クロス結合--cross-join-">クロス結合 ( CROSS JOIN )</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> table_name1 <span style="color:#66d9ef">CROSS</span> <span style="color:#66d9ef">JOIN</span> table_name2;
+</span></span></code></pre></div><p>すべてのテーブルの組み合わせを作る。</p>
+<h3 id="内部結合--inner-join-">内部結合 ( INNER JOIN )</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> table_name1.<span style="color:#f92672">*</span>, table_name2.col_name, ...
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> table_name1 <span style="color:#66d9ef">INNER</span> <span style="color:#66d9ef">JOIN</span> table_name2
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ON</span> table_name1.col_name1 <span style="color:#f92672">=</span> table_name2.col_name1;
+</span></span></code></pre></div><p>クロス結合の部分集合。条件一致したものだけを取得する。</p>
+<p><code>USING</code> でも書ける。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> table_name1.<span style="color:#f92672">*</span>, table_name2.col_name, ...
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> table_name1 <span style="color:#66d9ef">INNER</span> <span style="color:#66d9ef">JOIN</span> table_name2 <span style="color:#66d9ef">USING</span>(col_name);
+</span></span></code></pre></div><h3 id="外部結合">外部結合</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> table_name1.<span style="color:#f92672">*</span>, table_name2.col_name, ...
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> table_name1 ( <span style="color:#66d9ef">LEFT</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">RIGHT</span> ) <span style="color:#66d9ef">OUTER</span> <span style="color:#66d9ef">JOIN</span> table_name2
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ON</span> table_name1.col_name1 <span style="color:#f92672">=</span> table_name2.col_name1;
+</span></span></code></pre></div><p>内部結合と同様に条件一致したものを取得し、さらに、マッチしなかった ( LEFT | RIGHT ) のテーブルの行は残す。</p>
+<table>
+<thead>
+<tr>
+<th>書式</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LEFT OUTER JOIN</td>
+<td>FROM のあとに書かれたテーブルのデータだけを取得</td>
+</tr>
+<tr>
+<td>RIGHT OUTER JOIN</td>
+<td>JOIN の後に書かれたテーブルのデータだけを取得</td>
+</tr>
+</tbody>
+</table>
+<h2 id="テーブルの削除">テーブルの削除</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">table_name</span>;
+</span></span></code></pre></div><h2 id="データの挿入">データの挿入</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> database_name.<span style="color:#66d9ef">table_name</span>(col_name1, col_name2, ...) <span style="color:#66d9ef">VALUES</span> (value1, value2, ...);
+</span></span></code></pre></div><p>全てのカラムに値を追加する場合は以下のように書ける。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> <span style="color:#66d9ef">table_name</span> <span style="color:#66d9ef">VALUES</span>(value1, value2, ...);
+</span></span></code></pre></div><h2 id="ビュー">ビュー</h2>
+<p>データを持たず実行分だけが入っている。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">VIEW</span> view_name (col_name1, col_name2, ...) <span style="color:#66d9ef">AS</span> select_statement;
+</span></span></code></pre></div><h2 id="数値として取り出す">数値として取り出す</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> col_name <span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">as</span> unsigned <span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">table_name</span>;
+</span></span></code></pre></div><h2 id="index-の付け方">index の付け方</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">table_name</span> <span style="color:#66d9ef">AND</span> <span style="color:#66d9ef">INDEX</span> index_name (col_name);
+</span></span></code></pre></div><h2 id="トランザクション">トランザクション</h2>
+<p><code>BEGIN</code> で開始して, <code>COMMIT</code> で反映, <code>ROLLBACK</code> で取り消しができる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">BEGIN</span>;
+</span></span><span style="display:flex;"><span>  SQL1;
+</span></span><span style="display:flex;"><span>  SQL2;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">COMMIT</span>;
+</span></span></code></pre></div>
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h3>LATEST POSTS</h3>
+		</div>
+		<div>
+			<ul>
+				
+				<li><a href="/posts/20231216175817/">ブログを next.js 辞めて hugo にした</a></li>
+				
+				<li><a href="/posts/20230322173450/">Slack のスラッシュコマンドを Lambda で受け取る</a></li>
+				
+				<li><a href="/posts/20230223173604/">gqlgen を触る</a></li>
+				
+				<li><a href="/posts/20230210174709/">aws-sdk-go-v2 で profile を使う</a></li>
+				
+				<li><a href="/posts/20230204160502/">github action で日付を扱う</a></li>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+	<p>&copy; 2023 <a href="https://example.org/"><b>MyDocs</b></a>.
+	</p>
+</footer>
+
+</body>
+</html>

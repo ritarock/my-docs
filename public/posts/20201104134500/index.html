@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>some / every / filter / map / flatMap / Object.entries とか</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<header>
+	============<br>
+	== <a href="https://example.org/">MyDocs</a> ==<br>
+	============
+	<div style="float: right;"></div><br>
+	<p>
+	<nav>
+			
+			
+			<a href="/tags/"><b>Tags</b></a>
+			
+	</nav>
+	</p>
+	
+</header>
+
+	
+	<main>
+		<article>
+			<h1>some / every / filter / map / flatMap / Object.entries とか</h1>
+			<b><time>2020-11-04 13:45:00</time></b>
+		       
+		           <a href="/tags/javascript">javascript</a>
+        	       
+
+			<div>
+				<h2 id="some">some()</h2>
+<p><code>some()</code> は配列内の要素 1 つでも条件に合致するものがあれば true を返し、 1 つも合致しなければ false を返す。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">dataList</span> <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>  {<span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;user1&#34;</span>},
+</span></span><span style="display:flex;"><span>  {<span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">2</span>, <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;user2&#34;</span>},
+</span></span><span style="display:flex;"><span>  {<span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">3</span>, <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;user3&#34;</span>},
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">includeId3</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">dataList</span>.<span style="color:#a6e22e">some</span>(<span style="color:#a6e22e">data</span> =&gt; <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">id</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">includeId3</span>) <span style="color:#75715e">//true
+</span></span></span></code></pre></div><h2 id="ever">ever()</h2>
+<p><code>every()</code> は配列内の全ての要素が条件に合致するかを調べることができる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">dataList</span> <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>  {<span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;user1&#34;</span>},
+</span></span><span style="display:flex;"><span>  {<span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">2</span>, <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;user2&#34;</span>},
+</span></span><span style="display:flex;"><span>  {<span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">3</span>, <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;user3&#34;</span>},
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">includeId3</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">dataList</span>.<span style="color:#a6e22e">every</span>(<span style="color:#a6e22e">data</span> =&gt; <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">id</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">includeId3</span>) <span style="color:#75715e">//false
+</span></span></span></code></pre></div><h2 id="filter">filter()</h2>
+<p><code>filter()</code> は配列の要素から条件に合致する新しい配列を作成する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">dataList</span> <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>  { <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;usr1&#34;</span>},
+</span></span><span style="display:flex;"><span>  { <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span>, <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;usr10&#34;</span>},
+</span></span><span style="display:flex;"><span>  { <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">20</span>, <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;usr20&#34;</span>},
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">over10List</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">dataList</span>.<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">data</span> =&gt; <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">id</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">over10List</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// [ { id: 10, user: &#39;usr10&#39; }, { id: 20, user: &#39;usr20&#39; } ]
+</span></span></span></code></pre></div><h2 id="map">map()</h2>
+<p><code>map()</code> は処理して新しい配列を作成する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">dataList</span> <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>  { <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;usr1&#34;</span>},
+</span></span><span style="display:flex;"><span>  { <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span>, <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;usr10&#34;</span>},
+</span></span><span style="display:flex;"><span>  { <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">20</span>, <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;usr20&#34;</span>},
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">over10List</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">dataList</span>
+</span></span><span style="display:flex;"><span>                    .<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">data</span> =&gt; <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">id</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>                    .<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">data</span> =&gt; <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">user</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">over10List</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// [ &#39;usr10&#39;, &#39;usr20&#39; ]
+</span></span></span></code></pre></div><h2 id="flatmap">flatMap()</h2>
+<p><code>flatMap()</code> は配列の階層を解除し、別の配列に置き換える。</p>
+<p><code>flatMap()</code> は <code>map()</code> の処理の後に <code>flat()</code> を実行する。</p>
+<p><code>flat()</code> は配列を 1 次元にするメソッド。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">dataList</span> <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;user1&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">tags</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#34;aaa&#34;</span>, <span style="color:#e6db74">&#34;bbb&#34;</span>]
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;user2&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">tags</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#34;ccc&#34;</span>]
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;user3&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">tags</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#34;ddd&#34;</span>]
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">tagList</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">dataList</span>.<span style="color:#a6e22e">flatMap</span>(<span style="color:#a6e22e">data</span> =&gt; <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">tags</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">tagList</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// [ &#39;aaa&#39;, &#39;bbb&#39;, &#39;ccc&#39;, &#39;ddd&#39; ]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">tagList2</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">dataList</span>.<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">data</span> =&gt; <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">tags</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">tagList2</span>.<span style="color:#a6e22e">flat</span>())
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// [ &#39;aaa&#39;, &#39;bbb&#39;, &#39;ccc&#39;, &#39;ddd&#39; ]
+</span></span></span></code></pre></div><h2 id="objectentries">Object.entries()</h2>
+<p><code>Object.entries( 対象のオブジェクト )</code> を実行すると <code>[[key1, value1], [key2, value2]]</code> が返る。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">obj</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;user1&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;name1&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(Object.<span style="color:#a6e22e">entries</span>(<span style="color:#a6e22e">obj</span>))
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// [ [ &#39;id&#39;, 1 ], [ &#39;user&#39;, &#39;user1&#39; ], [ &#39;name&#39;, &#39;name1&#39; ] ]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>Object.<span style="color:#a6e22e">entries</span>(<span style="color:#a6e22e">obj</span>)
+</span></span><span style="display:flex;"><span>        .<span style="color:#a6e22e">forEach</span>(([<span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">value</span>]) =&gt; {
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`Key: </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">key</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>)
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`Value: </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">value</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>)
+</span></span><span style="display:flex;"><span>        })
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Key: id
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Value: 1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Key: user
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Value: user1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Key: name
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Value: name1
+</span></span></span></code></pre></div>
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h3>LATEST POSTS</h3>
+		</div>
+		<div>
+			<ul>
+				
+				<li><a href="/posts/20231216175817/">ブログを next.js 辞めて hugo にした</a></li>
+				
+				<li><a href="/posts/20230322173450/">Slack のスラッシュコマンドを Lambda で受け取る</a></li>
+				
+				<li><a href="/posts/20230223173604/">gqlgen を触る</a></li>
+				
+				<li><a href="/posts/20230210174709/">aws-sdk-go-v2 で profile を使う</a></li>
+				
+				<li><a href="/posts/20230204160502/">github action で日付を扱う</a></li>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+	<p>&copy; 2023 <a href="https://example.org/"><b>MyDocs</b></a>.
+	</p>
+</footer>
+
+</body>
+</html>

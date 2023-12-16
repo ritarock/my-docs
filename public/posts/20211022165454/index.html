@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>prisma-client-go を試した</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<header>
+	============<br>
+	== <a href="https://example.org/">MyDocs</a> ==<br>
+	============
+	<div style="float: right;"></div><br>
+	<p>
+	<nav>
+			
+			
+			<a href="/tags/"><b>Tags</b></a>
+			
+	</nav>
+	</p>
+	
+</header>
+
+	
+	<main>
+		<article>
+			<h1>prisma-client-go を試した</h1>
+			<b><time>2021-10-22 16:54:54</time></b>
+		       
+		           <a href="/tags/golang">golang</a>
+        	       
+
+			<div>
+				<h2 id="prisma-のセットアップ">prisma のセットアップ</h2>
+<p>まずは project の作成から。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ go mod init backend
+</span></span></code></pre></div><p>client のインストール。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ go get github.com/prisma/prisma-client-go
+</span></span></code></pre></div><p>スキーマの作成。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ npx prisma init
+</span></span></code></pre></div><p><code>prisma/schema.prisma</code> と <code>.env</code> (と .gitignore ) が生成される。</p>
+<p><code>.env</code> ファイルは <code>DATABASE_URL</code> を修正。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-env" data-lang="env"><span style="display:flex;"><span><span style="color:#75715e"># Environment variables declared in this file are automatically made available to Prisma.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># See the documentation for more detail: https://pris.ly/d/prisma-schema#using-environment-variables</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Prisma supports the native connection string format for PostgreSQL, MySQL, SQLite, SQL Server and MongoDB (Preview).</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># See the documentation for all the connection string options: https://pris.ly/d/connection-strings</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>DATABASE_URL<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;mysql://app:password@localhost:3306/app&#34;</span>
+</span></span></code></pre></div><p><code>prisma/schema.prisma</code> は <code>client</code> を <code>prisma-client-go</code> に、 <code>datasource</code> を <code>mysql</code> に修正。</p>
+<pre tabindex="0"><code class="language-schema.prisma" data-lang="schema.prisma">// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = &#34;go run github.com/prisma/prisma-client-go&#34;
+}
+
+datasource db {
+  provider = &#34;mysql&#34;
+  url      = env(&#34;DATABASE_URL&#34;)
+}
+</code></pre><p><code>Task</code> モデルを定義する。</p>
+<pre tabindex="0"><code class="language-schema.prisma" data-lang="schema.prisma">// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = &#34;go run github.com/prisma/prisma-client-go&#34;
+}
+
+datasource db {
+  provider = &#34;mysql&#34;
+  url      = env(&#34;DATABASE_URL&#34;)
+}
+
+model Task {
+  id String @default(cuid()) @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title String
+  status Boolean
+  desc String?
+}
+</code></pre><p>prisma クライアントの作成.
+<code>prisma/db/</code> が生成される。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ go run github.com/prisma/prisma-client-go generate
+</span></span></code></pre></div><p>DB にスキーマを反映させる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ go run github.com/prisma/prisma-client-go migrate dev --name create_task
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>~~
+</span></span><span style="display:flex;"><span>~~
+</span></span><span style="display:flex;"><span>migrations/
+</span></span><span style="display:flex;"><span>  └─ 20211022082219_create_task/
+</span></span><span style="display:flex;"><span>    └─ migration.sql
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Your database is now in sync with your schema.
+</span></span></code></pre></div><p>既にスキーマファイルが存在する場合。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go run github.com/prisma/prisma-client-go migrate dev
+</span></span></code></pre></div><p><code>prisma/migrations/20211022082219_create_task/migration.sql</code> を見てみる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- CreateTable
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#f92672">`</span>Task<span style="color:#f92672">`</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">`</span>id<span style="color:#f92672">`</span> VARCHAR(<span style="color:#ae81ff">191</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">`</span>createdAt<span style="color:#f92672">`</span> DATETIME(<span style="color:#ae81ff">3</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">CURRENT_TIMESTAMP</span>(<span style="color:#ae81ff">3</span>),
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">`</span>updatedAt<span style="color:#f92672">`</span> DATETIME(<span style="color:#ae81ff">3</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">`</span>title<span style="color:#f92672">`</span> VARCHAR(<span style="color:#ae81ff">191</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">`</span>status<span style="color:#f92672">`</span> BOOLEAN <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">`</span><span style="color:#66d9ef">desc</span><span style="color:#f92672">`</span> VARCHAR(<span style="color:#ae81ff">191</span>) <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> (<span style="color:#f92672">`</span>id<span style="color:#f92672">`</span>)
+</span></span><span style="display:flex;"><span>) <span style="color:#66d9ef">DEFAULT</span> CHARACTER <span style="color:#66d9ef">SET</span> utf8mb4 <span style="color:#66d9ef">COLLATE</span> utf8mb4_unicode_ci;
+</span></span></code></pre></div><p>テーブルも作成されている。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-mysql" data-lang="mysql"><span style="display:flex;"><span>mysql<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">show</span> <span style="color:#66d9ef">tables</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+--------------------+</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Tables_in_app      <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+--------------------+</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> _prisma_migrations <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Task               <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+--------------------+</span>
+</span></span></code></pre></div><p><code>Comment</code> モデルを定義し、 <code>Task</code> モデルと関連付けを行う。</p>
+<pre tabindex="0"><code class="language-schema.prisma" data-lang="schema.prisma">model Task {
+  id String @default(cuid()) @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title String
+  status Boolean
+  desc String?
+
+  comments Comment[]
+}
+
+model Comment {
+  id String @default(cuid()) @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  content String
+
+  task Task @relation(fields: [taskId], references: [id])
+  taskId String
+</code></pre><p>migration を行う。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ go run github.com/prisma/prisma-client-go migrate dev --name add_comment_model
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>~~
+</span></span><span style="display:flex;"><span>~~
+</span></span><span style="display:flex;"><span>migrations/
+</span></span><span style="display:flex;"><span>  └─ 20211022083117_add_comment_model/
+</span></span><span style="display:flex;"><span>    └─ migration.sql
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Your database is now in sync with your schema.
+</span></span></code></pre></div><p><code>migrations/20211022083117_add_comment_model/migration.sql</code> を見る。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- CreateTable
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#f92672">`</span><span style="color:#66d9ef">Comment</span><span style="color:#f92672">`</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">`</span>id<span style="color:#f92672">`</span> VARCHAR(<span style="color:#ae81ff">191</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">`</span>createdAt<span style="color:#f92672">`</span> DATETIME(<span style="color:#ae81ff">3</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">CURRENT_TIMESTAMP</span>(<span style="color:#ae81ff">3</span>),
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">`</span>updatedAt<span style="color:#f92672">`</span> DATETIME(<span style="color:#ae81ff">3</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">`</span>content<span style="color:#f92672">`</span> VARCHAR(<span style="color:#ae81ff">191</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">`</span>taskId<span style="color:#f92672">`</span> VARCHAR(<span style="color:#ae81ff">191</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> (<span style="color:#f92672">`</span>id<span style="color:#f92672">`</span>)
+</span></span><span style="display:flex;"><span>) <span style="color:#66d9ef">DEFAULT</span> CHARACTER <span style="color:#66d9ef">SET</span> utf8mb4 <span style="color:#66d9ef">COLLATE</span> utf8mb4_unicode_ci;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- AddForeignKey
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#f92672">`</span><span style="color:#66d9ef">Comment</span><span style="color:#f92672">`</span> <span style="color:#66d9ef">ADD</span> <span style="color:#66d9ef">CONSTRAINT</span> <span style="color:#f92672">`</span>Comment_taskId_fkey<span style="color:#f92672">`</span> <span style="color:#66d9ef">FOREIGN</span> <span style="color:#66d9ef">KEY</span> (<span style="color:#f92672">`</span>taskId<span style="color:#f92672">`</span>) <span style="color:#66d9ef">REFERENCES</span> <span style="color:#f92672">`</span>Task<span style="color:#f92672">`</span>(<span style="color:#f92672">`</span>id<span style="color:#f92672">`</span>) <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">DELETE</span> <span style="color:#66d9ef">RESTRICT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">UPDATE</span> <span style="color:#66d9ef">CASCADE</span>;
+</span></span></code></pre></div><h2 id="prisma-studio-を使う">Prisma Studio を使う</h2>
+<p><code>localhost:5555</code> で起動する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ npx prisma studio
+</span></span></code></pre></div><h2 id="prisma-api-syntax">prisma api syntax</h2>
+<h3 id="全件取得する">全件取得する</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">tasks</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">FindMany</span>().<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span></code></pre></div><h3 id="クエリで取得する">クエリで取得する</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">tasks</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">FindMany</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Title</span>.<span style="color:#a6e22e">Equals</span>(<span style="color:#e6db74">&#34;1st task&#34;</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// &lt;model&gt;.&lt;field&gt;.&lt;method&gt;.(value) 基本的にこの形式で使う
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span></code></pre></div><h3 id="一意なデータを取得する">一意なデータを取得する</h3>
+<p><code>schema.prisma</code> で <code>@id</code> 、 <code>@unique</code> でマークされたもののみに使用可能。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">task</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">FindUnique</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">ID</span>.<span style="color:#a6e22e">Equals</span>(<span style="color:#e6db74">&#34;1234567890&#34;</span>)
+</span></span><span style="display:flex;"><span>).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span></code></pre></div><h3 id="最初に見つかった-1-件を取得する">最初に見つかった 1 件を取得する</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">task</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">FindFirst</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Title</span>.<span style="color:#a6e22e">Equals</span>(<span style="color:#e6db74">&#34;1st task&#34;</span>)
+</span></span><span style="display:flex;"><span>).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span></code></pre></div><h3 id="スキーマのデータ型によってよしなにできる">スキーマのデータ型によってよしなにできる</h3>
+<ul>
+<li><code>String Filter</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">tasks</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">FindMany</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Title が &#34;1st task&#34; と一致する Task を取得
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Title</span>.<span style="color:#a6e22e">Equals</span>(<span style="color:#e6db74">&#34;1st task&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Title に &#34;task&#34; を含む Task を取得
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// db.Task.Title.Contains(&#34;task&#34;)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Title が &#34;1st&#34; から始まる Task を取得
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// db.Task.Title.StartsWith(&#34;1st&#34;)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Title が &#34;task&#34; で終わる Task を取得
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// db.Task.Title.EndsWith(&#34;task&#34;)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span></code></pre></div><ul>
+<li><code>Number Filter</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// &lt;Field&gt; が 50 である &lt;Model&gt; を取得
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">db</span>.&lt;<span style="color:#a6e22e">Model</span>&gt;.&lt;<span style="color:#a6e22e">Field</span>&gt;.<span style="color:#a6e22e">Equals</span>(<span style="color:#ae81ff">50</span>).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// &lt;Field&gt; が 50 以下の &lt;Model&gt; を取得
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">db</span>.&lt;<span style="color:#a6e22e">Model</span>&gt;.&lt;<span style="color:#a6e22e">Field</span>&gt;.<span style="color:#a6e22e">Lte</span>(<span style="color:#ae81ff">50</span>).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// &lt;Field&gt; が 50 未満の &lt;Model&gt; を取得
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">db</span>.&lt;<span style="color:#a6e22e">Model</span>&gt;.&lt;<span style="color:#a6e22e">Field</span>&gt;.<span style="color:#a6e22e">Lt</span>(<span style="color:#ae81ff">50</span>).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// &lt;Field&gt; が 50 以上の &lt;Model&gt; を取得
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">db</span>.&lt;<span style="color:#a6e22e">Model</span>&gt;.&lt;<span style="color:#a6e22e">Field</span>&gt;.<span style="color:#a6e22e">Gte</span>(<span style="color:#ae81ff">50</span>).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// &lt;Field&gt; が 50 より大きいの &lt;Model&gt; を取得
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">db</span>.&lt;<span style="color:#a6e22e">Model</span>&gt;.&lt;<span style="color:#a6e22e">Field</span>&gt;.<span style="color:#a6e22e">Gte</span>(<span style="color:#ae81ff">50</span>).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span></code></pre></div><ul>
+<li><code>Time Filter</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">tasks</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">FindMany</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 昨日作成された task を取得する
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">CreatedAt</span>.<span style="color:#a6e22e">Equals</span>(<span style="color:#a6e22e">yesterday</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 過去 6 時間で作られた task を取得する (createdAt &gt; 6 hours ago)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// db.Task.Gt(time.Now().Add(-6 * time.Hour))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 過去 6 時間で作られた task を取得する (createdAt &gt;= 6 hours ago)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// db.Task.Gte(time.Now().Add(-6 * time.Hour))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 昨日作成された task を取得する
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// db.Task.Lt(time.Now().Truncate(24 * time.Hour))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 昨日作成された task を取得する (本日 00:00:00 を含む)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// db.Task.Lte(time.Now().Truncate(24 * time.Hour))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span></code></pre></div><h3 id="null-関連">NULL 関連</h3>
+<p>null であるものを取得する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Content</span>.<span style="color:#a6e22e">EqualsOptional</span>(<span style="color:#66d9ef">nil</span>).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">content</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;string&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Content</span>.<span style="color:#a6e22e">EqualsOptional</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">content</span>).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span></code></pre></div><h3 id="他にも">他にも</h3>
+<ul>
+<li><code>Not</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Not</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Title</span>.<span style="color:#a6e22e">Equals</span>(<span style="color:#e6db74">&#34;1st task&#34;</span>)
+</span></span><span style="display:flex;"><span>).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span></code></pre></div><ul>
+<li><code>Or</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Or</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Title</span>.<span style="color:#a6e22e">Equals</span>(<span style="color:#e6db74">&#34;1st task&#34;</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Desc</span>.<span style="color:#a6e22e">Equals</span>(<span style="color:#e6db74">&#34;new task&#34;</span>)
+</span></span><span style="display:flex;"><span>).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span></code></pre></div><h3 id="関連付けされたクエリ">関連付けされたクエリ</h3>
+<p>task の title が &ldquo;1st task&rdquo; で comment が &ldquo;new content&rdquo; であるもの task を取得する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">tasks</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">FindMany</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Title</span>.<span style="color:#a6e22e">Equals</span>(<span style="color:#e6db74">&#34;1st task&#34;</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Comments</span>.<span style="color:#a6e22e">Some</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Comment</span>.<span style="color:#a6e22e">Content</span>.<span style="color:#a6e22e">Equals</span>(<span style="color:#e6db74">&#34;new content&#34;</span>),
+</span></span><span style="display:flex;"><span>  ),
+</span></span><span style="display:flex;"><span>).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span></code></pre></div><h3 id="create">create</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">created</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">CreateOne</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Title</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#a6e22e">newTask</span>.<span style="color:#a6e22e">Title</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#a6e22e">newTask</span>.<span style="color:#a6e22e">Status</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Desc</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#a6e22e">newTask</span>.<span style="color:#a6e22e">Desc</span>),
+</span></span><span style="display:flex;"><span>).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span></code></pre></div><p>関連付けのあるデータの場合。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">created</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Comment</span>.<span style="color:#a6e22e">CreateOne</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Comment</span>.<span style="color:#a6e22e">Content</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#a6e22e">newComment</span>.<span style="color:#a6e22e">Content</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Comment</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Link</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">ID</span>.<span style="color:#a6e22e">Equals</span>(<span style="color:#a6e22e">taskId</span>),
+</span></span><span style="display:flex;"><span>  ),
+</span></span><span style="display:flex;"><span>).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span></code></pre></div><h3 id="update">update</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">updated</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">FindUnique</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">ID</span>.<span style="color:#a6e22e">Equals</span>(<span style="color:#a6e22e">taskId</span>),
+</span></span><span style="display:flex;"><span>).<span style="color:#a6e22e">Update</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Title</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#a6e22e">newTask</span>.<span style="color:#a6e22e">Title</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#a6e22e">newTask</span>.<span style="color:#a6e22e">Status</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Desc</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#a6e22e">newTask</span>.<span style="color:#a6e22e">Desc</span>),
+</span></span><span style="display:flex;"><span>).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span></code></pre></div><h3 id="delete">delete</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">FindUnique</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">ID</span>.<span style="color:#a6e22e">Equals</span>(<span style="color:#a6e22e">taskId</span>),
+</span></span><span style="display:flex;"><span>).<span style="color:#a6e22e">Delete</span>().<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span></code></pre></div><h3 id="ソースコード全体">ソースコード全体</h3>
+<p>今回は <code>github.com/gorilla/mux</code> を使って API サーバを作った。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;backend/prisma/db&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;context&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;encoding/json&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;io&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;net/http&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/gorilla/mux&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Task</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Id</span>        <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;id&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">CreatedAt</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;created_at&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">UpdatedAt</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;updated_at&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Title</span>     <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;title&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Status</span>    <span style="color:#66d9ef">bool</span>   <span style="color:#e6db74">`json:&#34;status&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Desc</span>      <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;string&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Comment</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Id</span>        <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;id&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">CreatedAt</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;created_at&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">UpdatedAt</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;updated_at&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Content</span>   <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;content&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">client</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">NewClient</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Prisma</span>.<span style="color:#a6e22e">Connect</span>(); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		panic(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">func</span>() {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Prisma</span>.<span style="color:#a6e22e">Disconnect</span>(); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			panic(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">router</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mux</span>.<span style="color:#a6e22e">NewRouter</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/tasks&#34;</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">newTask</span> <span style="color:#a6e22e">Task</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">ParseForm</span>()
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;ERROR: create task&#34;</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">NewDecoder</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Body</span>).<span style="color:#a6e22e">Decode</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">newTask</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">created</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">CreateOne</span>(
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Title</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#a6e22e">newTask</span>.<span style="color:#a6e22e">Title</span>),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#a6e22e">newTask</span>.<span style="color:#a6e22e">Status</span>),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Desc</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#a6e22e">newTask</span>.<span style="color:#a6e22e">Desc</span>),
+</span></span><span style="display:flex;"><span>		).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;ERROR: create task&#34;</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">response</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Code</span> <span style="color:#66d9ef">int</span>    <span style="color:#e6db74">`json:&#34;code&#34;`</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Data</span> []<span style="color:#a6e22e">Task</span> <span style="color:#e6db74">`json:&#34;data&#34;`</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Code</span> = <span style="color:#ae81ff">200</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span> = append(<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span>, <span style="color:#a6e22e">Task</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Id</span>:        <span style="color:#a6e22e">created</span>.<span style="color:#a6e22e">ID</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">CreatedAt</span>: <span style="color:#a6e22e">created</span>.<span style="color:#a6e22e">CreatedAt</span>.<span style="color:#a6e22e">String</span>(),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">UpdatedAt</span>: <span style="color:#a6e22e">created</span>.<span style="color:#a6e22e">UpdatedAt</span>.<span style="color:#a6e22e">String</span>(),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Title</span>:     <span style="color:#a6e22e">created</span>.<span style="color:#a6e22e">Title</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Status</span>:    <span style="color:#a6e22e">created</span>.<span style="color:#a6e22e">Status</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Desc</span>: <span style="color:#66d9ef">func</span>() <span style="color:#66d9ef">string</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">desc</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">created</span>.<span style="color:#a6e22e">Desc</span>()
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">ok</span> {
+</span></span><span style="display:flex;"><span>					<span style="color:#a6e22e">desc</span> = <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">desc</span>
+</span></span><span style="display:flex;"><span>			}(),
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">response</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Header</span>().<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;Content-Type&#34;</span>, <span style="color:#e6db74">&#34;application/json&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">resp</span>)
+</span></span><span style="display:flex;"><span>	}).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;POST&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/tasks/{task_id}&#34;</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">params</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mux</span>.<span style="color:#a6e22e">Vars</span>(<span style="color:#a6e22e">r</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">taskId</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">params</span>[<span style="color:#e6db74">&#34;task_id&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">task</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">FindUnique</span>(
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">ID</span>.<span style="color:#a6e22e">Equals</span>(<span style="color:#a6e22e">taskId</span>),
+</span></span><span style="display:flex;"><span>		).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;ERROR: read task&#34;</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">response</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Code</span> <span style="color:#66d9ef">int</span>    <span style="color:#e6db74">`json:&#34;code&#34;`</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Data</span> []<span style="color:#a6e22e">Task</span> <span style="color:#e6db74">`json:&#34;data&#34;`</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Code</span> = <span style="color:#ae81ff">200</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span> = append(<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span>, <span style="color:#a6e22e">Task</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Id</span>:        <span style="color:#a6e22e">task</span>.<span style="color:#a6e22e">ID</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">CreatedAt</span>: <span style="color:#a6e22e">task</span>.<span style="color:#a6e22e">CreatedAt</span>.<span style="color:#a6e22e">String</span>(),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">UpdatedAt</span>: <span style="color:#a6e22e">task</span>.<span style="color:#a6e22e">UpdatedAt</span>.<span style="color:#a6e22e">String</span>(),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Title</span>:     <span style="color:#a6e22e">task</span>.<span style="color:#a6e22e">Title</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Status</span>:    <span style="color:#a6e22e">task</span>.<span style="color:#a6e22e">Status</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Desc</span>: <span style="color:#66d9ef">func</span>() <span style="color:#66d9ef">string</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">desc</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">task</span>.<span style="color:#a6e22e">Desc</span>()
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">ok</span> {
+</span></span><span style="display:flex;"><span>					<span style="color:#a6e22e">desc</span> = <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">desc</span>
+</span></span><span style="display:flex;"><span>			}(),
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">response</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Header</span>().<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;Content-Type&#34;</span>, <span style="color:#e6db74">&#34;application/json&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">resp</span>)
+</span></span><span style="display:flex;"><span>	}).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;GET&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/tasks/{task_id}&#34;</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">params</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mux</span>.<span style="color:#a6e22e">Vars</span>(<span style="color:#a6e22e">r</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">taskId</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">params</span>[<span style="color:#e6db74">&#34;task_id&#34;</span>]
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">newTask</span> <span style="color:#a6e22e">Task</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">ParseForm</span>()
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;ERROR: update task&#34;</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">NewDecoder</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Body</span>).<span style="color:#a6e22e">Decode</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">newTask</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">updated</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">FindUnique</span>(
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">ID</span>.<span style="color:#a6e22e">Equals</span>(<span style="color:#a6e22e">taskId</span>),
+</span></span><span style="display:flex;"><span>		).<span style="color:#a6e22e">Update</span>(
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Title</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#a6e22e">newTask</span>.<span style="color:#a6e22e">Title</span>),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#a6e22e">newTask</span>.<span style="color:#a6e22e">Status</span>),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Desc</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#a6e22e">newTask</span>.<span style="color:#a6e22e">Desc</span>),
+</span></span><span style="display:flex;"><span>		).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;ERROR: update task&#34;</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">response</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Code</span> <span style="color:#66d9ef">int</span>    <span style="color:#e6db74">`json:&#34;code&#34;`</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Data</span> []<span style="color:#a6e22e">Task</span> <span style="color:#e6db74">`json:&#34;data&#34;`</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Code</span> = <span style="color:#ae81ff">200</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span> = append(<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span>, <span style="color:#a6e22e">Task</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Id</span>:        <span style="color:#a6e22e">updated</span>.<span style="color:#a6e22e">ID</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">CreatedAt</span>: <span style="color:#a6e22e">updated</span>.<span style="color:#a6e22e">CreatedAt</span>.<span style="color:#a6e22e">String</span>(),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">UpdatedAt</span>: <span style="color:#a6e22e">updated</span>.<span style="color:#a6e22e">UpdatedAt</span>.<span style="color:#a6e22e">String</span>(),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Title</span>:     <span style="color:#a6e22e">updated</span>.<span style="color:#a6e22e">Title</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Status</span>:    <span style="color:#a6e22e">updated</span>.<span style="color:#a6e22e">Status</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Desc</span>: <span style="color:#66d9ef">func</span>() <span style="color:#66d9ef">string</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">desc</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">updated</span>.<span style="color:#a6e22e">Desc</span>()
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">ok</span> {
+</span></span><span style="display:flex;"><span>					<span style="color:#a6e22e">desc</span> = <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">desc</span>
+</span></span><span style="display:flex;"><span>			}(),
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">response</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Header</span>().<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;Content-Type&#34;</span>, <span style="color:#e6db74">&#34;application/json&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">resp</span>)
+</span></span><span style="display:flex;"><span>	}).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;POST&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/tasks/{task_id}&#34;</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">params</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mux</span>.<span style="color:#a6e22e">Vars</span>(<span style="color:#a6e22e">r</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">taskId</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">params</span>[<span style="color:#e6db74">&#34;task_id&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">FindUnique</span>(
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">ID</span>.<span style="color:#a6e22e">Equals</span>(<span style="color:#a6e22e">taskId</span>),
+</span></span><span style="display:flex;"><span>		).<span style="color:#a6e22e">Delete</span>().<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;ERROR: delete task&#34;</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">tasks</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">FindMany</span>().<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;ERROR: read all task&#34;</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">responseData</span> []<span style="color:#a6e22e">Task</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">task</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">tasks</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">responseData</span> = append(<span style="color:#a6e22e">responseData</span>, <span style="color:#a6e22e">Task</span>{
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">Id</span>:        <span style="color:#a6e22e">task</span>.<span style="color:#a6e22e">ID</span>,
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">CreatedAt</span>: <span style="color:#a6e22e">task</span>.<span style="color:#a6e22e">CreatedAt</span>.<span style="color:#a6e22e">String</span>(),
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">UpdatedAt</span>: <span style="color:#a6e22e">task</span>.<span style="color:#a6e22e">UpdatedAt</span>.<span style="color:#a6e22e">String</span>(),
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">Title</span>:     <span style="color:#a6e22e">task</span>.<span style="color:#a6e22e">Title</span>,
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">Status</span>:    <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">Desc</span>: <span style="color:#66d9ef">func</span>() <span style="color:#66d9ef">string</span> {
+</span></span><span style="display:flex;"><span>					<span style="color:#a6e22e">desc</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">task</span>.<span style="color:#a6e22e">Desc</span>()
+</span></span><span style="display:flex;"><span>					<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">ok</span> {
+</span></span><span style="display:flex;"><span>						<span style="color:#a6e22e">desc</span> = <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>					}
+</span></span><span style="display:flex;"><span>					<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">desc</span>
+</span></span><span style="display:flex;"><span>				}(),
+</span></span><span style="display:flex;"><span>			})
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">response</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Code</span> <span style="color:#66d9ef">int</span>    <span style="color:#e6db74">`json:&#34;code&#34;`</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Data</span> []<span style="color:#a6e22e">Task</span> <span style="color:#e6db74">`json:&#34;data&#34;`</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Code</span> = <span style="color:#ae81ff">200</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span> = append(<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span>, <span style="color:#a6e22e">responseData</span><span style="color:#f92672">...</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">response</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Header</span>().<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;Content-Type&#34;</span>, <span style="color:#e6db74">&#34;application/json&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">resp</span>)
+</span></span><span style="display:flex;"><span>	}).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;DELETE&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/tasks&#34;</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">tasks</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">FindMany</span>().<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;ERROR: read all task&#34;</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">responseData</span> []<span style="color:#a6e22e">Task</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">task</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">tasks</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">responseData</span> = append(<span style="color:#a6e22e">responseData</span>, <span style="color:#a6e22e">Task</span>{
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">Id</span>:        <span style="color:#a6e22e">task</span>.<span style="color:#a6e22e">ID</span>,
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">CreatedAt</span>: <span style="color:#a6e22e">task</span>.<span style="color:#a6e22e">CreatedAt</span>.<span style="color:#a6e22e">String</span>(),
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">UpdatedAt</span>: <span style="color:#a6e22e">task</span>.<span style="color:#a6e22e">UpdatedAt</span>.<span style="color:#a6e22e">String</span>(),
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">Title</span>:     <span style="color:#a6e22e">task</span>.<span style="color:#a6e22e">Title</span>,
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">Status</span>:    <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">Desc</span>: <span style="color:#66d9ef">func</span>() <span style="color:#66d9ef">string</span> {
+</span></span><span style="display:flex;"><span>					<span style="color:#a6e22e">desc</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">task</span>.<span style="color:#a6e22e">Desc</span>()
+</span></span><span style="display:flex;"><span>					<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">ok</span> {
+</span></span><span style="display:flex;"><span>						<span style="color:#a6e22e">desc</span> = <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>					}
+</span></span><span style="display:flex;"><span>					<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">desc</span>
+</span></span><span style="display:flex;"><span>				}(),
+</span></span><span style="display:flex;"><span>			})
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">response</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Code</span> <span style="color:#66d9ef">int</span>    <span style="color:#e6db74">`json:&#34;code&#34;`</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Data</span> []<span style="color:#a6e22e">Task</span> <span style="color:#e6db74">`json:&#34;data&#34;`</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Code</span> = <span style="color:#ae81ff">200</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span> = append(<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span>, <span style="color:#a6e22e">responseData</span><span style="color:#f92672">...</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">response</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Header</span>().<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;Content-Type&#34;</span>, <span style="color:#e6db74">&#34;application/json&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">resp</span>)
+</span></span><span style="display:flex;"><span>	}).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;GET&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/tasks/{task_id}/comments&#34;</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">params</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mux</span>.<span style="color:#a6e22e">Vars</span>(<span style="color:#a6e22e">r</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">taskId</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">params</span>[<span style="color:#e6db74">&#34;task_id&#34;</span>]
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">newComment</span> <span style="color:#a6e22e">Comment</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">ParseForm</span>()
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;ERROR: create comment&#34;</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">NewDecoder</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Body</span>).<span style="color:#a6e22e">Decode</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">newComment</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">created</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Comment</span>.<span style="color:#a6e22e">CreateOne</span>(
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Comment</span>.<span style="color:#a6e22e">Content</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#a6e22e">newComment</span>.<span style="color:#a6e22e">Content</span>),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Comment</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">Link</span>(
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Task</span>.<span style="color:#a6e22e">ID</span>.<span style="color:#a6e22e">Equals</span>(<span style="color:#a6e22e">taskId</span>),
+</span></span><span style="display:flex;"><span>			),
+</span></span><span style="display:flex;"><span>		).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;ERROR: create comment&#34;</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">response</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Code</span> <span style="color:#66d9ef">int</span>       <span style="color:#e6db74">`json:&#34;code&#34;`</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Data</span> []<span style="color:#a6e22e">Comment</span> <span style="color:#e6db74">`json:&#34;data&#34;`</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Code</span> = <span style="color:#ae81ff">200</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span> = append(<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span>, <span style="color:#a6e22e">Comment</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Id</span>:        <span style="color:#a6e22e">created</span>.<span style="color:#a6e22e">ID</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">CreatedAt</span>: <span style="color:#a6e22e">created</span>.<span style="color:#a6e22e">CreatedAt</span>.<span style="color:#a6e22e">String</span>(),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">UpdatedAt</span>: <span style="color:#a6e22e">created</span>.<span style="color:#a6e22e">UpdatedAt</span>.<span style="color:#a6e22e">String</span>(),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Content</span>:   <span style="color:#a6e22e">created</span>.<span style="color:#a6e22e">Content</span>,
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">response</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Header</span>().<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;Content-Type&#34;</span>, <span style="color:#e6db74">&#34;application/json&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">resp</span>)
+</span></span><span style="display:flex;"><span>	}).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;POST&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/tasks/{task_id}/comments&#34;</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">params</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mux</span>.<span style="color:#a6e22e">Vars</span>(<span style="color:#a6e22e">r</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">taskId</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">params</span>[<span style="color:#e6db74">&#34;task_id&#34;</span>]
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">comments</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Comment</span>.<span style="color:#a6e22e">FindMany</span>(
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Comment</span>.<span style="color:#a6e22e">TaskID</span>.<span style="color:#a6e22e">Equals</span>(<span style="color:#a6e22e">taskId</span>),
+</span></span><span style="display:flex;"><span>		).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;ERROR: read comment&#34;</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">responseData</span> []<span style="color:#a6e22e">Comment</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">comment</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">comments</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">responseData</span> = append(<span style="color:#a6e22e">responseData</span>, <span style="color:#a6e22e">Comment</span>{
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">Id</span>:        <span style="color:#a6e22e">comment</span>.<span style="color:#a6e22e">ID</span>,
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">CreatedAt</span>: <span style="color:#a6e22e">comment</span>.<span style="color:#a6e22e">CreatedAt</span>.<span style="color:#a6e22e">String</span>(),
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">UpdatedAt</span>: <span style="color:#a6e22e">comment</span>.<span style="color:#a6e22e">UpdatedAt</span>.<span style="color:#a6e22e">String</span>(),
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">Content</span>:   <span style="color:#a6e22e">comment</span>.<span style="color:#a6e22e">Content</span>,
+</span></span><span style="display:flex;"><span>			})
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">response</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Code</span> <span style="color:#66d9ef">int</span>       <span style="color:#e6db74">`json:&#34;code&#34;`</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Data</span> []<span style="color:#a6e22e">Comment</span> <span style="color:#e6db74">`json:&#34;data&#34;`</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Code</span> = <span style="color:#ae81ff">200</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span> = append(<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span>, <span style="color:#a6e22e">responseData</span><span style="color:#f92672">...</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">response</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Header</span>().<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;Content-Type&#34;</span>, <span style="color:#e6db74">&#34;application/json&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">resp</span>)
+</span></span><span style="display:flex;"><span>	}).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;GET&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/tasks/{task_id}/comments/{comment_id}&#34;</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">params</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mux</span>.<span style="color:#a6e22e">Vars</span>(<span style="color:#a6e22e">r</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">commentId</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">params</span>[<span style="color:#e6db74">&#34;comment_id&#34;</span>]
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">newComment</span> <span style="color:#a6e22e">Comment</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">ParseForm</span>()
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;ERROR: update comment&#34;</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">NewDecoder</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Body</span>).<span style="color:#a6e22e">Decode</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">newComment</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">updated</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Comment</span>.<span style="color:#a6e22e">FindUnique</span>(
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Comment</span>.<span style="color:#a6e22e">ID</span>.<span style="color:#a6e22e">Equals</span>(<span style="color:#a6e22e">commentId</span>),
+</span></span><span style="display:flex;"><span>		).<span style="color:#a6e22e">Update</span>(
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Comment</span>.<span style="color:#a6e22e">Content</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#a6e22e">newComment</span>.<span style="color:#a6e22e">Content</span>),
+</span></span><span style="display:flex;"><span>		).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;update error&#34;</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">response</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Code</span> <span style="color:#66d9ef">int</span>       <span style="color:#e6db74">`json:&#34;code&#34;`</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Data</span> []<span style="color:#a6e22e">Comment</span> <span style="color:#e6db74">`json:&#34;comment&#34;`</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Code</span> = <span style="color:#ae81ff">200</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span> = append(<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span>, <span style="color:#a6e22e">Comment</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Id</span>:        <span style="color:#a6e22e">updated</span>.<span style="color:#a6e22e">ID</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">CreatedAt</span>: <span style="color:#a6e22e">updated</span>.<span style="color:#a6e22e">CreatedAt</span>.<span style="color:#a6e22e">String</span>(),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">UpdatedAt</span>: <span style="color:#a6e22e">updated</span>.<span style="color:#a6e22e">UpdatedAt</span>.<span style="color:#a6e22e">String</span>(),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Content</span>:   <span style="color:#a6e22e">updated</span>.<span style="color:#a6e22e">Content</span>,
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">response</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Header</span>().<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;Content-Type&#34;</span>, <span style="color:#e6db74">&#34;application/json&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">resp</span>)
+</span></span><span style="display:flex;"><span>	}).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;POST&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/tasks/{task_id}/comments/{comment_id}&#34;</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">params</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mux</span>.<span style="color:#a6e22e">Vars</span>(<span style="color:#a6e22e">r</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">taskId</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">params</span>[<span style="color:#e6db74">&#34;task_id&#34;</span>]
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">commentId</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">params</span>[<span style="color:#e6db74">&#34;comment_id&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Comment</span>.<span style="color:#a6e22e">FindUnique</span>(
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Comment</span>.<span style="color:#a6e22e">ID</span>.<span style="color:#a6e22e">Equals</span>(<span style="color:#a6e22e">commentId</span>),
+</span></span><span style="display:flex;"><span>		).<span style="color:#a6e22e">Delete</span>().<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;ERROR: delete comment&#34;</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">comments</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Comment</span>.<span style="color:#a6e22e">FindMany</span>(
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Comment</span>.<span style="color:#a6e22e">TaskID</span>.<span style="color:#a6e22e">Equals</span>(<span style="color:#a6e22e">taskId</span>),
+</span></span><span style="display:flex;"><span>		).<span style="color:#a6e22e">Exec</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;ERROR: read all comment&#34;</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">responseData</span> []<span style="color:#a6e22e">Comment</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">comment</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">comments</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">responseData</span> = append(<span style="color:#a6e22e">responseData</span>, <span style="color:#a6e22e">Comment</span>{
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">Id</span>:        <span style="color:#a6e22e">comment</span>.<span style="color:#a6e22e">ID</span>,
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">CreatedAt</span>: <span style="color:#a6e22e">comment</span>.<span style="color:#a6e22e">CreatedAt</span>.<span style="color:#a6e22e">String</span>(),
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">UpdatedAt</span>: <span style="color:#a6e22e">comment</span>.<span style="color:#a6e22e">UpdatedAt</span>.<span style="color:#a6e22e">String</span>(),
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">Content</span>:   <span style="color:#a6e22e">comment</span>.<span style="color:#a6e22e">Content</span>,
+</span></span><span style="display:flex;"><span>			})
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">response</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Code</span> <span style="color:#66d9ef">int</span>       <span style="color:#e6db74">`json:&#34;code&#34;`</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Data</span> []<span style="color:#a6e22e">Comment</span> <span style="color:#e6db74">`json:&#34;data&#34;`</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Code</span> = <span style="color:#ae81ff">200</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span> = append(<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span>, <span style="color:#a6e22e">responseData</span><span style="color:#f92672">...</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">response</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Header</span>().<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;Content-Type&#34;</span>, <span style="color:#e6db74">&#34;application/json&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">resp</span>)
+</span></span><span style="display:flex;"><span>	}).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;DELETE&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">server</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Server</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Addr</span>:    <span style="color:#e6db74">&#34;0.0.0.0:8080&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Handler</span>: <span style="color:#a6e22e">router</span>,
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">server</span>.<span style="color:#a6e22e">ListenAndServe</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h3>LATEST POSTS</h3>
+		</div>
+		<div>
+			<ul>
+				
+				<li><a href="/posts/20231216175817/">ブログを next.js 辞めて hugo にした</a></li>
+				
+				<li><a href="/posts/20230322173450/">Slack のスラッシュコマンドを Lambda で受け取る</a></li>
+				
+				<li><a href="/posts/20230223173604/">gqlgen を触る</a></li>
+				
+				<li><a href="/posts/20230210174709/">aws-sdk-go-v2 で profile を使う</a></li>
+				
+				<li><a href="/posts/20230204160502/">github action で日付を扱う</a></li>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+	<p>&copy; 2023 <a href="https://example.org/"><b>MyDocs</b></a>.
+	</p>
+</footer>
+
+</body>
+</html>

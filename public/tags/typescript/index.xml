@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>typescript on MyDocs</title>
+    <link>https://example.org/tags/typescript/</link>
+    <description>Recent content in typescript on MyDocs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 05 Jan 2022 21:22:11 +0900</lastBuildDate>
+    <atom:link href="https://example.org/tags/typescript/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>TypeScript の Utility Types</title>
+      <link>https://example.org/posts/20220105212211/</link>
+      <pubDate>Wed, 05 Jan 2022 21:22:11 +0900</pubDate>
+      <guid>https://example.org/posts/20220105212211/</guid>
+      <description>Partial Partial&amp;lt;Type&amp;gt; で指定した型に一時的に切り替えることができる。値を返すときはキャストする必要がある。&#xA;interface Todo { title: string; desc: string; date: Date; } function createTodo( title: string, desc: string, date: Date, ): Todo { // let todo: Todo = {} // ここでのエラーを防ぐ let todo: Partial&amp;lt;Todo&amp;gt; = {}; todo.title = title; todo.desc = desc; todo.date = date; return todo as Todo; } Required パラメータが欠損したらエラー。&#xA;interface Todo { title: string; desc: string; date: Date; } function createTodo( title: string, desc: string, date: Date, ): Todo { const todo: Required&amp;lt;Todo&amp;gt; = { title: title, desc: desc, date: date, }; return todo; } Readonly 初期化したあとにパラメータを変更できないようにする。</description>
+    </item>
+    <item>
+      <title>TypeScript 勉強する</title>
+      <link>https://example.org/posts/20211218151125/</link>
+      <pubDate>Sat, 18 Dec 2021 15:11:25 +0900</pubDate>
+      <guid>https://example.org/posts/20211218151125/</guid>
+      <description>型いろいろ discriminated unions 意味のある共通のプロパティをもたせて判別に使う。&#xA;interface Bird { flySpped: number; type: &amp;#34;bird&amp;#34;; } interface Horse { runSpeed: number; type: &amp;#34;horse&amp;#34;; } type Animal = Bird | Horse; function animalSpeed(animal: Animal) { switch (animal.type) { case &amp;#34;bird&amp;#34;: console.log(animal.flySpped); break; case &amp;#34;horse&amp;#34;: console.log(animal.runSpeed); } } 型キャスト 文字列を数値に変換する場合、 + を変数の前につけるだけでよい。&#xA;const a = &amp;#34;1&amp;#34;; const b = &amp;#34;2&amp;#34;; const result = +a + +b; console.log(result); // 3 前に &amp;lt;&amp;gt; で型を書くか、後ろに as を付けて型キャストできる。 祖運剤が確定している場合は ! を付けてエラーを回避できる。</description>
+    </item>
+    <item>
+      <title>Nuxt でブログ作ってハマったところ</title>
+      <link>https://example.org/posts/20200927162114/</link>
+      <pubDate>Sun, 27 Sep 2020 16:21:14 +0900</pubDate>
+      <guid>https://example.org/posts/20200927162114/</guid>
+      <description>GitHub Pages に上げても 404 がでた SPA モードでプロジェクトを作成したため npm run generate コマンドを実行すると dist/ に下記のファイルが生成される。&#xA;[I] ~/w/mypage ❯ ~ (master ☡+) tree dist/ dist/ ├── 200.html ├── README.md ├── _nuxt │ ├── 061840f.js │ ├── 0f2489b.js │ ├── 18eac09.js │ ├── 40b86a8.js │ ├── LICENSES │ ├── c25403f.js │ ├── cf71127.js │ ├── content │ │ └── db-8147cc98.json │ └── f89e603.js └── index.html dist 配下のファイルを GitHub Pages にそのまま上げても _nuxt 配下が 404 になる。</description>
+    </item>
+    <item>
+      <title>deno を触ってみる</title>
+      <link>https://example.org/posts/20200522111427/</link>
+      <pubDate>Fri, 22 May 2020 11:14:27 +0900</pubDate>
+      <guid>https://example.org/posts/20200522111427/</guid>
+      <description>通常の実行 console.log(&amp;#34;Wellcome to Deno&amp;#34;); $ deno run hello.ts Wellcome to Deno http request があるとき const url = Deno.args[0]; const res = await fetch(url); const body = new Uint8Array(await res.arrayBuffer()); await Deno.stdout.write(body); --allow-net をつける。&#xA;$ deno run --allow-net http.ts https://deno.land/manual/getting_started/first_steps コマンドラインで引数を渡す console.log(Deno.args) $ deno run args.ts 1 2 3 [ &amp;#34;1&amp;#34;, &amp;#34;2&amp;#34;, &amp;#34;3&amp;#34; ] ファイル読み込み for (let i = 0; i &amp;lt; Deno.args.length; i++) { let filename = Deno.args[i]; let file = await Deno.</description>
+    </item>
+  </channel>
+</rss>

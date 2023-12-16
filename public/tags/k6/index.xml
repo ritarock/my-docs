@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>k6 on MyDocs</title>
+    <link>https://example.org/tags/k6/</link>
+    <description>Recent content in k6 on MyDocs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 27 Dec 2021 14:03:18 +0900</lastBuildDate>
+    <atom:link href="https://example.org/tags/k6/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>k6 テスト結果の読み方</title>
+      <link>https://example.org/posts/20211227140318/</link>
+      <pubDate>Mon, 27 Dec 2021 14:03:18 +0900</pubDate>
+      <guid>https://example.org/posts/20211227140318/</guid>
+      <description>docker で実行した。&#xA;$ docker run -i loadimpact/k6 run - &amp;lt;script.js /\ |‾‾| /‾‾/ /‾‾/ /\ / \ | |/ / / / / \/ \ | ( / ‾‾\ / \ | |\ \ | (‾) | / __________ \ |__| \__\ \_____/ .io execution: local script: - output: - scenarios: (100.00%) 1 scenario, 20 max VUs, 2m50s max duration (incl. graceful stop): * default: Up to 20 looping VUs for 2m20s over 3 stages (gracefulRampDown: 30s, gracefulStop: 30s) running (0m01.</description>
+    </item>
+  </channel>
+</rss>

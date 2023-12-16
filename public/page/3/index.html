@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta name="generator" content="Hugo 0.121.1">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>MyDocs</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="alternate" type="application/rss+xml" href="/index.xml" title="MyDocs">
+</head>
+<body>
+	<header>
+	============<br>
+	== <a href="https://example.org/">MyDocs</a> ==<br>
+	============
+	<div style="float: right;"></div><br>
+	<p>
+	<nav>
+			
+			
+			<a href="/tags/"><b>Tags</b></a>
+			
+	</nav>
+	</p>
+	
+</header>
+
+	
+	<main>
+		
+		
+			<article>
+	<h1><a href="https://example.org/posts/20210718124235/">Golang で json を操作する</a></h1>
+	<b><time>2021-07-18 12:42:35</time></b>
+	
+	<a href="/tags/golang">golang</a>
+	
+	<div>
+		JSON の解析 今回使う JSON ファイル。
+{ &#34;id&#34;: 1, &#34;content&#34;: &#34;Hello&#34;, &#34;author&#34;: { &#34;id&#34;: 1, &#34;name&#34;: &#34;author1&#34; }, &#34;comments&#34;: [ { &#34;id&#34;: 1, &#34;content&#34;: &#34;comment1&#34;, &#34;author&#34;: &#34;author2&#34; }, { &#34;id&#34;: 2, &#34;content&#34;: &#34;comment2&#34;, &#34;author&#34;: &#34;author3&#34; } ] } Unmarshal を使う 文字列データの場合は Unmarshal を使う。
+構造体を定義 JSON を構造体に格納 package main import ( &#34;encoding/json&#34; &#34;fmt&#34; &#34;io/ioutil&#34; &#34;os&#34; ) type Post struct { Id int `json:&#34;id&#34;` Content string `json:&#34;content&#34;` Author struct { Id int `json:&#34;id&#34;` Name string `json:&#34;name&#34;` } `json:&#34;author&#34;` Comments []struct { Id int `json:&#34;id&#34;` Content string `json:&#34;content&#34;` Author string `json:&#34;author&#34;` } `json:&#34;comments&#34;` } func main() { jsonFile, err := os.
+		
+			<a href="https://example.org/posts/20210718124235/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20210717123805/">Golang の ORM 試した</a></h1>
+	<b><time>2021-07-17 12:38:05</time></b>
+	
+	<a href="/tags/golang">golang</a>
+	
+	<div>
+		試したリポジトリはここ。
+https://github.com/ritarock/sandbox/tree/master/golang/sample_gorm
+DB に接続 gorm.Open(dialect string, args ...interface{}) の第一引数は接続するデータベース、第二引数には接続情報。
+今回は Docker で実行したのでコンテナが起動しても mysql は起動していない場合があったので 30 秒待つ処理を入れた。
+func gormConnect() *gorm.DB { DBMS := &#34;mysql&#34; PROTOCOL := &#34;tcp(db:3306)&#34; USER := &#34;user&#34; PASS := &#34;password&#34; DBNAME := &#34;app&#34; CONNECT := USER + &#34;:&#34; + PASS + &#34;@&#34; + PROTOCOL + &#34;/&#34; + DBNAME + &#34;?parseTime=true&#34; var err error db, err := gorm.Open(DBMS, CONNECT) if err != nil { fmt.Println(&#34;Not ready&#34;) time.Sleep(time.Second) count++ if count &gt; 30 { panic(err.
+		
+			<a href="https://example.org/posts/20210717123805/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20210702182520/">Go のコマンド</a></h1>
+	<b><time>2021-07-02 18:25:20</time></b>
+	
+	<a href="/tags/golang">golang</a>
+	
+	<div>
+		使うたびにググっていたので。
+go build ソースコードのコンパイルを行う。
+通常のパッケージの場合、 go build を行ったあとは何もファイルを生成しない main パッケージの場合、 go build を行ったあとはカレントディレクトリ直下にバイナリファイルが生成される go build は通常、カレントディレクトリにあるすべての go ファイルをコンパイルする。ファイル名を指定することで、単一ファイルのみコンパイルできる -o オプションでコンパイル後に生成されるファイル名を指定できる。デフォルトだとパッケージ名になる go build は _ 、 . で始まるファイルは無視する -v オプションは、コンパイル中のパッケージ名を出力する go fmt ファイルの整形。
+go get リモートパッケージを取得する。正確には、パッケージのダウンロードしてから、 go install を行う。
+-d オプションは、ダウンロードのみでインストールは行わない -u オプションは、パッケージとその依存パッケージを更新する -f オプションは、 -u を使うときのみ有効で、 import 内の各パッケージが取得されているか検証しない。ローカルにフォークしたパッケージを使いたいときなどに使う go install go build して生成されたバイナリファイルを $HOME/bin に移動している。
+go test カレントディレクトリ配下のすべての \*.test.go ファイルのテストを行う。
+-cover はテストカバー率を表示する go generate go build 前にコードを自動で生成する場合に使用する。
+go mod 依存モジュールの検知、バージョン固定、バージョンアップ検知ができる。
+		
+			<a href="https://example.org/posts/20210702182520/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20210508160959/">Golang で 集合の演算</a></h1>
+	<b><time>2021-05-08 16:09:59</time></b>
+	
+	<a href="/tags/golang">golang</a>
+	
+	<div>
+		何も使わずに実装する 和集合 package main import &#34;fmt&#34; func main() { a := []int{1, 2, 3} b := []int{2, 3, 4} c := []int{3} result := func(array ...[]int) []int { m := make(map[int]struct{}) for _, arr := range array { for _, v := range arr { m[v] = struct{}{} } } tmp := []int{} for k := range m { tmp = append(tmp, k) } return tmp }(a, b, c) fmt.Println(result) } // [3 4 1 2] 積集合 package main import &#34;fmt&#34; func main() { a := []int{1, 2, 3} b := []int{2, 3, 4} c := []int{3} result := func(array .
+		
+			<a href="https://example.org/posts/20210508160959/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20210429182820/">Golang の 並列 / 並行 処理でいろいろ</a></h1>
+	<b><time>2021-04-29 18:28:20</time></b>
+	
+	<a href="/tags/golang">golang</a>
+	
+	<div>
+		並列 / 並行 処理 並列処理 Parallelism 同時に同じ処理が複数走る 並行処理 Concurrency 同時に色々な処理が走る channel を使う package main import ( &#34;fmt&#34; &#34;time&#34; ) func process(num int, str string) { for i := 0; i &lt; num; i++ { time.Sleep(1 * time.Second) fmt.Println(i, str) } } func main() { fmt.Println(&#34;Start&#34;) process(2, &#34;A&#34;) process(2, &#34;B&#34;) process(2, &#34;C&#34;) fmt.Println(&#34;Finish&#34;) } // Start // 0 A // 1 A // 0 B // 1 B // 0 C // 1 C // Finish // // ________________________________________________________ // Executed in 6.
+		
+			<a href="https://example.org/posts/20210429182820/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20210429010135/">Golang の goroutine / channel とか</a></h1>
+	<b><time>2021-04-29 01:01:35</time></b>
+	
+	<a href="/tags/golang">golang</a>
+	
+	<div>
+		goroutine goroutine は軽量なスレッド。
+go f(x, y) と書くだけ。
+package main import ( &#34;fmt&#34; &#34;time&#34; ) func say(s string) { for i := 0; i &lt; 5; i++ { time.Sleep(100 * time.Millisecond) fmt.Println(s) } } func main() { go say(&#34;hello&#34;) say(&#34;world&#34;) } // hello // world // world // hello // hello // world // hello // world // world // hello channel channel 型は &lt;- を用いて値の送受信を行う。
+ch &lt;- v // v をチャネル ch に送信する v := &lt;- ch // チャネル ch から変数を v に割り当てる チャネルは make で作る。
+		
+			<a href="https://example.org/posts/20210429010135/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20210319200255/">ベースイメージの種類</a></h1>
+	<b><time>2021-03-19 20:02:55</time></b>
+	
+	<a href="/tags/docker">docker</a>
+	
+	<div>
+		ざっくりこんな感じ。
+名前 内容 buster Debian 10 で色々入り buster-slim Debian 10 の実行環境のみ stretch Debian 9 で色々入り buster Debian 9 で実行環境のみ alpine かなり小さいイメージ 
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20210312172437/">Terraform 0.13 / 0.14 の新機能について</a></h1>
+	<b><time>2021-03-12 17:24:37</time></b>
+	
+	<a href="/tags/terraform">terraform</a>
+	
+	<div>
+		個人的に良さそうなやつだけピックアップ。
+0.13 の新機能 module 側で depends_on が使えるようになった 0.14 の新機能 plan の差分が簡潔になった プロバイダーの依存関係のロックファイルが追加された .terraform.lock.hcl が追加された。
+ロックファイルは terraform init --upgrade のタイミングで更新される。
+ロックファイルがあることで、 provider が新バージョンをリリースしたら突然差分が発生するみたいなことはなくなる。
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20210306225218/">Docker と docker-compose のまとめ</a></h1>
+	<b><time>2021-03-06 22:52:18</time></b>
+	
+	<a href="/tags/docker">docker</a>
+	
+	<div>
+		Docker Dockerfile を元にイメージを構築する。
+build Dockerfile が存在するディレクトリで実行する。
+$ docker build . -f オプションを使うことで Dockerfile のパスを指定できる。
+$ docker build -f /path/to/Dockerfile . FROM ベースイメージを指定する。
+FROM &lt;image&gt;[:&lt;tag&gt;][AS &lt;name&gt;] AS &lt;name&gt; でステージに名前を付けて、以降の FROM と COPY --from=&lt;name&gt; 命令で構築イメージを参照できる。
+RUN シェルとして実行される。
+RUN /bin/sh -c &#39;source $HOME/.bashrc;&#39; \ echo $HOME 1 行で書く場合。
+RUN /bin/sh -c &#39;source $HOME/.bashrc; echo $HOME&#39; bash/sh 以外のシェルを使う場合は exec 形式でシェルに引数を渡す。
+RUN [&#34;/bin/bash&#34;, &#34;-c&#34;, &#34;echo hello&#34;] exec 形式で書く場合は json 配列として扱わるため &quot;&quot; で囲む必要がある。
+CMD Dockerfile 内の CMD 命令は 1 つのみ。複数あっても最後の CMD 命令のみが実行される。 CMD の目的はコンテナの実行時のデフォルトの処理を指定する
+		
+			<a href="https://example.org/posts/20210306225218/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20210219174904/">Vim の操作</a></h1>
+	<b><time>2021-02-19 17:49:04</time></b>
+	
+	<a href="/tags/vim">vim</a>
+	
+	<a href="/tags/vscode">vscode</a>
+	
+	<div>
+		vim のプラグインは無しで、 VSCode の vim 拡張でできることに絞った。
+モードについて ノーマルモード ビジュアルモード インサートモード コマンドラインモード ノーマルモード 移動 コマンド 動作 k 上に移動 j 下に移動 h 左に移動 l 右に移動 w 次の単語の先頭に移動 b 前の単語の戦闘に移動 e 単語の末尾に移動 ge 前の単語の末尾に移動 f{char} 次の {char} まで移動 &lt;shift&gt;f{char} 前の {char} まで移動 ; 次の {char} まで移動 , 前の {char} まで移動 0 行頭へ移動 $ 行末へ移動 &lt;shift&gt;f ページ送り &lt;shift&gt;b ページ戻し zz カーソルの行を中央にする % 体操する文字 ( 括弧 ) へ移動 gg ファイル先頭へ移動 &lt;shift&gt;g ファイル末尾へ移動 {count}&lt;shift&gt;g { count } 行目に移動 削除 コマンド 動作 x 文字を削除 dd カーソルのある行をすべて削除 &lt;shift&gt;d カーソルの位置から行の末尾までを削除 db カーソルの位置から単語の先頭まで削除 de カーソルの位置から単語の末尾まで削除 daw カーソルの位置の単語をスペース含めて削除 diw カーソルの位置の単語をスペース含めず削除 ヤンク/プット コマンド 動作 yy 行をコピー yiw カーソルの単語をコピー p ヤンクしているものをペースト 検索 コマンド 動作 /{word} {word} を検索 ( ハイライトにする ) n 次の {word} へ移動 N 前の {word} へ移動 * カーソルの下の単語をハイライト ビジュアルモード コマンド 動作 v ビジュアルモードを有効にする &lt;shift&gt;v 行指向でビジュアルモードを有効にする gv 前回のビジュアルモードを再度有効にする o ( ビジュアルモードで ) 端点に移動 &lt;shift&gt;v 矩形選択 u ( ビジュアルモードで ) 文字を小文字に変換する &lt;shift&gt;u ( ビジュアルモードで ) 文字を大文字に変換する インサートモード コマンド 動作 o 下の行に改行を入れてからインサートモードを有効にする &lt;shift&gt;o 上の行に改行を入れてからインサートモードを有効にする ci' 「&rsquo;」で囲まれた文字を削除してからインサートモードを有効にする ci&quot; 「&quot;」で囲まれた文字を削除してからインサートモードを有効にする ca' 「&rsquo;」を含む囲まれた文字を削除してからインサートモードを有効にする ca&quot; 「&quot;」を含む囲まれた文字を削除してからインサートモードを有効にする &lt;shift&gt;i 行頭へ移動してからインサートモードを有効にする &lt;shift&gt;a 行末へ移動してからインサートモードを有効にする s カーソルの位置の文字を削除してからインサートモードを有効にする r{char} カーソルの位置の単語を{char}に置換する &lt;ctrl&gt;o ノーマルモードのコマンドを実行する &lt;shift&gt;j ( ノーマルモードで ) 下の行を現在の行の末尾に結合する コマンドラインモード コマンド 動作 :w 保存 :q ファイルを閉じる :tabnew タブを開く gt or gT タブを移動 :sp 画面を横に分割 :vsp 画面を縦に分割 &lt;ctrl&gt;w{h,j,k,l} ウィンドウを移動 :noh ハイライトを解除 :sort ( ビジュアルモードで ) ソートする 繰り返し コマンド 動作 .
+		
+			<a href="https://example.org/posts/20210219174904/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+		<div>
+
+	<a href="/page/2/">Previous Page</a>
+
+3 of 6
+
+	<a href="/page/4/">Next Page</a>
+
+</div>
+
+	</main>
+
+	<footer>
+	<p>&copy; 2023 <a href="https://example.org/"><b>MyDocs</b></a>.
+	</p>
+</footer>
+
+</body>
+</html>

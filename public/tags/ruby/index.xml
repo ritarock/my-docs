@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ruby on MyDocs</title>
+    <link>https://example.org/tags/ruby/</link>
+    <description>Recent content in ruby on MyDocs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 30 Nov 2019 18:31:00 +0900</lastBuildDate>
+    <atom:link href="https://example.org/tags/ruby/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>form_with の使い方</title>
+      <link>https://example.org/posts/20191130183100/</link>
+      <pubDate>Sat, 30 Nov 2019 18:31:00 +0900</pubDate>
+      <guid>https://example.org/posts/20191130183100/</guid>
+      <description>form_with 新しいバージョンの rails なら form_for, form_tag は使用せずに form_with を使う事ができる。&#xA;モデルの有無で書き方が変わる。&#xA;モデルが有るとき form_with model: &amp;#39;モデル名&amp;#39; do |form| # 中身 end モデルが無いとき URL で指定する form_with model: &amp;#39;URL&amp;#39; do |form| # 中身 end PATH で指定する form_with model: &amp;#39;PATH&amp;#39; do |form| # 中身 end オプション よく使うもの。&#xA;オプション 説明 デフォルト値 :url URL を指定 - :method HTTP メソッド POST :local リモート送信を無効 false URL からフォームを作成 ( form_for 的な使い方 ) = form_with url :posts_path do |f| = f.text_field :title 生成される HTML。</description>
+    </item>
+    <item>
+      <title>try メソッドの使い方</title>
+      <link>https://example.org/posts/20191129184700/</link>
+      <pubDate>Fri, 29 Nov 2019 18:47:00 +0900</pubDate>
+      <guid>https://example.org/posts/20191129184700/</guid>
+      <description>使い方 Object.try(method) 例 どちらも同じ意味。&#xA;@person.try(:name) @person.name if @person </description>
+    </item>
+  </channel>
+</rss>

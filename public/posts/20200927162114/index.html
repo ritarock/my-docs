@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>Nuxt でブログ作ってハマったところ</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<header>
+	============<br>
+	== <a href="https://example.org/">MyDocs</a> ==<br>
+	============
+	<div style="float: right;"></div><br>
+	<p>
+	<nav>
+			
+			
+			<a href="/tags/"><b>Tags</b></a>
+			
+	</nav>
+	</p>
+	
+</header>
+
+	
+	<main>
+		<article>
+			<h1>Nuxt でブログ作ってハマったところ</h1>
+			<b><time>2020-09-27 16:21:14</time></b>
+		       
+		           <a href="/tags/nuxt">nuxt</a>
+        	       
+		           <a href="/tags/typescript">typescript</a>
+        	       
+
+			<div>
+				<h2 id="github-pages-に上げても-404-がでた">GitHub Pages に上げても 404 がでた</h2>
+<p>SPA モードでプロジェクトを作成したため <code>npm run generate</code> コマンドを実行すると <code>dist/</code> に下記のファイルが生成される。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>I<span style="color:#f92672">]</span> ~/w/mypage ❯ ~ <span style="color:#f92672">(</span>master ☡+<span style="color:#f92672">)</span> tree dist/
+</span></span><span style="display:flex;"><span>dist/
+</span></span><span style="display:flex;"><span>├── 200.html
+</span></span><span style="display:flex;"><span>├── README.md
+</span></span><span style="display:flex;"><span>├── _nuxt
+</span></span><span style="display:flex;"><span>│   ├── 061840f.js
+</span></span><span style="display:flex;"><span>│   ├── 0f2489b.js
+</span></span><span style="display:flex;"><span>│   ├── 18eac09.js
+</span></span><span style="display:flex;"><span>│   ├── 40b86a8.js
+</span></span><span style="display:flex;"><span>│   ├── LICENSES
+</span></span><span style="display:flex;"><span>│   ├── c25403f.js
+</span></span><span style="display:flex;"><span>│   ├── cf71127.js
+</span></span><span style="display:flex;"><span>│   ├── content
+</span></span><span style="display:flex;"><span>│   │   └── db-8147cc98.json
+</span></span><span style="display:flex;"><span>│   └── f89e603.js
+</span></span><span style="display:flex;"><span>└── index.html
+</span></span></code></pre></div><p>dist 配下のファイルを GitHub Pages にそのまま上げても <code>_nuxt</code> 配下が 404 になる。</p>
+<p><a href="https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/about-github-pages-and-jekyll">help</a> にもあるけど <code>.nojekyll</code> を直下に置かないとだめらしい。</p>
+
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h3>LATEST POSTS</h3>
+		</div>
+		<div>
+			<ul>
+				
+				<li><a href="/posts/20231216175817/">ブログを next.js 辞めて hugo にした</a></li>
+				
+				<li><a href="/posts/20230322173450/">Slack のスラッシュコマンドを Lambda で受け取る</a></li>
+				
+				<li><a href="/posts/20230223173604/">gqlgen を触る</a></li>
+				
+				<li><a href="/posts/20230210174709/">aws-sdk-go-v2 で profile を使う</a></li>
+				
+				<li><a href="/posts/20230204160502/">github action で日付を扱う</a></li>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+	<p>&copy; 2023 <a href="https://example.org/"><b>MyDocs</b></a>.
+	</p>
+</footer>
+
+</body>
+</html>

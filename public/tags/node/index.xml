@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>node on MyDocs</title>
+    <link>https://example.org/tags/node/</link>
+    <description>Recent content in node on MyDocs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 06 Nov 2017 09:00:00 +0900</lastBuildDate>
+    <atom:link href="https://example.org/tags/node/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Vagrant の共有ディレクトリで npm install でエラーを吐くとき</title>
+      <link>https://example.org/posts/20171106090000/</link>
+      <pubDate>Mon, 06 Nov 2017 09:00:00 +0900</pubDate>
+      <guid>https://example.org/posts/20171106090000/</guid>
+      <description>$ sudo npm install --no-bin-links --no-bin-links をつければうまくいく。</description>
+    </item>
+  </channel>
+</rss>

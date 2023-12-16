@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>vagrant on MyDocs</title>
+    <link>https://example.org/tags/vagrant/</link>
+    <description>Recent content in vagrant on MyDocs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 06 Nov 2017 09:00:00 +0900</lastBuildDate>
+    <atom:link href="https://example.org/tags/vagrant/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Vagrant の共有ディレクトリで npm install でエラーを吐くとき</title>
+      <link>https://example.org/posts/20171106090000/</link>
+      <pubDate>Mon, 06 Nov 2017 09:00:00 +0900</pubDate>
+      <guid>https://example.org/posts/20171106090000/</guid>
+      <description>$ sudo npm install --no-bin-links --no-bin-links をつければうまくいく。</description>
+    </item>
+    <item>
+      <title>Vagrant &#43; Ubuntu 16.04 LTS で Django 開発環境を構築</title>
+      <link>https://example.org/posts/20171011090004/</link>
+      <pubDate>Wed, 11 Oct 2017 09:00:04 +0900</pubDate>
+      <guid>https://example.org/posts/20171011090004/</guid>
+      <description>vagrant で Ubuntu 16.04 LTS の準備 Ubuntu 16.04 LTS の box を使用する。&#xA;Vagrantfile の作成。&#xA;$ vagrant init ubuntu/xenial64 作成した Vagrantfile のポートを設定。&#xA;$ vim Vagrantfile 下記の部分を変更。&#xA;config.vm.network &amp;#34;forwarded_port&amp;#34;, guest: 8000, host: 8000 起動。&#xA;$ vagrant init ubuntu/xenial64 接続。&#xA;$ vagrant ssh Django のインストール pip のインストール。&#xA;$ wget https://bootstrap.pypa.io/get-pip.py $ sudo python3 get-pip.py $ sudo pip install Django Ubuntu 16.04 LTS にはデフォルトで Python3.5.2 が入っている。&#xA;バージョンの確認。&#xA;$python3 -m django --version 1.11.5 Django を使ってみる プロジェクトの作成。</description>
+    </item>
+  </channel>
+</rss>

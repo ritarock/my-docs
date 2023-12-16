@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>javascript on MyDocs</title>
+    <link>https://example.org/tags/javascript/</link>
+    <description>Recent content in javascript on MyDocs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 04 Nov 2020 13:45:00 +0900</lastBuildDate>
+    <atom:link href="https://example.org/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>some / every / filter / map / flatMap / Object.entries とか</title>
+      <link>https://example.org/posts/20201104134500/</link>
+      <pubDate>Wed, 04 Nov 2020 13:45:00 +0900</pubDate>
+      <guid>https://example.org/posts/20201104134500/</guid>
+      <description>some() some() は配列内の要素 1 つでも条件に合致するものがあれば true を返し、 1 つも合致しなければ false を返す。&#xA;const dataList = [ {id: 1, user: &amp;#34;user1&amp;#34;}, {id: 2, user: &amp;#34;user2&amp;#34;}, {id: 3, user: &amp;#34;user3&amp;#34;}, ] const includeId3 = dataList.some(data =&amp;gt; data.id === 3) console.log(includeId3) //true ever() every() は配列内の全ての要素が条件に合致するかを調べることができる。&#xA;const dataList = [ {id: 1, user: &amp;#34;user1&amp;#34;}, {id: 2, user: &amp;#34;user2&amp;#34;}, {id: 3, user: &amp;#34;user3&amp;#34;}, ] const includeId3 = dataList.every(data =&amp;gt; data.id === 3) console.log(includeId3) //false filter() filter() は配列の要素から条件に合致する新しい配列を作成する。</description>
+    </item>
+    <item>
+      <title>配列をユニークにする</title>
+      <link>https://example.org/posts/20200904174900/</link>
+      <pubDate>Fri, 04 Sep 2020 17:49:00 +0900</pubDate>
+      <guid>https://example.org/posts/20200904174900/</guid>
+      <description>JavaScript set を使う 配列を Set に変換。&#xA;const arr = [0, 0, 1, 1, 1, 2, 3, 4, 5, 5, 5, 6, 6, 7, 8, 9, 9, 9] const set = new Set(arr) console.log(set) // Set(10) { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 } Set を配列に変換。&#xA;const arr = [0, 0, 1, 1, 1, 2, 3, 4, 5, 5, 5, 6, 6, 7, 8, 9, 9, 9] const set = new Set(arr) const setToAArr = Array.</description>
+    </item>
+    <item>
+      <title>JavaScript の call / apply / bind</title>
+      <link>https://example.org/posts/20200616115031/</link>
+      <pubDate>Tue, 16 Jun 2020 11:50:31 +0900</pubDate>
+      <guid>https://example.org/posts/20200616115031/</guid>
+      <description>結局公式が一番わかりやすかった。&#xA;apply https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Function/apply&#xA;&amp;gt; apply() メソッドは、 this 値を指定して関数を呼び出し、 arguments は配列 (または配列風オブジェクト) として提供します。&#xA;apply は配列を受け取る。&#xA;const numbers = [5, 6, 2, 3, 7]; const max = Math.max.apply(null, numbers); // 7 console.log(max); const min = Math.min.apply(null, numbers); // 2 console.log(min); call https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Function/call&#xA;&amp;gt; このメソッドの構文は apply() とほぼ同じですが、基本的な違いは call() が引数リストを受け取るのに対して、 apply() は引数の単一の配列を受け取る点です。&#xA;function Product(name, price) { this.name = name; this.price = price; } function Food(name, price) { Product.call(this, name, price); this.category = &amp;#39;food&amp;#39;; } console.</description>
+    </item>
+  </channel>
+</rss>

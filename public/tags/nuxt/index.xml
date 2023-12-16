@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>nuxt on MyDocs</title>
+    <link>https://example.org/tags/nuxt/</link>
+    <description>Recent content in nuxt on MyDocs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 27 Sep 2020 16:21:14 +0900</lastBuildDate>
+    <atom:link href="https://example.org/tags/nuxt/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Nuxt でブログ作ってハマったところ</title>
+      <link>https://example.org/posts/20200927162114/</link>
+      <pubDate>Sun, 27 Sep 2020 16:21:14 +0900</pubDate>
+      <guid>https://example.org/posts/20200927162114/</guid>
+      <description>GitHub Pages に上げても 404 がでた SPA モードでプロジェクトを作成したため npm run generate コマンドを実行すると dist/ に下記のファイルが生成される。&#xA;[I] ~/w/mypage ❯ ~ (master ☡+) tree dist/ dist/ ├── 200.html ├── README.md ├── _nuxt │ ├── 061840f.js │ ├── 0f2489b.js │ ├── 18eac09.js │ ├── 40b86a8.js │ ├── LICENSES │ ├── c25403f.js │ ├── cf71127.js │ ├── content │ │ └── db-8147cc98.json │ └── f89e603.js └── index.html dist 配下のファイルを GitHub Pages にそのまま上げても _nuxt 配下が 404 になる。</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta name="generator" content="Hugo 0.121.1">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>MyDocs</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="alternate" type="application/rss+xml" href="/index.xml" title="MyDocs">
+</head>
+<body>
+	<header>
+	============<br>
+	== <a href="https://example.org/">MyDocs</a> ==<br>
+	============
+	<div style="float: right;"></div><br>
+	<p>
+	<nav>
+			
+			
+			<a href="/tags/"><b>Tags</b></a>
+			
+	</nav>
+	</p>
+	
+</header>
+
+	
+	<main>
+		
+		
+			<article>
+	<h1><a href="https://example.org/posts/20200522111427/">deno を触ってみる</a></h1>
+	<b><time>2020-05-22 11:14:27</time></b>
+	
+	<a href="/tags/typescript">typescript</a>
+	
+	<div>
+		通常の実行 console.log(&#34;Wellcome to Deno&#34;); $ deno run hello.ts Wellcome to Deno http request があるとき const url = Deno.args[0]; const res = await fetch(url); const body = new Uint8Array(await res.arrayBuffer()); await Deno.stdout.write(body); --allow-net をつける。
+$ deno run --allow-net http.ts https://deno.land/manual/getting_started/first_steps コマンドラインで引数を渡す console.log(Deno.args) $ deno run args.ts 1 2 3 [ &#34;1&#34;, &#34;2&#34;, &#34;3&#34; ] ファイル読み込み for (let i = 0; i &lt; Deno.args.length; i++) { let filename = Deno.args[i]; let file = await Deno.
+		
+			<a href="https://example.org/posts/20200522111427/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20200505151108/">atcorder 過去問精鋭10問を Golang で解いた</a></h1>
+	<b><time>2020-05-05 15:11:08</time></b>
+	
+	<a href="/tags/golang">golang</a>
+	
+	<div>
+		1問目 ABC 086 A - Product package main import &#34;fmt&#34; func main() { var a, b int fmt.Scan(&amp;a, &amp;b) if (a*b)%2 == 0 { fmt.Println(&#34;Even&#34;) } else { fmt.Println(&#34;Odd&#34;) } } 2問目 ABC 081 A - Placing Marbles package main import ( &#34;fmt&#34; &#34;strings&#34; ) func main() { var s string var count int fmt.Scan(&amp;s) splitWord := strings.Split(s, &#34;&#34;) for _, w := range splitWord { if w == &#34;1&#34; { count++ } } fmt.
+		
+			<a href="https://example.org/posts/20200505151108/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20200504145305/">Golang で atcorder の入出力とか繰り返しとか</a></h1>
+	<b><time>2020-05-04 14:53:05</time></b>
+	
+	<a href="/tags/golang">golang</a>
+	
+	<div>
+		入出力 単一数値、文字 var N int fmt.Scan(&amp;N) fmt.Println(N) var s string fmt.Scan(&amp;s) fmt.Println(s) 文字列、数列群をスライスで返す func scanStrings(len int) []string { var str string var strs []string for i := 0; i &lt; len; i++ { fmt.Scanf(&#34;%s&#34;, &amp;str) strs = append(strs, str) } return strings } func scanNums(len int) []int { var num int var nums []int for i := 0; i &lt; len; i ++ { fmt.Scan(&amp;num) nums = append(nums, num) } return nums } 与えられた列をスライスで返す n := 3 arr := make([]int, n) for i:= 0; i &lt; n; i ++ { fmt.
+		
+			<a href="https://example.org/posts/20200504145305/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20191130183100/">form_with の使い方</a></h1>
+	<b><time>2019-11-30 18:31:00</time></b>
+	
+	<a href="/tags/ruby">ruby</a>
+	
+	<div>
+		form_with 新しいバージョンの rails なら form_for, form_tag は使用せずに form_with を使う事ができる。
+モデルの有無で書き方が変わる。
+モデルが有るとき form_with model: &#39;モデル名&#39; do |form| # 中身 end モデルが無いとき URL で指定する form_with model: &#39;URL&#39; do |form| # 中身 end PATH で指定する form_with model: &#39;PATH&#39; do |form| # 中身 end オプション よく使うもの。
+オプション 説明 デフォルト値 :url URL を指定 - :method HTTP メソッド POST :local リモート送信を無効 false URL からフォームを作成 ( form_for 的な使い方 ) = form_with url :posts_path do |f| = f.text_field :title 生成される HTML。
+		
+			<a href="https://example.org/posts/20191130183100/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20191129184700/">try メソッドの使い方</a></h1>
+	<b><time>2019-11-29 18:47:00</time></b>
+	
+	<a href="/tags/ruby">ruby</a>
+	
+	<div>
+		使い方 Object.try(method) 例 どちらも同じ意味。
+@person.try(:name) @person.name if @person 
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20191103015728/">docker から MySQL を使う</a></h1>
+	<b><time>2019-11-03 01:57:28</time></b>
+	
+	<a href="/tags/docker">docker</a>
+	
+	<a href="/tags/mysql">mysql</a>
+	
+	<div>
+		$ docker run --name mysql -e MYSQL_ROOT_PASSWORD=mysql -d -p 3306:3306 mysql $ docker exec -it コンテナ名 bash # mysql -u root 
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20191103015727/">データベース操作</a></h1>
+	<b><time>2019-11-03 01:57:27</time></b>
+	
+	<a href="/tags/mysql">mysql</a>
+	
+	<div>
+		データベースの作成 CREATE DATABASE database_name; データベースの削除 DROP DATABASE database_name; テーブルの作成 CREATE TABLE table_name (col_name type, ...); 主キー CREATE TABLE table_name (col_name type, ..., PRIMARY KEY (col_name)); PRIMARY KEY の重複と NULL は NG 複数の列を指定できる (複合主キー) PRIMARY KEY (列名 1, 列名 2 ) 外部キー CREATE TABLE table_name ( col_name type, ..., FOREIGN KEY (col_name) REFERENCES parent_table_name(col_name) ); 子テーブルの外部キーの値は親テーブルに存在しないといけない 参照される値 (親テーブル) の UPDATE / DELETE は NG 親テーブルの UPDATE / DELETE 時の設定 CREATE TABLE table_name ( col_name type, .
+		
+			<a href="https://example.org/posts/20191103015727/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20191103015726/">はてなの記事移行しました</a></h1>
+	<b><time>2019-11-03 01:57:26</time></b>
+	
+	<a href="/tags/meta">meta</a>
+	
+	<div>
+		今後はこちらで。
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20190829090000/">docker-compose で Rails と Mysql を使う</a></h1>
+	<b><time>2019-08-29 09:00:00</time></b>
+	
+	<a href="/tags/docker">docker</a>
+	
+	<a href="/tags/rails">rails</a>
+	
+	<a href="/tags/setup">setup</a>
+	
+	<div>
+		ディレクトリ構成 ./ ├── Dockerfile ├── docker-compose.yml ├── db_volume/ ├── mysql-confd/ │ └── default_authentication.cnf └── src/ ├── Gemfile └── Gemfile.lock ファイルの説明 Dockerfile Rails のアプリ用の Dockerfile を定義する。 MySQL と連携するために mysql-client をインストールしている。
+FROM ruby:latest RUN apt-get update -qq &amp;&amp; \ apt-get install -y build-essential &amp;&amp; \ apt-get install -y libpq-dev &amp;&amp; \ apt-get install -y mysql-client &amp;&amp; \ apt-get install -y nodejs RUN mkdir /myapp ENV APP_ROOT /myapp WORKDIR $APP_ROOT ADD ./src/Gemfile $APP_ROOT/Gemfile ADD .
+		
+			<a href="https://example.org/posts/20190829090000/">Read more...</a>
+		
+	</div>
+</article>
+
+		
+			<article>
+	<h1><a href="https://example.org/posts/20190108090000/">Python で list から辞書を作り辞書から json を作る</a></h1>
+	<b><time>2019-01-08 09:00:00</time></b>
+	
+	<a href="/tags/python">python</a>
+	
+	<div>
+		list から辞書を作る list_col = [&#39;col1&#39;, &#39;col2&#39;, &#39;col3&#39;, &#39;col4&#39;, &#39;col5&#39;] list_data = [1, 2, 3, 4, 5] dict_data = dict(zip(list_col, list_data)) print(dict_data) # {&#39;col1&#39;: 1, &#39;col2&#39;: 2, &#39;col3&#39;: 3, &#39;col4&#39;: 4, &#39;col5&#39;: 5} 辞書から json を作る import json json_data = json.dumps(dict_data) print(json_data) # {&#34;col1&#34;: 1, &#34;col2&#34;: 2, &#34;col3&#34;: 3, &#34;col4&#34;: 4, &#34;col5&#34;: 5} 
+		
+	</div>
+</article>
+
+		
+		<div>
+
+	<a href="/page/4/">Previous Page</a>
+
+5 of 6
+
+	<a href="/page/6/">Next Page</a>
+
+</div>
+
+	</main>
+
+	<footer>
+	<p>&copy; 2023 <a href="https://example.org/"><b>MyDocs</b></a>.
+	</p>
+</footer>
+
+</body>
+</html>

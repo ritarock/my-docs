@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style type=text/css>body{font-family:monospace;}</style>
+	<title>Docker と docker-compose のまとめ</title>
+	
+	
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+</head>
+<body>
+	<header>
+	============<br>
+	== <a href="https://example.org/">MyDocs</a> ==<br>
+	============
+	<div style="float: right;"></div><br>
+	<p>
+	<nav>
+			
+			
+			<a href="/tags/"><b>Tags</b></a>
+			
+	</nav>
+	</p>
+	
+</header>
+
+	
+	<main>
+		<article>
+			<h1>Docker と docker-compose のまとめ</h1>
+			<b><time>2021-03-06 22:52:18</time></b>
+		       
+		           <a href="/tags/docker">docker</a>
+        	       
+
+			<div>
+				<h2 id="docker">Docker</h2>
+<p><code>Dockerfile</code> を元にイメージを構築する。</p>
+<h3 id="build">build</h3>
+<p><code>Dockerfile</code> が存在するディレクトリで実行する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ docker build .
+</span></span></code></pre></div><p><code>-f</code> オプションを使うことで Dockerfile のパスを指定できる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ docker build -f /path/to/Dockerfile .
+</span></span></code></pre></div><h3 id="from">FROM</h3>
+<p>ベースイメージを指定する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> &lt;image&gt;[:&lt;tag&gt;][AS &lt;name&gt;]</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p><code>AS &lt;name&gt;</code> でステージに名前を付けて、以降の <code>FROM</code> と <code>COPY --from=&lt;name&gt;</code> 命令で構築イメージを参照できる。</p>
+<h3 id="run">RUN</h3>
+<p>シェルとして実行される。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> /bin/sh -c <span style="color:#e6db74">&#39;source $HOME/.bashrc;&#39;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>echo $HOME<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>1 行で書く場合。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> /bin/sh -c <span style="color:#e6db74">&#39;source $HOME/.bashrc; echo $HOME&#39;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p><code>bash/sh</code> 以外のシェルを使う場合は <code>exec</code> 形式でシェルに引数を渡す。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;/bin/bash&#34;</span>, <span style="color:#e6db74">&#34;-c&#34;</span>, <span style="color:#e6db74">&#34;echo hello&#34;</span><span style="color:#f92672">]</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p><code>exec</code> 形式で書く場合は json 配列として扱わるため <code>&quot;&quot;</code> で囲む必要がある。</p>
+<h3 id="cmd">CMD</h3>
+<p><code>Dockerfile</code> 内の <code>CMD</code> 命令は 1 つのみ。複数あっても最後の <code>CMD</code> 命令のみが実行される。
+<strong>CMD の目的はコンテナの実行時のデフォルトの処理を指定する</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> ubuntu</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;/usr/bin/wc&#34;</span>, <span style="color:#e6db74">&#34;--help&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><h3 id="add--copy">ADD / COPY</h3>
+<p><code>&lt;src&gt;</code> で指定したファイル、ディレクトリをコンテナ内の <code>&lt;dest&gt;</code> にコピーする。
+ローカルのファイルをコンテナにコピーしたい場合は <code>COPY</code> を使う。
+<code>ADD</code> はローカルでの圧縮ファイルの展開やリモートファイルの展開したい場面で使う。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">ADD</span> <span style="color:#f92672">[</span>--chown<span style="color:#f92672">=</span>&lt;ユーザ&gt;:&lt;グループ&gt;<span style="color:#f92672">]</span> &lt;src&gt; &lt;dest&gt;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> <span style="color:#f92672">[</span>--chown<span style="color:#f92672">=</span>&lt;ユーザ&gt;:&lt;グループ&gt;<span style="color:#f92672">]</span> &lt;src&gt; &lt;dest&gt;<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><h3 id="expose">EXPOSE</h3>
+<p>コンテナが接続するためのリッスンするポートを指定する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">EXPOSE</span><span style="color:#e6db74"> 80</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>実際にはポートの公開は行われない。ドキュメント的な用途として使われる。
+実際に公開して使うには、 <code>docker run</code> の際にフラグをつける。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ docker run --rm -it -p 80:80 &lt;image&gt; bash
+</span></span></code></pre></div><h3 id="env">ENV</h3>
+<p>環境変数の設定をする。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">ENV</span> &lt;key&gt;<span style="color:#f92672">=</span>&lt;value&gt;<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>環境変数は、 <code>Dockerfile</code> 内の変数として使える。
+使い方は、 <code>$variable_name</code> もしくは、 <code>${variable_name}</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> &lt;image&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> FOO<span style="color:#f92672">=</span>/bar<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> ${FOO} # WORKDIR /bar</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><h3 id="entrypoint">ENTRYPOINT</h3>
+<p>最適な使い方はイメージに対してメインのコマンドを設定しておき、 <code>CMD</code> を使ってデフォルトフラグを指定する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;go&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;--help&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>パラメータを指定して起動することでコマンドの実行ができる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ docker run &lt;image&gt; run main.go
+</span></span></code></pre></div><h3 id="volume">VOLUME</h3>
+<p>コンテナによって作成されるファイルやフォルダの公開に使う。イメージの可変的な部分、ユーザが設定可能な部分について使う。</p>
+<h3 id="user">USER</h3>
+<p>非 root ユーザで実行可能な場合は <code>USER</code> を使ってユーザの変更する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">USER</span><span style="color:#e6db74"> &lt;ユーザ&gt;[:&lt;グループ&gt;]</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><h3 id="workdir">WORKDIR</h3>
+<p>Dockerfile で続く <code>RUN</code>、 <code>CMD</code>、 <code>ENTRYPOINT</code>、 <code>COPY / ADD</code> の命令の処理時で使う作業ディレクトリを指定する。</p>
+<h3 id="arg">ARG</h3>
+<p><code>build</code> 時にユーザが渡せる変数を定義する。
+構築時には <code>docker build --build-arg &lt;変数名&gt;=&lt;値&gt;</code> を指定する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">ARG</span> &lt;name&gt;<span style="color:#f92672">[=</span>&lt;デフォルト値&gt;<span style="color:#f92672">]</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><h2 id="docker-compose">docker-compose</h2>
+<p>サービスを定義する。</p>
+<h3 id="build-1">build</h3>
+<p>ビルド時に適用される。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">webapp</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">build</span>: <span style="color:#ae81ff">./dir</span>
+</span></span></code></pre></div><p><code>context</code> でパスを指定し, <code>Dockerfile</code> や <code>args</code> も指定できる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">webapp</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">build</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">context</span>: <span style="color:#ae81ff">./dir</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">dockerfile</span>: <span style="color:#ae81ff">Dockerfile-alternate</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">args</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">buildno</span>: <span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><p><code>image</code> 名と <code>tag</code> を指定できる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">build</span>: <span style="color:#ae81ff">./dir</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">image</span>: <span style="color:#ae81ff">webapp:tag</span>
+</span></span></code></pre></div><h3 id="context">context</h3>
+<p><code>Dockerfile</code> を含むディレクトリへのパスか、 git リポジトリの URL を指定する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">build</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">context</span>: <span style="color:#ae81ff">./dir</span>
+</span></span></code></pre></div><h3 id="dockerfile">dockerfile</h3>
+<p>別の <code>Dockerfile</code> を指定する。この場合、ビルドパスを同時に指定する必要がある。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">build</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">context</span>: <span style="color:#ae81ff">.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">dockerfile</span>: <span style="color:#ae81ff">Dockerfile-alternate</span>
+</span></span></code></pre></div><h3 id="args">args</h3>
+<p>ビルド時にのみ有効な環境変数を設定する。
+個々をマッピングするか、リストで書く.ブール値はクォートで囲む。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">build</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">context</span>: <span style="color:#ae81ff">.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">args</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">buildno</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">gitcommithash</span>: <span style="color:#ae81ff">abc123</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">build</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">context</span>: <span style="color:#ae81ff">.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">args</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">buildno=1</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">gitcommithash=abc123</span>
+</span></span></code></pre></div><h3 id="command">command</h3>
+<p>デフォルトのコマンドを上書きする。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">command</span>: <span style="color:#ae81ff">bundle exec thin -p 3000</span>
+</span></span></code></pre></div><p>リスト形式も可能。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">command</span>: [<span style="color:#e6db74">&#34;bundle&#34;</span>, <span style="color:#e6db74">&#34;exec&#34;</span>, <span style="color:#e6db74">&#34;thin&#34;</span>, <span style="color:#e6db74">&#34;-p&#34;</span>, <span style="color:#e6db74">&#34;3000&#34;</span>]
+</span></span></code></pre></div><h3 id="depends_on">depends_on</h3>
+<p>サービス起動の依存関係を表す。
+以下の場合、 db と redis の起動後に web が起動する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;3.9&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">web</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">build</span>: <span style="color:#ae81ff">.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">depends_on</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">db</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">redis</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">redis</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">redis</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">db</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">postgres</span>
+</span></span></code></pre></div><h3 id="entrypoint-1">entrypoint</h3>
+<p>デフォルトのエントリーポイントを上書きする。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">entrypoint</span>: <span style="color:#ae81ff">/code/entrypoint.sh</span>
+</span></span></code></pre></div><p>リスト形式も可能。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">entrypoint</span>: [<span style="color:#e6db74">&#34;php&#34;</span>, <span style="color:#e6db74">&#34;-d&#34;</span>, <span style="color:#e6db74">&#34;memry_limit=1&#34;</span>, <span style="color:#e6db74">&#34;vendor/bin/phpunit&#34;</span>]
+</span></span></code></pre></div><h3 id="environment">environment</h3>
+<p>環境変数を追加する。
+個々をマッピングするか,リストで書く.ブール値はクォートで囲む。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">RACK_ENV</span>: <span style="color:#ae81ff">development</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">SHOW</span>: <span style="color:#e6db74">&#39;true&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">SESSION_SECRET</span>:
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">RACK_ENV=development</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">SHOW=true</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">SESSION_SECRET</span>
+</span></span></code></pre></div><h3 id="expose-1">expose</h3>
+<p>ホストマシンにはポートを公開せずに,ポートを expose する.
+リンクされたサービスのみアクセス可能。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">expose</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#34;3000&#34;</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#34;8000&#34;</span>
+</span></span></code></pre></div><h3 id="external_links">external_links</h3>
+<p>実行する <code>docker-compose.yml</code> 以外から起動されたコンテナをリンクする。
+コンテナ名とエイリアス名 (CONTAINER:ALIAS) を指定する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">external_links</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">redis_1</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">project_db_1:mysql</span>
+</span></span></code></pre></div><h3 id="extra_hosts">extra_hosts</h3>
+<p>ホスト名をマッピングに追加する。
+<code>/etc/hosts</code> に追加される。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">extra_hosts</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#34;somehost:162.242.195.82&#34;</span>
+</span></span></code></pre></div><h3 id="ports">ports</h3>
+<p>公開用のポートを設定する。
+ホスト側とコンテナ側のポートを指定する( <code>HOST:CONTAINER</code> )。
+もしくは、コンテナ側のポートを指定する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#34;3000&#34;</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#34;3000-3005&#34;</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#34;8000:8000&#34;</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#34;9090-9091:8080-8081&#34;</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#34;49100:22&#34;</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#34;127.0.0.1:8001:8001&#34;</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#34;127.0.0.1:5000-5010:5000-5010&#34;</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#34;6060:6060/udp&#34;</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#34;12400-12500:1240&#34;</span>
+</span></span></code></pre></div><h3 id="volumes">volumes</h3>
+<p>複数のサービスにわたってボリュームを再利用したい場合、最上位の <code>volumes</code> キーで名前付きボリュームを定義する。
+以下の場合、 db サービスのデータディレクトリは、 backup サービスのボリュームにも共有させている。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;3.9&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">db</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">db</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">data-volume:/var/lib/db</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">backup</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">backup-service</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">data-volume:/var/lib/backup/data</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">data-volume</span>:
+</span></span></code></pre></div><p>短い書き方では、 <code>[SOURCE:]TARGET[:MODE]</code> と書ける。 <code>ro</code> は <code>readonly</code> 。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span>- <span style="color:#ae81ff">./cache:/tmp/cache:ro</span>
+</span></span></code></pre></div><h3 id="変数の置換">変数の置換</h3>
+<p>シェル環境に <code>POSTGRES_VERSION=9.3</code> が定義されていると、 postgres のバージョンは 9.3 になる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">db</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">image</span>: <span style="color:#e6db74">&#34;postgres:${POSTGRES_VERSION}&#34;</span>
+</span></span></code></pre></div><p>環境変数が設定されていない場合は空文字になる。
+環境変数のデフォルト値は <code>.env</code> ファイルに設定しておくことができる。</p>
+<ul>
+<li>${VARIABLE:-default} は VARIABLE がセットされていないか, 空文字のときに <code>default</code> として評価される</li>
+<li>${VARIABLE-default} は VARIABLE がセットされているときのみ <code>default</code> として評価される</li>
+</ul>
+
+			</div>
+		</article>
+	</main>
+<aside>
+	<div>
+		<div>
+			<h3>LATEST POSTS</h3>
+		</div>
+		<div>
+			<ul>
+				
+				<li><a href="/posts/20231216175817/">ブログを next.js 辞めて hugo にした</a></li>
+				
+				<li><a href="/posts/20230322173450/">Slack のスラッシュコマンドを Lambda で受け取る</a></li>
+				
+				<li><a href="/posts/20230223173604/">gqlgen を触る</a></li>
+				
+				<li><a href="/posts/20230210174709/">aws-sdk-go-v2 で profile を使う</a></li>
+				
+				<li><a href="/posts/20230204160502/">github action で日付を扱う</a></li>
+				
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+	<footer>
+	<p>&copy; 2023 <a href="https://example.org/"><b>MyDocs</b></a>.
+	</p>
+</footer>
+
+</body>
+</html>
