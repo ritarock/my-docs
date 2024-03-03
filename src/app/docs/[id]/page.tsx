@@ -25,7 +25,13 @@ export default async function Doc({ params }: { params: { id: string } }) {
       <ReactMarkdown
         components={{
           code({ className, children }) {
-            if (!className) return (<></>)
+            if (!className) {
+              return (
+                <>
+                  <code>{children}</code>
+                </>
+              )
+            }
             const name = className.replace('language-', '')
             const lang: { name: string; setLang: string } = { name: '', setLang: '' }
             lang.name = name.match(/\./) ? name.split('.')[1] : name
