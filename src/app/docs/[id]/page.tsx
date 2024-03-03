@@ -40,7 +40,6 @@ export default async function Doc({ params }: { params: { id: string } }) {
                 break
             }
 
-
             return (
               <>
                 <code className={className}>
