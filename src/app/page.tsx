@@ -10,6 +10,7 @@ export default function Index() {
       <div>
         <Header />
         <TagList tags={Array.from(new Set(allDocs.flatMap(data => data.tags)))}/>
+        <hr />
         <TitleList docs={allDocs} />
       </div>
     </>
