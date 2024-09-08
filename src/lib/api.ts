@@ -1,5 +1,4 @@
-import { DocMetaData } from "@/interface";
-import { time } from "console";
+import { MetaData } from "../@types/metaData";
 import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
@@ -8,7 +7,7 @@ const BUILD_DOCS_DIR = path.join(process.cwd(), '_docs')
 
 export function getAllDocs() {
   const fileNames = fs.readdirSync(BUILD_DOCS_DIR)
-  const data: DocMetaData[] = fileNames.map(fileName => {
+  const data: MetaData[] = fileNames.map(fileName => {
     const fullPath = path.join(BUILD_DOCS_DIR, fileName)
     const f = fs.readFileSync(fullPath, 'utf8')
     const m = matter(f)

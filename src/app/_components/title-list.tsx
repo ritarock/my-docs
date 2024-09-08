@@ -1,7 +1,7 @@
-import { DocMetaData } from "@/interface";
+import { MetaData } from "../../@types/metaData";
 import Link from "next/link";
 
-const TitleList = ({ docs }: { docs: DocMetaData[] }) => {
+const TitleList = ({ docs }: { docs: MetaData[] }) => {
   return (
     <>
       <span>Docs: </span>
