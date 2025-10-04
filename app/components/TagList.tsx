@@ -6,7 +6,7 @@ interface TagListProps {
 
 export function TagList({ tags }: TagListProps) {
   return (
-    <section style={{ marginBottom: '2rem' }}>
+    <section style={{ marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid #ddd' }}>
       <span>Tags</span>
       <div>
         {tags.map((tag, index) => (
