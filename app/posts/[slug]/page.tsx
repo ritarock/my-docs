@@ -17,7 +17,7 @@ export default async function Post({ params }: { params: Promise<{ slug: string 
   }
 
   return (
-    <article style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
+    <article style={{ maxWidth: '800px', margin: '0 auto', padding: '0 2rem 2rem' }}>
       <h1>{post.title}</h1>
       <time>{post.date}</time>
       <div dangerouslySetInnerHTML={{ __html: post.content }} />

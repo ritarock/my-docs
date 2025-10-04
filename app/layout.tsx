@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import 'highlight.js/styles/monokai.css';
+import Header from './components/Header';
 
 export const metadata: Metadata = {
-  title: 'My Blog',
+  title: 'MyDocs',
   description: 'A simple SSG blog built with Next.js',
 };
 
@@ -13,7 +14,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body style={{ backgroundColor: 'ghostwhite', margin: 0, minHeight: '100vh' }}>{children}</body>
+      <body style={{ backgroundColor: 'ghostwhite', margin: 0, minHeight: '100vh' }}>
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }

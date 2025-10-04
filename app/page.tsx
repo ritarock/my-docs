@@ -5,8 +5,7 @@ export default function Home() {
   const posts = getPosts();
 
   return (
-    <main style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
-      <h1>My Blog</h1>
+    <main style={{ maxWidth: '800px', margin: '0 auto', padding: '0 2rem 2rem' }}>
       <ul>
         {posts.map((post) => (
           <li key={post.slug} style={{ marginBottom: '1rem' }}>
