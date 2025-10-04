@@ -89,6 +89,22 @@ export function getPosts(): Post[] {
   return posts;
 }
 
+export function getAllTags(): string[] {
+  const posts = getPosts();
+  const tagsSet = new Set<string>();
+
+  posts.forEach((post) => {
+    post.tags.forEach((tag) => tagsSet.add(tag));
+  });
+
+  return Array.from(tagsSet).sort();
+}
+
+export function getPostsByTag(tag: string): Post[] {
+  const posts = getPosts();
+  return posts.filter((post) => post.tags.includes(tag));
+}
+
 export async function getPostBySlug(slug: string): Promise<Post | null> {
   const posts = getPosts();
   const post = posts.find((post) => post.slug === slug);
