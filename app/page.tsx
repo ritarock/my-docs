@@ -6,13 +6,10 @@ export default function Home() {
 
   return (
     <main style={{ maxWidth: '800px', margin: '0 auto', padding: '0 2rem 2rem' }}>
-      <ul>
+      <ul style={{ listStyle: 'none', padding: 0 }}>
         {posts.map((post) => (
-          <li key={post.slug} style={{ marginBottom: '1rem' }}>
-            <Link href={`/posts/${post.slug}`}>
-              <h2>{post.title}</h2>
-              <time>{post.date}</time>
-            </Link>
+          <li key={post.slug} style={{ marginBottom: '0.25rem' }}>
+            {post.date}: <Link href={`/posts/${post.slug}`} style={{ color: 'cornflowerblue' }}>{post.title}</Link> - tags: [ {post.tags.join(', ')} ]
           </li>
         ))}
       </ul>

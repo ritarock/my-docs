@@ -10,6 +10,7 @@ export interface Post {
   slug: string;
   title: string;
   date: string;
+  tags: string[];
   content: string;
 }
 
@@ -52,10 +53,32 @@ export function getPosts(): Post[] {
 
       const content = fileContents.replace(/^---\n[\s\S]*?\n---\n/, '');
 
+      // tagsを配列として抽出
+      let tags: string[] = [];
+      if (metadata.tags) {
+        try {
+          // ['golang'] のような形式をパース
+          const tagsStr = metadata.tags.replace(/'/g, '"');
+          tags = JSON.parse(tagsStr);
+        } catch {
+          tags = [];
+        }
+      }
+
+      // 日付をYYYYMMDDHHmmss形式からYYYY-MM-DD形式に変換
+      let formattedDate = metadata.date || '';
+      if (formattedDate.length >= 8) {
+        const year = formattedDate.substring(0, 4);
+        const month = formattedDate.substring(4, 6);
+        const day = formattedDate.substring(6, 8);
+        formattedDate = `${year}-${month}-${day}`;
+      }
+
       return {
         slug,
         title: metadata.title || slug,
-        date: metadata.date || '',
+        date: formattedDate,
+        tags,
         content,
       };
     })
