@@ -2,7 +2,9 @@ import fs from 'fs';
 import path from 'path';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
-import remarkHtml from 'remark-html';
+import remarkRehype from 'remark-rehype';
+import rehypeHighlight from 'rehype-highlight';
+import rehypeStringify from 'rehype-stringify';
 
 export interface Post {
   slug: string;
@@ -16,7 +18,9 @@ const postsDirectory = path.join(process.cwd(), 'posts');
 async function markdownToHtml(markdown: string): Promise<string> {
   const result = await unified()
     .use(remarkParse)
-    .use(remarkHtml)
+    .use(remarkRehype)
+    .use(rehypeHighlight)
+    .use(rehypeStringify)
     .process(markdown);
   return result.toString();
 }

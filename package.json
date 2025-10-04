@@ -13,12 +13,16 @@
   "license": "ISC",
   "packageManager": "pnpm@10.17.1",
   "dependencies": {
+    "highlight.js": "^11.11.1",
     "next": "^15.5.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "rehype-highlight": "^7.0.2",
+    "rehype-stringify": "^10.0.1",
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
     "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.2",
     "unified": "^11.0.5"
   },
   "devDependencies": {

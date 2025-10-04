@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import 'highlight.js/styles/monokai.css';
 
 export const metadata: Metadata = {
   title: 'My Blog',
