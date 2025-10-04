@@ -1,5 +1,5 @@
 import { getPosts } from '@/lib/posts';
-import { TitleList } from '@/components/TitleList';
+import { TitleList } from '@/app/components/TitleList';
 
 export default function Home() {
   const posts = getPosts();
