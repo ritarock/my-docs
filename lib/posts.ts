@@ -1,5 +1,8 @@
 import fs from 'fs';
 import path from 'path';
+import { unified } from 'unified';
+import remarkParse from 'remark-parse';
+import remarkHtml from 'remark-html';
 
 export interface Post {
   slug: string;
@@ -9,6 +12,14 @@ export interface Post {
 }
 
 const postsDirectory = path.join(process.cwd(), 'posts');
+
+async function markdownToHtml(markdown: string): Promise<string> {
+  const result = await unified()
+    .use(remarkParse)
+    .use(remarkHtml)
+    .process(markdown);
+  return result.toString();
+}
 
 export function getPosts(): Post[] {
   if (!fs.existsSync(postsDirectory)) {
@@ -49,7 +60,18 @@ export function getPosts(): Post[] {
   return posts;
 }
 
-export function getPostBySlug(slug: string): Post | null {
+export async function getPostBySlug(slug: string): Promise<Post | null> {
   const posts = getPosts();
-  return posts.find((post) => post.slug === slug) || null;
+  const post = posts.find((post) => post.slug === slug);
+
+  if (!post) {
+    return null;
+  }
+
+  const htmlContent = await markdownToHtml(post.content);
+
+  return {
+    ...post,
+    content: htmlContent,
+  };
 }
