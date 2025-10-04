@@ -11,7 +11,7 @@ export function TitleList({ posts }: TitleListProps) {
     <span>Docs</span>
       {posts.map((post) => (
         <li key={post.slug} style={{ marginBottom: '0.125rem' }}>
-          {post.date}: <Link href={`/posts/${post.slug}`} style={{ color: 'cornflowerblue' }}>{post.title}</Link> - tags: [ {post.tags.join(', ')} ]
+          {post.date}: <Link href={`/docs/${post.slug}`} style={{ color: 'cornflowerblue' }}>{post.title}</Link> - tags: [ {post.tags.join(', ')} ]
         </li>
       ))}
     </ul>

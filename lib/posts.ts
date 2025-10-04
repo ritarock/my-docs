@@ -15,7 +15,7 @@ export interface Post {
   content: string;
 }
 
-const postsDirectory = path.join(process.cwd(), 'posts');
+const postsDirectory = path.join(process.cwd(), 'docs');
 
 async function markdownToHtml(markdown: string): Promise<string> {
   const result = await unified()
