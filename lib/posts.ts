@@ -97,7 +97,7 @@ export function getAllTags(): string[] {
     post.tags.forEach((tag) => tagsSet.add(tag));
   });
 
-  return Array.from(tagsSet).sort();
+  return Array.from(tagsSet);
 }
 
 export function getPostsByTag(tag: string): Post[] {
