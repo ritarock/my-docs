@@ -3,9 +3,9 @@ import { TitleList } from '@/app/components/TitleList';
 import { notFound } from 'next/navigation';
 
 interface PageProps {
-  params: {
+  params: Promise<{
     tag: string;
-  };
+  }>;
 }
 
 export function generateStaticParams() {
@@ -15,8 +15,9 @@ export function generateStaticParams() {
   }));
 }
 
-export default function TagPage({ params }: PageProps) {
-  const posts = getPostsByTag(params.tag);
+export default async function TagPage({ params }: PageProps) {
+  const { tag } = await params;
+  const posts = getPostsByTag(tag);
 
   if (posts.length === 0) {
     notFound();
@@ -25,7 +26,7 @@ export default function TagPage({ params }: PageProps) {
   return (
     <main style={{ maxWidth: '1000px', margin: '0 auto', padding: '0 2rem 2rem' }}>
       <span>Tags</span>
-      <div>{ params.tag }</div>
+      <div>{ tag }</div>
       <TitleList posts={posts} />
     </main>
   );
