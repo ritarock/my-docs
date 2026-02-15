@@ -1,0 +1,70 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+
+const posts = (await getCollection("docs")).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<Layout>
+  <ul class="post-list">
+    {posts.map((post) => (
+      <li>
+        <span class="date">{post.data.pubDate.toISOString().slice(0, 10)}:</span> <a href={`/docs/${post.id}`}>{post.data.title}</a>
+        {post.data.tags.map((tag: string) => (
+          <a class="tag" href={`/tags/${tag}`}>#{tag}</a>
+        ))}
+      </li>
+    ))}
+  </ul>
+</Layout>
+
+<style>
+  .post-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .post-list li {
+    padding: 0.1rem 0;
+  }
+
+  .post-list a {
+    text-decoration: underline;
+    color: #6b9bd2;
+    font-weight: 500;
+  }
+
+  .post-list a:hover,
+  .post-list a:visited,
+  .post-list a:active {
+    color: #6b9bd2;
+  }
+
+  .date {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+
+  .tag {
+    font-size: 0.8rem;
+    color: #555;
+    background-color: #f0f0f0;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    margin-left: 0.3rem;
+    text-decoration: none;
+    font-weight: normal;
+  }
+
+  .tag:hover {
+    background-color: #e4e4e4;
+    color: #555;
+  }
+
+  .tag:visited {
+    color: #555;
+  }
+</style>

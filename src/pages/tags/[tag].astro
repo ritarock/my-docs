@@ -1,0 +1,75 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("docs");
+  const tags = [...new Set(posts.flatMap((post) => post.data.tags))];
+  return tags.map((tag) => ({ params: { tag } }));
+}
+
+const { tag } = Astro.params;
+const posts = (await getCollection("docs"))
+  .filter((post) => post.data.tags.includes(tag!))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<Layout title={`#${tag}`}>
+  <p class="tag-header">#{tag}</p>
+  <ul class="post-list">
+    {posts.map((post) => (
+      <li>
+        <span class="date">{post.data.pubDate.toISOString().slice(0, 10)}:</span> <a href={`/docs/${post.id}`}>{post.data.title}</a>
+      </li>
+    ))}
+  </ul>
+  <a class="back" href="/">&larr; 一覧に戻る</a>
+</Layout>
+
+<style>
+  .tag-header {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.75rem;
+  }
+
+  .post-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .post-list li {
+    padding: 0.1rem 0;
+  }
+
+  .post-list a {
+    text-decoration: underline;
+    color: #6b9bd2;
+    font-weight: 500;
+  }
+
+  .post-list a:hover,
+  .post-list a:visited,
+  .post-list a:active {
+    color: #6b9bd2;
+  }
+
+  .date {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+
+  .back {
+    display: inline-block;
+    margin-top: 1rem;
+    color: #888;
+    text-decoration: none;
+    font-size: 0.85rem;
+  }
+
+  .back:hover {
+    color: #555;
+  }
+</style>
