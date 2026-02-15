@@ -5,9 +5,16 @@ import Layout from "../layouts/Layout.astro";
 const posts = (await getCollection("docs")).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
+const tags = [...new Set(posts.flatMap((post) => post.data.tags))];
 ---
 
 <Layout>
+  <nav class="tag-list">
+    <span class="tag-label">Tags:</span>
+    {tags.map((tag: string) => (
+      <a class="tag" href={`/tags/${tag}`}>#{tag}</a>
+    ))}
+  </nav>
   <ul class="post-list">
     {posts.map((post) => (
       <li>
@@ -31,16 +38,32 @@ const posts = (await getCollection("docs")).sort(
     padding: 0.1rem 0;
   }
 
-  .post-list a {
+  .post-list a:not(.tag) {
     text-decoration: underline;
     color: #6b9bd2;
     font-weight: 500;
   }
 
-  .post-list a:hover,
-  .post-list a:visited,
-  .post-list a:active {
+  .post-list a:not(.tag):hover,
+  .post-list a:not(.tag):visited,
+  .post-list a:not(.tag):active {
     color: #6b9bd2;
+  }
+
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 0.75rem;
+  }
+
+  .tag-label {
+    font-size: 0.75rem;
+    color: #888;
+    font-weight: 600;
+    width: 100%;
   }
 
   .date {
@@ -49,7 +72,7 @@ const posts = (await getCollection("docs")).sort(
   }
 
   .tag {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: #555;
     background-color: #f0f0f0;
     padding: 0.2rem 0.6rem;
